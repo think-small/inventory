@@ -1,11 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Dashboard from "./Pages/Dashboard";
-
+import Router from "./Routers/Router";
 import "./App.css";
 
-function App() {
-  return <Dashboard />;
-}
+const App = () => <Router />;
 
 ReactDOM.render(<App />, document.getElementById("root"));
