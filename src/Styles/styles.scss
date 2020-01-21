@@ -1,0 +1,12 @@
+@import "./base/settings";
+@import "./Components/sidebar.scss";
+
+//  App Container
+.app-container {
+  display: flex;
+}
+
+//  Content Container
+.content-container {
+  margin-left: 10rem;
+}

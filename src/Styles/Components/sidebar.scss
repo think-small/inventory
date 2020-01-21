@@ -1,0 +1,25 @@
+.sidebar {
+  background-color: $primary-color;
+  color: $text-color;
+  width: 10rem;
+  height: 100vh;
+  text-align: center;
+  padding-top: 5rem;
+  position: fixed;
+
+  .nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .nav-item:hover {
+    background-color: $secondary-color;
+    color: $white-color;
+    border-right: 3px solid $accent-color;
+    cursor: pointer;
+  }
+}

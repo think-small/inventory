@@ -30,8 +30,9 @@ test("Should add new item to state", () => {
 });
 
 test("Should edit single property", () => {
+  const index = 1;
   const name = "ROFLcopter";
-  const orderID = items[1].orderID;
+  const orderID = items[index].orderID;
   const state = ItemsReducer(items, {
     type: "EDIT_ITEM_TRANSACTION",
     data: {
@@ -41,7 +42,7 @@ test("Should edit single property", () => {
       }
     }
   });
-  expect(state[1].name).toBe(name);
+  expect(state[index].name).toBe(name);
 });
 
 test("Should edit multiple properties", () => {
