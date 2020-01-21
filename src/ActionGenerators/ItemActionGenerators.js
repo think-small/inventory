@@ -1,6 +1,6 @@
 import uuid from "uuid";
 
-export const createItemActionGenerator = (
+export const createItemTransaction = (
   {
     name,
     lotNum,
@@ -9,7 +9,9 @@ export const createItemActionGenerator = (
     numBoxesReceived,
     quantityInStock,
     lastScan,
-    orderID
+    orderID,
+    isCurrentLot,
+    isNewLot
   } = {
     name: "",
     lotNum: "",
@@ -19,20 +21,40 @@ export const createItemActionGenerator = (
     quantityInStock: undefined,
     lastScan: undefined,
     orderID: "",
+    isCurrentLot: undefined,
+    isNewLot: undefined,
     id: uuid()
   }
 ) => {
   return {
-    type: "CREATE_ITEM",
-    item: {
-      name,
-      lotNum,
-      expirationDate,
-      countPerBox,
-      numBoxesReceived,
-      quantityInStock,
-      lastScan,
-      orderID
+    type: "CREATE_ITEM_TRANSACTION",
+    data: {
+      item: {
+        name,
+        lotNum,
+        expirationDate,
+        countPerBox,
+        numBoxesReceived,
+        quantityInStock,
+        lastScan,
+        orderID,
+        isCurrentLot,
+        isNewLot
+      }
     }
+  };
+};
+
+export const editItemTransaction = ({ orderID, updates }) => {
+  return {
+    type: "EDIT_ITEM_TRANSACTION",
+    data: { orderID, updates }
+  };
+};
+
+export const deleteItemTransaction = id => {
+  return {
+    type: "DELETE_ITEM_TRANSACTION",
+    data: { id }
   };
 };

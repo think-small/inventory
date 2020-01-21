@@ -14,7 +14,10 @@ const dummyData = [
     lastScan: moment()
       .subtract(3, "days")
       .fromNow(),
-    orderID: uuid()
+    orderID: uuid(),
+    isCurrentLot: true,
+    isNewLot: false,
+    id: 1
   },
   {
     name: "Calibration Solution 2",
@@ -28,7 +31,10 @@ const dummyData = [
     lastScan: moment()
       .subtract(10, "days")
       .fromNow(),
-    orderID: uuid()
+    orderID: uuid(),
+    isCurrentLot: true,
+    isNewLot: false,
+    id: 2
   },
   {
     name: "AutoCheck Level 1",
@@ -42,7 +48,10 @@ const dummyData = [
     lastScan: moment()
       .subtract(7, "days")
       .fromNow(),
-    orderID: uuid()
+    orderID: uuid(),
+    isCurrentLot: false,
+    isNewLot: true,
+    id: 3
   }
 ];
 

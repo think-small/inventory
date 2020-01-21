@@ -19,7 +19,9 @@ const ItemsContextProvider = props => {
       lastScan: moment()
         .subtract(3, "days")
         .fromNow(),
-      orderID: uuid()
+      orderID: uuid(),
+      isCurrentLot: true,
+      isNewLot: false
     },
     {
       name: "Calibration Solution 2",
@@ -33,7 +35,9 @@ const ItemsContextProvider = props => {
       lastScan: moment()
         .subtract(10, "days")
         .fromNow(),
-      orderID: uuid()
+      orderID: uuid(),
+      isCurrentLot: false,
+      isNewLot: true
     },
     {
       name: "AutoCheck Level 1",
@@ -47,7 +51,9 @@ const ItemsContextProvider = props => {
       lastScan: moment()
         .subtract(7, "days")
         .fromNow(),
-      orderID: uuid()
+      orderID: uuid(),
+      isCurrentLot: true,
+      isNewLot: false
     }
   ];
   const [items, dispatch] = useReducer(ItemsReducer, dummyData);
