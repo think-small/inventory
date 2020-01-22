@@ -19,13 +19,13 @@
   .nav-item:hover {
     background-color: $secondary-color;
     color: $white-color;
-    border-right: 3px solid $accent-color;
+    border-right: 5px solid $accent-color;
     cursor: pointer;
   }
 
   .activeLink {
     background-color: $secondary-color;
     color: $white-color;
-    border-right: 3px solid $accent-color;
+    border-right: 5px solid $accent-color;
   }
 }
