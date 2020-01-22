@@ -8,6 +8,8 @@ export const ItemsContext = createContext();
 const ItemsContextProvider = props => {
   const dummyData = [
     {
+      instrument: "ABL",
+      itemID: "CAL1",
       name: "Calibration Solution 1",
       lotNum: "A293-B2380S",
       expirationDate: moment()
@@ -24,6 +26,8 @@ const ItemsContextProvider = props => {
       isNewLot: false
     },
     {
+      instrument: "ABL",
+      itemID: "CAL2",
       name: "Calibration Solution 2",
       lotNum: "T238SSK-298SKDS1",
       expirationDate: moment()
@@ -40,6 +44,26 @@ const ItemsContextProvider = props => {
       isNewLot: true
     },
     {
+      instrument: "ABL",
+      itemID: "CAL2",
+      name: "Calibration Solution 2",
+      lotNum: "CMSKW-938S2L",
+      expirationDate: moment()
+        .add(365, "days")
+        .fromNow(),
+      countPerBox: 4,
+      numBoxesReceived: null,
+      quantityInStock: 11,
+      lastScan: moment()
+        .subtract(10, "days")
+        .fromNow(),
+      orderID: uuid(),
+      isCurrentLot: true,
+      isNewLot: false
+    },
+    {
+      instrument: "ABL",
+      itemID: "AC1",
       name: "AutoCheck Level 1",
       lotNum: "3982IZ3829",
       expirationDate: moment()

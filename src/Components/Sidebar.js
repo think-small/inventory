@@ -1,25 +1,18 @@
 import React from "react";
 import { Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { IndexLinkContainer } from "react-router-bootstrap";
+import NavLink from "./SidebarNavItem";
 
 const Sidebar = () => {
   return (
     <Nav className="flex-column sidebar">
-      <LinkContainer to="/">
-        <NavItem>Dashboard</NavItem>
-      </LinkContainer>
-      <LinkContainer to="/ABL/">
-        <NavItem>ABL 825</NavItem>
-      </LinkContainer>
-      <LinkContainer to="/Architect/">
-        <NavItem>Architect</NavItem>
-      </LinkContainer>
-      <LinkContainer to="/Cobas8000/">
-        <NavItem>Cobas 8000</NavItem>
-      </LinkContainer>
-      <LinkContainer to="/Cobas8100/">
-        <NavItem>Cobas 8100</NavItem>
-      </LinkContainer>
+      <IndexLinkContainer to="/" activeClassName="activeLink">
+        <NavItem>{"Dashboard"}</NavItem>
+      </IndexLinkContainer>
+      <NavLink url="ABL/" textContent="ABL" />
+      <NavLink url="Architect/" textContent="Architect" />
+      <NavLink url="Cobas8000/" textContent="Cobas 8000" />
+      <NavLink url="Cobas8100/" textContent="Cobas 8100" />
     </Nav>
   );
 };

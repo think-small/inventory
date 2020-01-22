@@ -2,6 +2,7 @@ import uuid from "uuid";
 
 export const createItemTransaction = (
   {
+    instrument,
     name,
     lotNum,
     expirationDate,
@@ -13,6 +14,7 @@ export const createItemTransaction = (
     isCurrentLot,
     isNewLot
   } = {
+    instrument: "",
     name: "",
     lotNum: "",
     expirationDate: undefined,
