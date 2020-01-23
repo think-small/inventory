@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Dashboard from "../Pages/Dashboard";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 import ABL from "../Pages/ABL";
 import Architect from "../Pages/Architect";
 import Cobas8000 from "../Pages/Cobas8000";
@@ -11,7 +11,7 @@ import Sidebar from "../Components/Sidebar";
 
 const Router = () => (
   <BrowserRouter>
-    <div className="app-container">
+                 
       <Sidebar />
       <section className="content-container">
         <Switch>
@@ -24,7 +24,7 @@ const Router = () => (
           <Route component={Error404} />
         </Switch>
       </section>
-    </div>
+                       
   </BrowserRouter>
 );
 
