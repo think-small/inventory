@@ -9,6 +9,7 @@ test("Should create new item with name as new property on state object - all arg
   const newItem = {
     name,
     details: {
+      displayName: "ACME Products",
       lotNum: "F38X-SLK3",
       expirationDate: moment()
         .add({ years: 1, months: 10, days: 1 })
@@ -35,9 +36,11 @@ test("Should create new item with name as new property on state object - all arg
 
 test("Should create new item with name as new property on state object - no arguments passed to addABLItem", () => {
   const name = "";
+  const displayName = "";
   const defaultItem = {
     name,
     details: {
+      displayName,
       lotNum: "",
       expirationDate: undefined,
       isCurrentLot: undefined,

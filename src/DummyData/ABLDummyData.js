@@ -4,6 +4,7 @@ import uuid from "uuid";
 const ablDummyData = {
   cal1Solution: [
     {
+      displayName: "Calibration Solution 1",
       lotNum: "FD20S-SK2",
       expirationDate: moment()
         .add({ years: 1, months: 2, days: 12 })
@@ -12,7 +13,6 @@ const ablDummyData = {
       isNewLot: false,
       par: 8,
       countPerBox: 4,
-      numBoxesReceived: undefined,
       quantity: 32,
       dateLastUsed: moment()
         .subtract(3, "days")
@@ -31,6 +31,7 @@ const ablDummyData = {
       ]
     },
     {
+      displayName: "Calibration Solution 1",
       lotNum: "F38X-SLK3",
       expirationDate: moment()
         .add({ years: 1, months: 10, days: 1 })
@@ -39,7 +40,6 @@ const ablDummyData = {
       isNewLot: true,
       par: 8,
       countPerBox: 4,
-      numBoxesReceived: undefined,
       quantity: 24,
       dateLastUsed: undefined,
       orderID: uuid(),
@@ -48,6 +48,7 @@ const ablDummyData = {
   ],
   cal2Solution: [
     {
+      displayName: "Calibration Solution 2",
       lotNum: "XOSLW-A2KD",
       expirationDate: moment()
         .add({ years: 2, months: 1, days: 18 })
@@ -56,7 +57,6 @@ const ablDummyData = {
       isNewLot: false,
       par: 8,
       countPerBox: 4,
-      numBoxesReceived: undefined,
       quantity: 16,
       dateLastUsed: undefined,
       orderID: uuid(),
@@ -70,6 +70,7 @@ const ablDummyData = {
   ],
   metCleanSolution: [
     {
+      displayName: "Met II Clean Solution",
       lotNum: "F38X-SLK3",
       expirationDate: moment()
         .add({ years: 1, months: 10, days: 1 })
@@ -78,7 +79,6 @@ const ablDummyData = {
       isNewLot: false,
       par: 8,
       countPerBox: 4,
-      numBoxesReceived: undefined,
       quantity: 24,
       dateLastUsed: undefined,
       orderID: uuid(),

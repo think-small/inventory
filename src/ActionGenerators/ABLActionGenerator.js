@@ -2,13 +2,13 @@ export const addABLItem = (
   { name, details } = {
     name: undefined,
     details: {
+      displayName: "",
       lotNum: "",
       expirationDate: undefined,
       isCurrentLot: undefined,
       isNewLot: undefined,
       par: undefined,
       countPerBox: undefined,
-      numBoxesReceived: undefined,
       quantity: undefined,
       dateLastUsed: undefined,
       orderID: undefined,
