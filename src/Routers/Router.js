@@ -19,6 +19,7 @@ const Router = () => (
           <Route exact path="/ABL/" component={ABL} />
           <Route exact path="/ABL/:id" component={ItemDetails} />
           <Route exact path="/Architect/" component={Architect} />
+          <Route exact path="/Architect/:id" component={ItemDetails} />
           <Route exact path="/Cobas8000/" component={Cobas8000} />
           <Route exact path="/Cobas8100/" component={Cobas8100} />
           <Route component={Error404} />

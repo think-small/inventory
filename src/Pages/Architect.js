@@ -6,6 +6,20 @@ import moment from "moment";
 
 const Architect = () => {
   const { architectItems } = useContext(ArchitectContext);
+
+  //  Get an array of only current lot items.
+  //  entry[1] in the map function gives an array of objects, so it is necessary to return entry[1][0]
+  //  to only get the object back.
+  const currentLotItems = Object.entries(architectItems).map(entry => {
+    if (entry[1].length > 1) {
+      return {
+        ...entry[1].filter(item => item.isCurrentLot)[0],
+        name: entry[0]
+      };
+    } else {
+      return { ...entry[1][0], name: entry[0] };
+    }
+  });
   return (
     <section>
       <Table hover>
@@ -18,7 +32,25 @@ const Architect = () => {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(architectItems).map(item => (
+          {currentLotItems.map(item => (
+            <LinkContainer
+              to={`/Architect/${item.name}`}
+              key={item.orderID}
+              style={{ curosr: "pointer" }}
+            >
+              <tr>
+                <td>{item.displayName}</td>
+                <td>{item.lotNum}</td>
+                <td>
+                  {item.expirationDate
+                    ? moment(item.expirationDate).format("MM/DD/YY")
+                    : "---"}
+                </td>
+                <td>{item.quantity}</td>
+              </tr>
+            </LinkContainer>
+          ))}
+          {/* {Object.keys(architectItems).map(item => (
             <LinkContainer
               to={`/ArchitectL/${architectItems[item][0].itemID}`}
               key={architectItems[item][0].orderID}
@@ -37,7 +69,7 @@ const Architect = () => {
                 <td>{architectItems[item][0].quantity}</td>
               </tr>
             </LinkContainer>
-          ))}
+          ))} */}
         </tbody>
       </Table>
     </section>
