@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ItemsContext } from "../Contexts/ItemsContext";
+import { ItemsContext } from "../Pages/Contexts/ItemsContext";
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Nav from 'react-bootstrap/Nav';
@@ -42,14 +42,21 @@ const Dashboard = () => {
 </Nav>
 
   <Jumbotron>
-  <h1>Hello, world!</h1>
+  <h1>Inventory</h1>
   <p>
     This is a simple hero unit, a simple jumbotron-style component for calling
     extra attention to featured content or information.
   </p>
-  <p>
-    <Button variant="primary">Learn more</Button>
-  </p>
+ 
+  <div class="search-container">
+    <form action="/Abl">
+      <input type="text" placeholder="Search.." name="search" style= {{width: '50%'}} /> 
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+
+
+
 </Jumbotron>
 
 <Card bg="primary" text="white" style={{ width: '18rem', display: "inline-block" , padding: "30px", margin: "30px" }}>
