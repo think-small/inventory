@@ -11,7 +11,7 @@ import Sidebar from "../Components/Sidebar";
 
 const Router = () => (
   <BrowserRouter>
-                 
+    <div className="app-container">
       <Sidebar />
       <section className="content-container">
         <Switch>
@@ -24,7 +24,7 @@ const Router = () => (
           <Route component={Error404} />
         </Switch>
       </section>
-                       
+    </div>
   </BrowserRouter>
 );
 
