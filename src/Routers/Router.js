@@ -26,7 +26,6 @@ const Router = () => {
               context={WarningsContextProvider}
               component={Dashboard}
             />
-            <Route exact path="/ABL/" component={ABL} />
             <RouteWithContext
               exact
               path="/ABL/"
