@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Dashboard from "../Pages/Dashboard";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 import ABL from "../Pages/ABL";
 import Architect from "../Pages/Architect";
 import Cobas8000 from "../Pages/Cobas8000";

@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import { ItemsContext } from "../Contexts/ItemsContext";
 import Button from "react-bootstrap/Button";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 
 const Dashboard = () => {
-  const { items } = useContext(ItemsContext);
 
   return (
     <div>
