@@ -8,7 +8,10 @@ import Cobas8100 from "../Pages/Cobas8100";
 import Error404 from "../Pages/404";
 import ItemDetails from "../Pages/ItemDetails";
 import Sidebar from "../Components/Sidebar";
+import RouteWithContext from "./RouteWithContext";
+import ArchitectContextProvider from "../Contexts/ArchitectContext";
 import WarningsContextProvider from "../Contexts/WarningsContext";
+import ItemsContext from "../Contexts/ItemsContext";
 
 const Router = () => {
   return (
@@ -17,12 +20,31 @@ const Router = () => {
         <Sidebar />
         <section className="content-container">
           <Switch>
-            <WarningsContextProvider>
-              <Route exact path="/" component={Dashboard} />
-            </WarningsContextProvider>
+            <RouteWithContext
+              exact
+              path="/"
+              context={WarningsContextProvider}
+              component={Dashboard}
+            />
             <Route exact path="/ABL/" component={ABL} />
-            <Route exact path="/ABL/:id" component={ItemDetails} />
-            <Route exact path="/Architect/" component={Architect} />
+            <RouteWithContext
+              exact
+              path="/ABL/"
+              context={ItemsContext}
+              component={ABL}
+            />
+            <RouteWithContext
+              exact
+              path="/ABL/:id"
+              context={ItemsContext}
+              component={ItemDetails}
+            />
+            <RouteWithContext
+              exact
+              path="/Architect/"
+              context={ArchitectContextProvider}
+              component={Architect}
+            />
             <Route exact path="/Architect/:id" component={ItemDetails} />
             <Route exact path="/Cobas8000/" component={Cobas8000} />
             <Route exact path="/Cobas8100/" component={Cobas8100} />

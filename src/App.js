@@ -7,9 +7,7 @@ import "./styles/styles.scss";
 
 const App = () => (
   <ItemsContextProvider>
-    <ArchitectContextProvider>
-      <Router />
-    </ArchitectContextProvider>
+    <Router />
   </ItemsContextProvider>
 );
 

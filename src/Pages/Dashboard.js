@@ -4,23 +4,12 @@ import Button from "react-bootstrap/Button";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
-import { WarningsContext } from "../Contexts/WarningsContext";
 
 const Dashboard = () => {
   const { items } = useContext(ItemsContext);
+
   return (
     <div>
-      <section>
-        Testing to ensure ItemsContext is properly passing data to children.
-        <ul>
-          {items.map(item => (
-            <li
-              key={item.orderID}
-            >{`Name: ${item.name} Lot: ${item.lotNum} Expiration: ${item.expirationDate}`}</li>
-          ))}
-        </ul>
-      </section>
-
       <Nav
         activeKey="/home"
         onSelect={selectedKey => alert(`selected ${selectedKey}`)}

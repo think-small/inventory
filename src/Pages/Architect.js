@@ -50,26 +50,6 @@ const Architect = () => {
               </tr>
             </LinkContainer>
           ))}
-          {/* {Object.keys(architectItems).map(item => (
-            <LinkContainer
-              to={`/ArchitectL/${architectItems[item][0].itemID}`}
-              key={architectItems[item][0].orderID}
-              style={{ cursor: "pointer" }}
-            >
-              <tr>
-                <td>{architectItems[item][0].displayName}</td>
-                <td>{architectItems[item][0].lotNum}</td>
-                <td>
-                  {architectItems[item][0].expirationDate
-                    ? moment(architectItems[item][0].expirationDate).format(
-                        "MM/DD/YY"
-                      )
-                    : "---"}
-                </td>
-                <td>{architectItems[item][0].quantity}</td>
-              </tr>
-            </LinkContainer>
-          ))} */}
         </tbody>
       </Table>
     </section>

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ItemsContext } from "../Contexts/ItemsContext";
 import { Card, Nav, ListGroup } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
 
 const ItemDetails = props => {
   const { items } = useContext(ItemsContext);
@@ -46,4 +47,4 @@ const ItemDetails = props => {
   );
 };
 
-export default ItemDetails;
+export default withRouter(ItemDetails);
