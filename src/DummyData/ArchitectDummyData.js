@@ -19,15 +19,78 @@ const architectDummyData = {
         .valueOf(),
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(22, "hours")
-          .valueOf(),
-        moment()
-          .subtract(1, "days")
-          .valueOf(),
-        moment()
-          .subtract({ days: 3, hours: 22, minute: 22 })
-          .valueOf()
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 23,
+          timestamp: moment()
+            .subtract(22, "hours")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 22,
+          timestamp: moment()
+            .subtract(1, "days")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 20,
+          timestamp: moment()
+            .subtract({ days: 3, hours: 22, minute: 22 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 19,
+          timestamp: moment()
+            .subtract({ days: 3, hours: 10, minutes: 10 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 3,
+          quantityInStock: 16,
+          timestamp: moment()
+            .subtract({ days: 2, hours: 5, minutes: 50 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 15,
+          timestamp: moment()
+            .subtract({ days: 1, hours: 21, minutes: 43 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 14,
+          timestamp: moment()
+            .subtract({ days: 1, hours: 2, minutes: 12 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 4,
+          quantityInStock: 10,
+          timestamp: moment()
+            .subtract({ days: 1, hours: 1, minutes: 30 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 9,
+          timestamp: moment()
+            .subtract({ hours: 8, minutes: 57 })
+            .valueOf()
+        }
       ]
     },
     {
