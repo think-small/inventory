@@ -1,13 +1,21 @@
 import React, { useContext } from "react";
 import { Table } from "react-bootstrap";
-import { ItemsContext } from "../Contexts/ItemsContext";
 import { LinkContainer } from "react-router-bootstrap";
+import { ABLContext } from "../Contexts/ABLContext";
+import moment from "moment";
 
 const ABL = () => {
-  const { items } = useContext(ItemsContext);
-  const ablItems = items.filter(
-    item => item.instrument === "ABL" && item.isCurrentLot
-  );
+  const { ablItems } = useContext(ABLContext);
+  const currentLotItems = Object.entries(ablItems).map(entry => {
+    if (entry[1].length > 1) {
+      return {
+        ...entry[1].filter(item => item.isCurrentLot)[0],
+        name: entry[0]
+      };
+    } else {
+      return { ...entry[1][0], name: entry[0] };
+    }
+  });
   return (
     <section>
       <Table hover>
@@ -20,17 +28,21 @@ const ABL = () => {
           </tr>
         </thead>
         <tbody>
-          {ablItems.map(item => (
+          {currentLotItems.map(item => (
             <LinkContainer
-              to={`/ABL/${item.itemID}`}
+              to={`/ABL/${item.name}`}
               key={item.orderID}
-              style={{ cursor: "pointer" }}
+              style={{ curosr: "pointer" }}
             >
               <tr>
-                <td>{item.name}</td>
+                <td>{item.displayName}</td>
                 <td>{item.lotNum}</td>
-                <td>{item.expirationDate}</td>
-                <td>{item.quantityInStock}</td>
+                <td>
+                  {item.expirationDate
+                    ? moment(item.expirationDate).format("MM/DD/YY")
+                    : "---"}
+                </td>
+                <td>{item.quantity}</td>
               </tr>
             </LinkContainer>
           ))}

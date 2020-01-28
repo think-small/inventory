@@ -124,10 +124,22 @@ const architectDummyData = {
       dateLastUsed: undefined,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(92, "hours")
-          .valueOf(),
-        moment().subtract({ weeks: 1, hours: 21 })
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 1,
+          timestamp: moment()
+            .subtract(92, "hours")
+            .valueOf()
+        },
+        {
+          type: "received",
+          numBoxesReceived: 2,
+          quantityInStock: 5,
+          timestamp: moment()
+            .subtract({ weeks: 1, hours: 21 })
+            .valueOf()
+        }
       ]
     }
   ],
@@ -146,15 +158,30 @@ const architectDummyData = {
       dateLastUsed: undefined,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(30, "days")
-          .valueOf(),
-        moment()
-          .subtract({ days: 1, hours: 7, minutes: 29 })
-          .valueOf(),
-        moment()
-          .subtract(2, "days")
-          .valueOf()
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 30,
+          timestamp: moment()
+            .subtract(30, "days")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 28,
+          timestamp: moment()
+            .subtract({ days: 1, hours: 7, minutes: 29 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 5,
+          quantityInStock: 23,
+          timestamp: moment()
+            .subtract(2, "days")
+            .valueOf()
+        }
       ]
     }
   ],
@@ -170,27 +197,62 @@ const architectDummyData = {
       quantity: 64,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(30, "minutes")
-          .valueOf(),
-        moment()
-          .subtract({ days: 1, minutes: 392 })
-          .valueOf(),
-        moment()
-          .subtract({ days: 3, hours: 2, minutes: 172 })
-          .valueOf(),
-        moment()
-          .subtract({ weeks: 1, days: 5, hours: 22, minutes: 12 })
-          .valueOf(),
-        moment()
-          .subtract({ weeks: 1, days: 6, hours: 11 })
-          .valueOf(),
-        moment()
-          .subtract({ weeks: 2, days: 1, hours: 8, minutes: 21 })
-          .valueOf(),
-        moment()
-          .subtract({ weeks: 2, days: 5, hours: 10, minutes: 11 })
-          .valueOf()
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 80,
+          timestamp: moment()
+            .subtract(30, "minutes")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 5,
+          quantityInStock: 75,
+          timestamp: moment()
+            .subtract({ days: 1, minutes: 392 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 10,
+          quantityInStock: 65,
+          timestamp: moment()
+            .subtract({ days: 3, hours: 2, minutes: 172 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 5,
+          quantityInStock: 55,
+          timestamp: moment()
+            .subtract({ weeks: 1, days: 5, hours: 22, minutes: 12 })
+            .valueOf()
+        },
+        {
+          type: "received",
+          numBoxesReceived: 5,
+          quantityInStock: 95,
+          timestamp: moment()
+            .subtract({ weeks: 1, days: 6, hours: 11 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 25,
+          quantityInStock: 70,
+          timestamp: moment()
+            .subtract({ weeks: 2, days: 1, hours: 8, minutes: 21 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 6,
+          quantityInStock: 64,
+          timestamp: moment()
+            .subtract({ weeks: 2, days: 5, hours: 10, minutes: 11 })
+            .valueOf()
+        }
       ]
     }
   ],
@@ -208,18 +270,38 @@ const architectDummyData = {
       quantity: 8,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract({ weeks: 1, days: 3 })
-          .valueOf(),
-        moment()
-          .subtract({ weeks: 1, days: 4 })
-          .valueOf(),
-        moment()
-          .subtract({ months: 1, weeks: 1, days: 2 })
-          .valueOf(),
-        moment()
-          .subtract({ months: 1, weeks: 2, days: 6 })
-          .valueOf()
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 15,
+          timestamp: moment()
+            .subtract({ weeks: 1, days: 3 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 1,
+          quantityInStock: 14,
+          timestamp: moment()
+            .subtract({ weeks: 1, days: 4 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 4,
+          quantityInStock: 10,
+          timestamp: moment()
+            .subtract({ months: 1, weeks: 1, days: 2 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 8,
+          timestamp: moment()
+            .subtract({ months: 1, weeks: 2, days: 6 })
+            .valueOf()
+        }
       ]
     }
   ]

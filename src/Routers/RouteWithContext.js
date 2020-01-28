@@ -1,14 +1,14 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-const RouteWithContext = ({ context, component, ...rest }) => {
+const RouteWithContext = ({ contextProvider, component, context, ...rest }) => {
   const Component = component;
-  const Context = context;
+  const ContextProvider = contextProvider;
   return (
     <Route {...rest}>
-      <Context>
-        <Component />
-      </Context>
+      <ContextProvider>
+        <Component context={context} />
+      </ContextProvider>
     </Route>
   );
 };

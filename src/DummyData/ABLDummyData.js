@@ -19,15 +19,28 @@ const ablDummyData = {
         .valueOf(),
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(22, "hours")
-          .valueOf(),
-        moment()
-          .subtract(1, "days")
-          .valueOf(),
-        moment()
-          .subtract({ days: 3, hours: 22, minute: 22 })
-          .valueOf()
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 50,
+          timestamp: moment().valueOf()
+        },
+        {
+          type: "used",
+          amount: 5,
+          quantityInStock: 45,
+          timestamp: moment()
+            .subtract(1, "days")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 13,
+          quantityInStock: 32,
+          timestamp: moment()
+            .subtract({ days: 3, hours: 22, minute: 22 })
+            .valueOf()
+        }
       ]
     },
     {
@@ -61,10 +74,22 @@ const ablDummyData = {
       dateLastUsed: undefined,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(92, "hours")
-          .valueOf(),
-        moment().subtract({ weeks: 1, hours: 21 })
+        {
+          type: "used",
+          amount: 2,
+          quantityInStock: 22,
+          timestamp: moment()
+            .subtract(92, "hours")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 6,
+          quantityInStock: 16,
+          timestamp: moment()
+            .subtract({ weeks: 1, hours: 21 })
+            .valueOf()
+        }
       ]
     }
   ],
@@ -83,15 +108,30 @@ const ablDummyData = {
       dateLastUsed: undefined,
       orderID: uuid(),
       transactions: [
-        moment()
-          .subtract(30, "days")
-          .valueOf(),
-        moment()
-          .subtract({ days: 1, hours: 7, minutes: 29 })
-          .valueOf(),
-        moment()
-          .subtract(2, "days")
-          .valueOf()
+        {
+          type: "used",
+          amount: 7,
+          quantityInStock: 50,
+          timestamp: moment()
+            .subtract(30, "days")
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 14,
+          quantityInStock: 36,
+          timestamp: moment()
+            .subtract({ days: 1, hours: 7, minutes: 29 })
+            .valueOf()
+        },
+        {
+          type: "used",
+          amount: 12,
+          quantityInStock: 24,
+          timestamp: moment()
+            .subtract(2, "days")
+            .valueOf()
+        }
       ]
     }
   ]

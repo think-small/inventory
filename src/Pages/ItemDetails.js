@@ -1,19 +1,35 @@
-import React, { useContext } from "react";
-import { ItemsContext } from "../Contexts/ItemsContext";
+import React from "react";
 import { Card, Nav, ListGroup } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 const ItemDetails = props => {
-  const { items } = useContext(ItemsContext);
-  const currentLotItems = items.filter(
-    item => item.itemID === props.match.params.id && item.isCurrentLot
+  const { items } = props;
+  const item = items[props.match.params.id];
+  const currentLotItem = item.filter(
+    item => item.isCurrentLot === true && item.isNewLot === false
   )[0];
-  const newLotItems = items.filter(
-    item =>
-      item.itemID === props.match.params.id &&
-      !item.isCurrentLot &&
-      item.isNewLot
-  );
+  const newLotItem = item.filter(
+    item => item.isCurrentLot === false && item.isNewLot === true
+  )[0];
+  const dateFormat = "MM/DD/YY";
+  const dateTimeFormat = "MM/DD/YY - h:mm a";
+  const now = moment().valueOf();
+  const lastTransaction = moment(
+    currentLotItem.transactions.reduce((acc, curr) => {
+      if (acc.timestamp === undefined) {
+        acc.timestamp = moment()
+          .unix()
+          .valueOf();
+      }
+      acc.timestamp =
+        now - curr.timestamp < now - acc.timestamp
+          ? curr.timestamp
+          : acc.timestamp;
+      return acc;
+    }, {}).timestamp
+  ).format(dateTimeFormat);
+
   return (
     <section>
       <Card>
@@ -23,23 +39,21 @@ const ItemDetails = props => {
               <Nav.Link href="#currentLot">Current Lot</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link
-                disabled={newLotItems.length ? false : true}
-                href="#newLot"
-              >
+              <Nav.Link disabled={newLotItem ? false : true} href="#newLot">
                 New Lot
               </Nav.Link>
             </Nav.Item>
           </Nav>
         </Card.Header>
         <Card.Body>
-          <Card.Title>{currentLotItems.name}</Card.Title>
+          <Card.Title>{currentLotItem.displayName}</Card.Title>
           <ListGroup>
-            <ListGroup.Item>{`Lot Number: ${currentLotItems.lotNum}`}</ListGroup.Item>
-            <ListGroup.Item>{`Expiration Date: ${currentLotItems.expirationDate}`}</ListGroup.Item>
-            <ListGroup.Item>{`Quantity in Stock: ${currentLotItems.quantityInStock}`}</ListGroup.Item>
-            <ListGroup.Item>{`Last Used: ${currentLotItems.lastScan}`}</ListGroup.Item>
-            <ListGroup.Item>{`Order ID: ${currentLotItems.orderID}`}</ListGroup.Item>
+            <ListGroup.Item>{`Lot Number: ${currentLotItem.lotNum}`}</ListGroup.Item>
+            <ListGroup.Item>{`Expiration Date: ${moment(
+              currentLotItem.expirationDate
+            ).format(dateFormat)}`}</ListGroup.Item>
+            <ListGroup.Item>{`Quantity in Stock: ${currentLotItem.quantity}`}</ListGroup.Item>
+            <ListGroup.Item>{`Last Used: ${lastTransaction}`}</ListGroup.Item>
           </ListGroup>
         </Card.Body>
       </Card>
