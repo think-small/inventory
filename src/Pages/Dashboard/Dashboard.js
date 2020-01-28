@@ -8,12 +8,18 @@ const Dashboard = () => {
     <div>
       <nav
         className="navbar navbar-light"
-        style={{ backgroundColor: "purple", padding: "20px" }}
+        style={{ backgroundColor: "#e6e6e6", padding: "20px", display: "flex" }}
       >
         <a
           className="my-lg-0 border border-dark"
           href="#"
-          style={{ padding: "8px", align: "right", color: "white" }}
+          style={{
+            padding: "8px",
+            display: "inline-block",
+            marginLeft: "auto",
+            marginRight: "1rem",
+            color: "#20314a"
+          }}
           onClick={() => alert("nothing yet!")}
         >
           Sign In

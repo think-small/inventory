@@ -135,6 +135,7 @@ const architectDummyData = {
         {
           type: "received",
           numBoxesReceived: 2,
+          amount: 2,
           quantityInStock: 5,
           timestamp: moment()
             .subtract({ weeks: 1, hours: 21 })
@@ -232,6 +233,7 @@ const architectDummyData = {
         {
           type: "received",
           numBoxesReceived: 5,
+          amount: 2,
           quantityInStock: 95,
           timestamp: moment()
             .subtract({ weeks: 1, days: 6, hours: 11 })
