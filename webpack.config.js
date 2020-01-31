@@ -13,6 +13,7 @@ module.exports =  {
    historyApiFallback: true,
  contentBase: path.join(__dirname + "/public"),
 
+
  // publicPath: "/dist/",
  
 

@@ -48,7 +48,11 @@
     "eject": "react-scripts eject",
     "dev": "npm-run-all --parallel watch:*",
     "start": "node server/server.js",
-    "watch:server": "nodemon server/server.js"
+    "watch:server": "nodemon server/server.js", 
+    "c": "nodemon ./server.js localhost 8080 "
+ 
+ 
+
     
   },
   "eslintConfig": {
