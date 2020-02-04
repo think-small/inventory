@@ -1,7 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var nodeExternals = require('webpack-node-externals');
-
+const webpack = require('webpack');
 
 
 
@@ -10,6 +10,7 @@ module.exports =  {
  mode: "development",
 
  devServer: {
+   hot: true, 
    historyApiFallback: true,
  contentBase: path.join(__dirname + "/public"),
 
@@ -19,9 +20,12 @@ module.exports =  {
 
 },
  target: "web",
-  entry: "./src/App.js",
+  entry: ['webpack-dev-server/client?http://localhost:8080',
+'webpack/hot/dev-server', 
+"webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000",
+'./src/App.js'],
   output: {
-    path: path.join(__dirname, "public/dist"),
+    path: path.join(__dirname, "public"),
     filename: "bundle.js", 
     publicPath: '/'
   },
@@ -46,7 +50,8 @@ module.exports =  {
   plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css"
-    })
+    }), 
+    new webpack.HotModuleReplacementPlugin()
   ],
  devtool: "production"? "source-map" : "inline-source-map"
 };
