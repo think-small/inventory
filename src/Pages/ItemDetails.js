@@ -45,47 +45,66 @@ const ItemDetails = props => {
       return acc;
     }, []);
   };
-  const buildChart = () => {
-    const width = 300;
-    const height = 200;
-    const data = getItemUsageData(currentLotItem.transactions);
+  const buildUsageChart = () => {
+    const margins = {
+      left: 20,
+      right: 20,
+      top: 30,
+      bottom: 5
+    };
+    const svgWidth = 400;
+    const svgHeight = 200;
+    const width = svgWidth - margins.left - margins.right;
+    const height = svgHeight - margins.top - margins.bottom;
+
+    const barWidth = 5;
+    const data = getItemUsageData(
+      currentLotItem.transactions.filter(item => item.type === "used")
+    );
     const chart = d3
       .select("svg")
-      .attr("height", height)
-      .attr("width", width + 5);
+      .attr("height", svgHeight)
+      .attr("width", svgWidth);
 
     const xExtent = d3.extent(data, d => d.timestamp);
     const yExtent = d3.extent(data, d => d.amount);
     const xScale = d3
       .scaleTime()
       .domain(xExtent)
-      .range([10, width - 10]);
+      .range([0, width]);
     const yScale = d3
       .scaleLinear()
       .domain(yExtent)
-      .range([height - 10, 10]);
-    const cleanedData = data.map(dataPoint => {
-      return {
-        x: xScale(dataPoint.timestamp),
-        y: yScale(dataPoint.amount),
-        height: height - yScale(dataPoint.amount),
-        fill: "black"
-      };
-    });
-    console.log(cleanedData);
-    cleanedData.forEach(dataPoint => {
-      chart
-        .append("rect")
-        .attr("x", dataPoint.x)
-        .attr("y", dataPoint.y)
-        .attr("height", dataPoint.height)
-        .attr("width", 5)
-        .attr("fill", dataPoint.fill);
-    });
+      .range([height - margins.bottom, 0]);
+    const xAxis = d3
+      .axisBottom(xScale)
+      .tickFormat(d3.timeFormat("%b %d"))
+      .ticks(d3.timeDay.every(7));
+    const yAxis = d3.axisLeft(yScale);
+    chart
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${margins.left}, ${height - margins.bottom})`
+      )
+      .call(xAxis);
+    chart
+      .append("g")
+      .attr("transform", `translate(${margins.right}, 0)`)
+      .call(yAxis);
+    chart
+      .selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", d => xScale(d.timestamp) + margins.left)
+      .attr("y", d => yScale(d.amount) - margins.bottom)
+      .attr("width", barWidth)
+      .attr("height", d => height - yScale(d.amount));
   };
 
   useEffect(() => {
-    buildChart();
+    buildUsageChart();
   }, []);
 
   return (
@@ -115,7 +134,7 @@ const ItemDetails = props => {
           </ListGroup>
         </Card.Body>
       </Card>
-      <svg style={{ border: "1px solid black", margin: "1rem 2rem" }}></svg>
+      <svg style={{ margin: "1rem 2rem" }}></svg>
     </section>
   );
 };
