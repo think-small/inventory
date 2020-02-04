@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Nav, ListGroup } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
+import * as d3 from "d3";
 
 const ItemDetails = props => {
+  //  Get all data for specific analyzer
+  //  Separate items into current lot and new lot items - store each in separate arrays
   const { items } = props;
   const item = items[props.match.params.id];
   const currentLotItem = item.filter(
@@ -12,6 +15,8 @@ const ItemDetails = props => {
   const newLotItem = item.filter(
     item => item.isCurrentLot === false && item.isNewLot === true
   )[0];
+
+  //  Find most recent transaction for a given item
   const dateFormat = "MM/DD/YY";
   const dateTimeFormat = "MM/DD/YY - h:mm a";
   const now = moment().valueOf();
@@ -29,6 +34,78 @@ const ItemDetails = props => {
       return acc;
     }, {}).timestamp
   ).format(dateTimeFormat);
+
+  //  Chart building with d3 for item usage histogram
+  const getItemUsageData = transactionsArr => {
+    return transactionsArr.reduce((acc, curr) => {
+      acc.push({
+        timestamp: curr.timestamp,
+        amount: curr.amount
+      });
+      return acc;
+    }, []);
+  };
+  const buildUsageChart = () => {
+    const margins = {
+      left: 20,
+      right: 20,
+      top: 30,
+      bottom: 5
+    };
+    const svgWidth = 400;
+    const svgHeight = 200;
+    const width = svgWidth - margins.left - margins.right;
+    const height = svgHeight - margins.top - margins.bottom;
+
+    const barWidth = 5;
+    const data = getItemUsageData(
+      currentLotItem.transactions.filter(item => item.type === "used")
+    );
+    const chart = d3
+      .select("svg")
+      .attr("height", svgHeight)
+      .attr("width", svgWidth);
+
+    const xExtent = d3.extent(data, d => d.timestamp);
+    const yExtent = d3.extent(data, d => d.amount);
+    const xScale = d3
+      .scaleTime()
+      .domain(xExtent)
+      .range([0, width]);
+    const yScale = d3
+      .scaleLinear()
+      .domain(yExtent)
+      .range([height - margins.bottom, 0]);
+    const xAxis = d3
+      .axisBottom(xScale)
+      .tickFormat(d3.timeFormat("%b %d"))
+      .ticks(d3.timeDay.every(7));
+    const yAxis = d3.axisLeft(yScale);
+    chart
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${margins.left}, ${height - margins.bottom})`
+      )
+      .call(xAxis);
+    chart
+      .append("g")
+      .attr("transform", `translate(${margins.right}, 0)`)
+      .call(yAxis);
+    chart
+      .selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", d => xScale(d.timestamp) + margins.left)
+      .attr("y", d => yScale(d.amount) - margins.bottom)
+      .attr("width", barWidth)
+      .attr("height", d => height - yScale(d.amount));
+  };
+
+  useEffect(() => {
+    buildUsageChart();
+  }, []);
 
   return (
     <section>
@@ -57,6 +134,7 @@ const ItemDetails = props => {
           </ListGroup>
         </Card.Body>
       </Card>
+      <svg style={{ margin: "1rem 2rem" }}></svg>
     </section>
   );
 };
