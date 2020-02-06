@@ -17,6 +17,13 @@ const App = () => (
       </ABLContextProvider>
     </ArchitectItemsContextProvider>
   </ItemsContextProvider>
+
+
+
+  
 );
+if (module.hot) {
+  module.hot.accept();
+  }
 
 ReactDOM.render(<App />, document.getElementById("root"));

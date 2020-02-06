@@ -9,8 +9,14 @@ Expiration_Date VARCHAR(200),
 Quantity VARCHAR(45)
 )
 
+CREATE TABLE Cobas_8100 (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(45),
+Quantity VARCHAR(45)
+)
 
-
+INSERT INTO `Cobas_8100` (`id`, `Name`, `Quantity`) VALUES
+(1, 'Blue-Caps', '20');
 
 INSERT INTO `ABL` (`id`, `Name`, `Current_Lot`, `Expiration_Date`, `Quantity`) VALUES
 (1, 'Calibration-Solution', 'FD20S-SK2',  '04/14/21', '32'); 
