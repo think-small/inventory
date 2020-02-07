@@ -110,15 +110,10 @@ render() {
       );
     }
   }
-  
 
-
-
-
-
-
-
-
-
+  render() {
+    return <div>Hello {this.state.name}</div>;
+  }
+}
 
 export default Cobas8100;

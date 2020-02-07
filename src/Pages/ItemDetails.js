@@ -45,6 +45,14 @@ const ItemDetails = props => {
       return acc;
     }, []);
   };
+
+  const filterByNumberOfDays = (numOfDays, arr) => {
+    return arr.filter(
+      transaction =>
+        transaction.timestamp >= moment().subtract({ days: numOfDays })
+    );
+  };
+
   const buildUsageChart = () => {
     const margins = {
       left: 20,
@@ -56,11 +64,14 @@ const ItemDetails = props => {
     const svgHeight = 200;
     const width = svgWidth - margins.left - margins.right;
     const height = svgHeight - margins.top - margins.bottom;
-
     const barWidth = 5;
-    const data = getItemUsageData(
+
+    const usageData = getItemUsageData(
       currentLotItem.transactions.filter(item => item.type === "used")
     );
+    const data = filterByNumberOfDays(7, usageData);
+    data.forEach(transaction => console.log(moment(transaction.timestamp)));
+
     const chart = d3
       .select("svg")
       .attr("height", svgHeight)
