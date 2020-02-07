@@ -99461,6 +99461,14 @@ var ItemDetails = function ItemDetails(props) {
     }, []);
   };
 
+  var filterByNumberOfDays = function filterByNumberOfDays(numOfDays, arr) {
+    return arr.filter(function (transaction) {
+      return transaction.timestamp >= moment__WEBPACK_IMPORTED_MODULE_3___default()().subtract({
+        days: numOfDays
+      });
+    });
+  };
+
   var buildUsageChart = function buildUsageChart() {
     var margins = {
       left: 20,
@@ -99473,9 +99481,13 @@ var ItemDetails = function ItemDetails(props) {
     var width = svgWidth - margins.left - margins.right;
     var height = svgHeight - margins.top - margins.bottom;
     var barWidth = 5;
-    var data = getItemUsageData(currentLotItem.transactions.filter(function (item) {
+    var usageData = getItemUsageData(currentLotItem.transactions.filter(function (item) {
       return item.type === "used";
     }));
+    var data = filterByNumberOfDays(7, usageData);
+    data.forEach(function (transaction) {
+      return console.log(moment__WEBPACK_IMPORTED_MODULE_3___default()(transaction.timestamp));
+    });
     var chart = d3__WEBPACK_IMPORTED_MODULE_4__["select"]("svg").attr("height", svgHeight).attr("width", svgWidth);
     var xExtent = d3__WEBPACK_IMPORTED_MODULE_4__["extent"](data, function (d) {
       return d.timestamp;
