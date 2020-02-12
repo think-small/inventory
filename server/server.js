@@ -88,17 +88,19 @@ app.get('/api/8100',(req, res) => {
 app.use(express.static(path.join(__dirname, '../public')));
 
 
-app.post('/api/z', (req,res)=> {
+app.post('/api/post/8100', (req,res)=> {
 
    console.log(req.body);
 
       const id = req.body.Id;    //may not need this? mysql should automatically auto-increment the id
-       const Name = req.body.Name;
-        const Quantity = req.body.Quantity;
-       
+  
+      const Name = req.body.Name;
+      const Lot = req.body.Lot;  
+      const Quantity = req.body.Quantity;
+      const Expiration_Date = req.body.Expiration;
 
-   connection.query('INSERT INTO Cobas_8100 (id, Name, Quantity) VALUES (?,?,?)' , 
-    [id, Name, Quantity],(error, result)=> {
+   connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date) VALUES (?,?,?,?,?)' , 
+    [id, Name, Lot, Quantity, Expiration_Date],(error, result)=> {
      if (error) {
        res.send(error);
        console.log(error); 
@@ -112,6 +114,27 @@ app.post('/api/z', (req,res)=> {
 
 
     });
+
+app.delete('/api/delete/8100', (req,res)=> {
+  
+  let sql = `DELETE FROM Cobas_8100 WHERE id = ?`;
+    
+  let id = req.body.Id; 
+
+  console.log(id); 
+
+
+  connection.query(sql, id, (error, results, fields) => {
+    if (error)
+      return console.error(error.message);
+   
+    console.log('Deleted Row(s):', results.affectedRows);
+  });
+
+})
+
+
+
 
 
 // a dummy route to see if this file will work
