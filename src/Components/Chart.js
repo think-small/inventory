@@ -1,19 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Chart from "chart.js";
 
+let chart;
 const ItemChart = props => {
   //  HELPER FUNCTIONS FOR CHART BUILDING
   const getRawData = (transactionsArr, transactionType) => {
-    return transactionsArr
-      .filter(item => item.type === transactionType)
-      .reduce((acc, curr) => {
-        acc.push({
-          timestamp: curr.timestamp,
-          amount: curr.amount
-        });
-        return acc;
-      }, []);
+    switch (transactionType) {
+      case "usage":
+        return transactionsArr
+          .filter(item => item.type === "used")
+          .reduce((acc, curr) => {
+            acc.push({
+              timestamp: curr.timestamp,
+              amount: curr.amount
+            });
+            return acc;
+          }, []);
+      case "inStock":
+        return transactionsArr.reduce((acc, curr) => {
+          acc.push({ timestamp: curr.timestamp, amount: curr.quantityInStock });
+          return acc;
+        }, []);
+      default:
+        return;
+    }
   };
 
   const filterByNumberOfDays = (numOfDays, arr) => {
@@ -68,8 +79,13 @@ const ItemChart = props => {
 
   //  CHART BUILDING FUNCTIONS
   //  USAGE CHART
-  const buildUsageChart = (transactionsArr, displayName, numOfDays = 7) => {
-    const data = getData(transactionsArr, "used", numOfDays);
+  const buildUsageChart = (
+    transactionsArr,
+    displayName,
+    type = props.chartType,
+    numOfDays = 7
+  ) => {
+    const data = getData(transactionsArr, type, numOfDays);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
     canvas.height = 270;
@@ -79,8 +95,8 @@ const ItemChart = props => {
       hoverBarColors: data.data.map(_ => "#d6c120"),
       padding: 20
     };
-
-    const chart = new Chart(canvas, {
+    if (chart) chart.destroy();
+    chart = new Chart(canvas, {
       type: "bar",
       data: {
         labels: data.labels,
@@ -145,7 +161,7 @@ const ItemChart = props => {
       props.currentLotItem.transactions,
       props.currentLotItem.displayName
     );
-  }, []);
+  }, [props.chartType]);
 
   return (
     <>
