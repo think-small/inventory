@@ -3,11 +3,21 @@ import Chart from "./Chart";
 import { Form } from "react-bootstrap";
 
 const ChartContainer = props => {
+  //  DEFAULT CHART -> USAGE WITH WEEK RANGE
   const [chartType, setChartType] = useState("usage");
+  const [dateRange, setDateRange] = useState(7);
+
+  const handleSelect = e => {
+    setDateRange(Number(e.target.value));
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "75% 25%" }}>
-      <Chart currentLotItem={props.currentLotItem} chartType={chartType} />
+      <Chart
+        currentLotItem={props.currentLotItem}
+        chartType={chartType}
+        dateRange={dateRange}
+      />
       <div
         style={{
           display: "flex",
@@ -39,6 +49,23 @@ const ChartContainer = props => {
               value="inStock"
               onChange={() => setChartType("inStock")}
             />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Time Range</Form.Label>
+            <Form.Control as="select" onChange={handleSelect}>
+              <option disabled name="day" value="1">
+                Day
+              </option>
+              <option defaultChecked name="week" value="7">
+                Week
+              </option>
+              <option name="month" value="30">
+                Month
+              </option>
+              <option name="year" value="365">
+                Year
+              </option>
+            </Form.Control>
           </Form.Group>
         </Form>
         <div>Render Custom Chart Controls Here</div>

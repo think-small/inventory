@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Chart from "chart.js";
 
-let chart;
+let chart; //  declare chart as global to allow chart.destroy() to work properly
 const ItemChart = props => {
   //  HELPER FUNCTIONS FOR CHART BUILDING
   const getRawData = (transactionsArr, transactionType) => {
@@ -79,13 +79,9 @@ const ItemChart = props => {
 
   //  CHART BUILDING FUNCTIONS
   //  USAGE CHART
-  const buildUsageChart = (
-    transactionsArr,
-    displayName,
-    type = props.chartType,
-    numOfDays = 7
-  ) => {
+  const buildUsageChart = (transactionsArr, displayName, type, numOfDays) => {
     const data = getData(transactionsArr, type, numOfDays);
+    console.log(numOfDays);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
     canvas.height = 270;
@@ -95,14 +91,22 @@ const ItemChart = props => {
       hoverBarColors: data.data.map(_ => "#d6c120"),
       padding: 20
     };
-    if (chart) chart.destroy();
+    if (type === "usage") {
+      layoutSettings.titleText = "Usage Data";
+      layoutSettings.yLabel = "Amount Used";
+    } else if (type === "inStock") {
+      layoutSettings.titleText = "In Stock Data";
+      layoutSettings.yLabel = "Amount in Stock";
+    }
+
+    if (chart) chart.destroy(); //  Needed to prevent persistence of previous data
     chart = new Chart(canvas, {
       type: "bar",
       data: {
         labels: data.labels,
         datasets: [
           {
-            label: "Amount Used",
+            label: layoutSettings.yLabel,
             data: data.data,
             backgroundColor: layoutSettings.barColors,
             borderColor: layoutSettings.barColors,
@@ -118,7 +122,7 @@ const ItemChart = props => {
         },
         title: {
           display: true,
-          text: `${displayName} Usage Data`
+          text: `${displayName} ${layoutSettings.titleText}`
         },
         legend: {
           display: false
@@ -144,7 +148,7 @@ const ItemChart = props => {
               },
               scaleLabel: {
                 display: true,
-                labelString: "Amount Used"
+                labelString: layoutSettings.yLabel
               }
             }
           ]
@@ -159,9 +163,11 @@ const ItemChart = props => {
   useEffect(() => {
     buildUsageChart(
       props.currentLotItem.transactions,
-      props.currentLotItem.displayName
+      props.currentLotItem.displayName,
+      props.chartType,
+      props.dateRange
     );
-  }, [props.chartType]);
+  }, [props.chartType, props.dateRange]);
 
   return (
     <>
