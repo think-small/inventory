@@ -12,18 +12,21 @@ const ChartContainer = props => {
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "75% 25%" }}>
-      <Chart
-        currentLotItem={props.currentLotItem}
-        chartType={chartType}
-        dateRange={dateRange}
-      />
+    <div style={{ display: "grid", gridTemplateColumns: "60% 40%" }}>
+      <div>
+        <Chart
+          currentLotItem={props.currentLotItem}
+          chartType={chartType}
+          dateRange={dateRange}
+        />
+      </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "space-around",
-          justifyContent: "center"
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%"
         }}
       >
         <Form>

@@ -3,8 +3,17 @@ import moment from "moment";
 import Chart from "chart.js";
 
 let chart; //  declare chart as global to allow chart.destroy() to work properly
+
 const ItemChart = props => {
   //  HELPER FUNCTIONS FOR CHART BUILDING
+  /**
+   * Retrieves transactions for an item given a transaction type.
+   * @param {Object[]} transactionsArr - array of all transaction objects for an item.
+   * @param {string} transactionType - correlates to type property on transaction objects.
+   * @return {Object[]} array of transaction objects. Each object has 'timestamp' and
+   * 'amount' properties. These correspond to 'x' and 'y' values for chart building.
+   * This format is necessary for working with Chart.js.
+   */
   const getRawData = (transactionsArr, transactionType) => {
     switch (transactionType) {
       case "usage":
@@ -27,13 +36,28 @@ const ItemChart = props => {
     }
   };
 
+  /**
+   * Filters transaction objects based on their timestamp value.
+   * @param {number} numOfDays - number of days to go back to filter transactions.
+   * @param {Object[]} arr - array of transaction objects.
+   * @return {Object[]} array of transaction objects whose timestamp values are more recent
+   * than numOfDays ago.
+   */
   const filterByNumberOfDays = (numOfDays, arr) => {
     return arr.filter(
       transaction =>
         transaction.timestamp >= moment().subtract({ days: numOfDays })
     );
   };
-
+  /**
+   * Bins data into common dates.
+   * Chart.js cannot easily plot data that share x-axis labels, so aggregating data
+   * with common x-axis labels is required for proper rendering.
+   * @todo add functionality to change bin size (ie bins that stretch a week or month).
+   * @param {number} numOfDays - number of days to go back to filter transactions.
+   * @param {Object[]} data - array of transaction objects.
+   * @return {Object[]} array of transaction objects.
+   */
   const aggregateData = (numOfDays, data) => {
     return filterByNumberOfDays(numOfDays, data).reduce((acc, curr) => {
       const property = moment(curr.timestamp).format("MM-DD-YYYY");
@@ -46,6 +70,13 @@ const ItemChart = props => {
     }, {});
   };
 
+  /**
+   * Creates x-axis labels for all dates from now to numOfDays ago.
+   * This is to force Chart.js to render all dates in a given range instead of
+   * only showing dates that have an associated data point.
+   * @param {number} numOfDays - number of days to go back to filter transactions.
+   * @return {Object[]} array of dates in "MM-DD-YYYY" format.
+   */
   const createTickLabels = numOfDays => {
     const emptyArr = new Array(numOfDays).fill(0);
     return emptyArr.map((tick, index) => {
@@ -55,6 +86,14 @@ const ItemChart = props => {
     });
   };
 
+  /**
+   * Get all data in appropriate format to work with Chart.js and
+   * all the required x-axis labels.
+   * @param {Object[]} transactionsArr - array of all transaction objects for an item.
+   * @param {string} transactionType - correlates to type property on transaction objects.
+   * @param {number} numOfDays - number of days to go back to filter transactions.
+   * @return {Object} Object with two properties: data and labels. These arrays are used by Chart.js.
+   */
   const getData = (transactionsArr, transactionType, numOfDays) => {
     const usageData = getRawData(transactionsArr, transactionType);
     const aggregatedUsageData = aggregateData(numOfDays, usageData);
@@ -81,7 +120,6 @@ const ItemChart = props => {
   //  USAGE CHART
   const buildUsageChart = (transactionsArr, displayName, type, numOfDays) => {
     const data = getData(transactionsArr, type, numOfDays);
-    console.log(numOfDays);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
     canvas.height = 270;
@@ -99,7 +137,9 @@ const ItemChart = props => {
       layoutSettings.yLabel = "Amount in Stock";
     }
 
-    if (chart) chart.destroy(); //  Needed to prevent persistence of previous data
+    //  Needed to prevent persistence of previous data;
+    //  consier chart.update() if destroy() is slow.
+    if (chart) chart.destroy();
     chart = new Chart(canvas, {
       type: "bar",
       data: {
@@ -115,7 +155,7 @@ const ItemChart = props => {
         ]
       },
       options: {
-        responsive: false,
+        responsive: true,
         maintainAspectRatio: false,
         layout: {
           padding: layoutSettings.padding
