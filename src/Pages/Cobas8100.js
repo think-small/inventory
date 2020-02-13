@@ -102,8 +102,28 @@ class Cobas8100 extends React.Component {
 
  handleUpdate(event) {
    event.preventDefault();
-   alert('coming soon, update into the database'); 
- }; 
+  // alert('coming soon, update into the database'); 
+   // alert(this.state.Quantity);
+  // alert(event.target.value);  //get the Id (from the button )
+  
+   const data = { Quantity: this.state.Quantity, 
+                    Id:event.target.value };
+   fetch('api/update/8100', {
+     method: 'PUT', 
+     headers: {
+       'Content-Type': 'application/json',
+   },
+     body: JSON.stringify(data),
+   })
+   .then((response) => response.json())
+   .then((data) => {
+     console.log('Success:', data);
+   })
+   .catch((error) => {
+     console.error('Error:', error);
+   });
+ 
+  }; 
  
 
 handleDelete(event) {
@@ -191,13 +211,28 @@ render() {
        <div>Lot #: {items.Lot} </div>
 
        <div> {items.Name=='Blue Caps' ?  <div style={{color:"blue"}}>{items.Name}</div> : <div>{items.Name} </div> } </div>
-       <div>  {items.Quantity<=20 ? <div style={{color:"red"}}> **Low Quantity** Only {items.Quantity} Left </div> : <div> Quantity: {items.Quantity} </div>      } </div>
+       <div>  {items.Quantity<=20 ? <div style={{color:"red"}}> **Low Quantity** Only {items.Quantity} Left
+       
+       <form onSubmit={()=>{this.handleUpdate(event)}} method="POST"> 
+       <label>
+        Update Quantity: 
+       <input type="text" name='Quantity' value={this.state.value} onChange={()=>this.handleChangeQuantity(event)} />
+       </label>
+       </form>
+       
+       <button style={{marginLeft: '5px'}} value={items.id} onClick={()=>{this.handleUpdate(event)} }>Update Quantity</button>
+      
+       </div> : <div> Quantity: {items.Quantity} </div> } </div>
+       
+       
+       
        <div style={{color: 'green'}}>Expiration Date: {items.Expiration_Date} </div> 
         
         Date Submitted: {items.Date}      
        <button style={{marginLeft: '5px',  float: 'right'}} onClick={()=>{this.handleDelete(event)} } value={items.id}>Delete Lot</button>
-       <button style={{marginLeft: '5px',  float: 'right'}} onClick={()=>{this.handleUpdate(event)} }>Update Lot</button>
-
+    
+   {/**     <button style={{marginLeft: '5px',  float: 'right'}} onClick={()=>{this.handleUpdate(event)} }>Update Lot</button>
+    */}
        </div>)} 
 
        </div>

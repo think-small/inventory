@@ -134,7 +134,20 @@ app.delete('/api/delete/8100', (req,res)=> {
 })
 
 
+app.put('/api/update/8100', (req,res)=> {
 
+  console.log(req.body.Quantity);
+  console.log(req.body.Id);
+    let Quantity = req.body.Quantity; 
+    let Id = req.body.Id; 
+// get the id from the frontend and also get the Quantity (from Cobas8100.js page)
+
+connection.query(`UPDATE Cobas_8100 SET Quantity  =? WHERE Id = ?`, [ Quantity, Id], (error, results) =>{
+          if (error) 
+          return console.error(error.message);
+          console.log('updated worked!');
+} )
+})
 
 
 // a dummy route to see if this file will work
