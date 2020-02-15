@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment"; 
-
+import Navbar from "../Navbar/Navbar";
 
 
 
@@ -162,10 +162,7 @@ render() {
 
       return (
         <div>
-        <div>
-       
-
-        </div>
+       <Navbar />
         <div> Cobas 8100 Inventory</div>
         <div><i>Current Local Time: {current_date} {current_time}</i> </div>
         <div>Please enter new values for Inventory</div>

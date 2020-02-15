@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { ABLContext } from "../Contexts/ABLContext";
 import moment from "moment";
-
+import Navbar from "../Navbar/Navbar"; 
 
 
 
@@ -31,6 +31,7 @@ const ABL = () => {
  
    return (
      <div>
+       <Navbar />
     <section>
       <Table hover>
         <thead>
