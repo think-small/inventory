@@ -29,7 +29,7 @@ const Dashboard = () => {
       <Jumbotron className="jumbotron">
         <div className="alignment">
           <h1 style={{ fontSize: "50px" }}>
-            <b>Inventory App</b>
+            <b>Inventory Management</b>
           </h1>
           <p className="lead">
             An app to help us keep track of Inventory in the lab!

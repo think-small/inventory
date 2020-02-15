@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { ArchitectContext } from "../Contexts/ArchitectContext";
 import { LinkContainer } from "react-router-bootstrap";
 import moment from "moment";
+import Navbar from "../Navbar/Navbar";
 
 const Architect = () => {
   const { architectItems } = useContext(ArchitectContext);
@@ -21,6 +22,8 @@ const Architect = () => {
     }
   });
   return (
+    <div>
+    <Navbar />
     <section>
       <Table hover>
         <thead>
@@ -53,6 +56,7 @@ const Architect = () => {
         </tbody>
       </Table>
     </section>
+    </div>
   );
 };
 
