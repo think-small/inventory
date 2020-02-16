@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
+import Tables from "../Table/Tables";
+
 
 class Cobas8100 extends React.Component {
   state = {
@@ -134,6 +136,7 @@ class Cobas8100 extends React.Component {
     return (
       <div>
         <Navbar />
+      
         <div> Cobas 8100 Inventory</div>
         <div>
           <i>
@@ -193,82 +196,21 @@ class Cobas8100 extends React.Component {
 
         <hr></hr>
 
-        <div> Current values from the mySQL Database: </div>
+        <div> Values from the mySQL Database: </div>
 
-        <hr></hr>
+
 
         <div>
-          {" "}
-          {this.state.Database.map(items => (
-            <div
-              style={{
-                border: "2px solid black",
-                margin: "10px",
-                padding: "10px"
-              }}
-            >
-              <div>Lot #: {items.Lot} </div>
-              <div>
-                {" "}
-                {items.Name == "Blue Caps" ? (
-                  <div style={{ color: "blue" }}>{items.Name}</div>
-                ) : (
-                  <div>{items.Name} </div>
-                )}{" "}
-              </div>
-              <div>
-                {" "}
-                {items.Quantity <= 20 ? (
-                  <div style={{ color: "red" }}>
-                    {" "}
-                    **Low Quantity** Only {items.Quantity} Left
-                    <form
-                      onSubmit={() => {
-                        this.handleUpdate(event);
-                      }}
-                      method="POST"
-                    >
-                      <label>
-                        Update Quantity:
-                        <input
-                          type="text"
-                          name="Quantity"
-                          value={this.state.value}
-                          onChange={() => this.handleChangeQuantity(event)}
-                        />
-                      </label>
-                    </form>
-                    <button
-                      style={{ marginLeft: "5px" }}
-                      value={items.id}
-                      onClick={() => {
-                        this.handleUpdate(event);
-                      }}
-                    >
-                      Update Quantity
-                    </button>
-                  </div>
-                ) : (
-                  <div> Quantity: {items.Quantity} </div>
-                )}{" "}
-              </div>
-              <div style={{ color: "green" }}>
-                Expiration Date: {items.Expiration_Date}{" "}
-              </div>
-              Date Submitted: {items.Date}
-              <button
-                style={{ marginLeft: "5px", float: "right" }}
-                onClick={() => {
-                  this.handleDelete(event);
-                }}
-                value={items.id}
-              >
-                Delete Lot
-              </button>
-              {/**     <button style={{marginLeft: '5px',  float: 'right'}} onClick={()=>{this.handleUpdate(event)} }>Update Lot</button>
-               */}
-            </div>
-          ))}
+            <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
+             handleChangeQuantity= {() => this.handleChangeQuantity(event)}
+            handleDelete= {()=>this.handleDelete(event)}  />          
+        <div>
+         
+         
+         
+          </div>
+
+
         </div>
       </div>
     );
