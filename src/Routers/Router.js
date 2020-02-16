@@ -17,8 +17,9 @@ const Router = () => {
   return (
     <BrowserRouter>
       <div className="app-container">
-        <Sidebar />
+     <Sidebar />
         <section className="content-container">
+            
           <Switch>
             
             <Route exact path="/" component={Dashboard} />

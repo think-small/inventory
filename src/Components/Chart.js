@@ -70,6 +70,17 @@ const ItemChart = props => {
     }, {});
   };
 
+  /**
+   * To be used when preparing data for "inStock" charts.
+   * This function will find the last transaction made on a given date. That final
+   * transaction's "quantityInStock" property is used as quantity in stock for that date.
+   * @param {number} numOfDays - number of days to go back to filter transactions.
+   * @param {Object[]} data - array of transaction objects.
+   * @param return {Object[]} array of transaction objects. Each property is a date corresponding
+   * to when transactions were made. The value is an object with "amount" and "timestamp" properties.
+   * The "timestamp" property is used to determine the final transaction on the given date.
+   * The "amount" property is what will be used as the y-coordinate in chart.js.
+   */
   const aggregateQuantityData = (numOfDays, data) => {
     const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
       (acc, curr) => {

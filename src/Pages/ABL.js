@@ -3,9 +3,18 @@ import { Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { ABLContext } from "../Contexts/ABLContext";
 import moment from "moment";
+import Navbar from "../Navbar/Navbar"; 
+
+
+
+
 
 const ABL = () => {
+
+
+
   const { ablItems } = useContext(ABLContext);
+
   const currentLotItems = Object.entries(ablItems).map(entry => {
     if (entry[1].length > 1) {
       return {
@@ -16,7 +25,13 @@ const ABL = () => {
       return { ...entry[1][0], name: entry[0] };
     }
   });
-  return (
+
+
+
+ 
+   return (
+     <div>
+       <Navbar />
     <section>
       <Table hover>
         <thead>
@@ -49,6 +64,14 @@ const ABL = () => {
         </tbody>
       </Table>
     </section>
+
+
+
+
+
+</div>
+
+
   );
 };
 

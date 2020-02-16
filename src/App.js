@@ -5,7 +5,7 @@ import ItemsContextProvider from "./Contexts/ItemsContext";
 import ArchitectItemsContextProvider from "./Contexts/ArchitectContext";
 import ABLContextProvider from "./Contexts/ABLContext";
 import WarningsContextProvider from "./Contexts/WarningsContext";
-import "./styles/styles.scss";
+import "./Styles/styles.scss";
 
 const App = () => (
   <ItemsContextProvider>
