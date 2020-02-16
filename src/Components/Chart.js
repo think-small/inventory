@@ -26,6 +26,16 @@ const ItemChart = props => {
             });
             return acc;
           }, []);
+      case "received":
+        return transactionsArr
+          .filter(item => item.type === "received")
+          .reduce((acc, curr) => {
+            acc.push({
+              timestamp: curr.timestamp,
+              amount: curr.amount
+            });
+            return acc;
+          }, []);
       case "inStock":
         return transactionsArr.reduce((acc, curr) => {
           acc.push({ timestamp: curr.timestamp, amount: curr.quantityInStock });
@@ -134,7 +144,7 @@ const ItemChart = props => {
   const getData = (transactionsArr, transactionType, numOfDays) => {
     const usageData = getRawData(transactionsArr, transactionType);
     const aggregatedUsageData =
-      transactionType === "usage"
+      transactionType === "usage" || transactionType === "received"
         ? aggregateData(numOfDays, usageData)
         : aggregateQuantityData(numOfDays, usageData);
 
@@ -175,6 +185,9 @@ const ItemChart = props => {
     } else if (type === "inStock") {
       layoutSettings.titleText = "In Stock Data";
       layoutSettings.yLabel = "Amount in Stock";
+    } else if (type === "received") {
+      layoutSettings.titleText = "Received Data";
+      layoutSettings.ylabel = "Amount Received";
     }
 
     //  Needed to prevent persistence of previous data;
