@@ -11,6 +11,10 @@ const ChartContainer = props => {
     setDateRange(Number(e.target.value));
   };
 
+  /**
+   * @todo Quantity in stock chart is buggy as it sums quantityInStock property for aggregated data.
+   * It should instead have the quantityInStock value for the last transaction for a given day.
+   */
   return (
     <div style={{ display: "grid", gridTemplateColumns: "60% 40%" }}>
       <div>

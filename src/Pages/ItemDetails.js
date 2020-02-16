@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Card, Nav, ListGroup } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import Chart from "chart.js";
 import ChartContainer from "../Components/ChartContainer";
 
 const ItemDetails = props => {
@@ -21,20 +20,55 @@ const ItemDetails = props => {
   const dateFormat = "MM/DD/YY";
   const dateTimeFormat = "MM/DD/YY - h:mm a";
   const now = moment().valueOf();
-  const lastTransaction = moment(
-    currentLotItem.transactions.reduce((acc, curr) => {
-      if (acc.timestamp === undefined) {
-        acc.timestamp = moment()
-          .unix()
-          .valueOf();
-      }
-      acc.timestamp =
-        now - curr.timestamp < now - acc.timestamp
-          ? curr.timestamp
-          : acc.timestamp;
-      return acc;
-    }, {}).timestamp
-  ).format(dateTimeFormat);
+  // const lastTransaction = moment(
+  //   currentLotItem.transactions.reduce((acc, curr) => {
+  //     if (acc.timestamp === undefined) {
+  //       acc.timestamp = moment()
+  //         .unix()
+  //         .valueOf();
+  //     }
+  //     acc.timestamp =
+  //       now - curr.timestamp < now - acc.timestamp && curr.type === "used"
+  //         ? curr.timestamp
+  //         : acc.timestamp;
+  //     return acc;
+  //   }, {}).timestamp
+  // ).format(dateTimeFormat);
+
+  // const last = currentLotItem.transactions.reduce(
+  //   (acc, curr) => {
+  //     if (curr.type === "used") {
+  //       acc.used =
+  //         now - curr.timestamp < now - acc.used.timestamp ? curr : acc.used;
+  //     } else if (curr.type === "received") {
+  //       acc.received =
+  //         now - curr.timestamp < now - acc.received.timestamp
+  //           ? curr
+  //           : acc.received;
+  //     }
+  //     acc.overall =
+  //       now - curr.timestamp < now - acc.overall.timestamp ? curr : acc.overall;
+  //     return acc;
+  //   },
+  //   {
+  //     used: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     },
+  //     received: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     },
+  //     overall: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     }
+  //   }
+  // );
+  // console.log(last);
 
   return (
     <section>
@@ -59,7 +93,9 @@ const ItemDetails = props => {
               currentLotItem.expirationDate
             ).format(dateFormat)}`}</ListGroup.Item>
             <ListGroup.Item>{`Quantity in Stock: ${currentLotItem.quantity}`}</ListGroup.Item>
-            <ListGroup.Item>{`Last Used: ${lastTransaction}`}</ListGroup.Item>
+            <ListGroup.Item>{`Last Used: ${moment(
+              currentLotItem.lastUsed
+            ).format("MM/DD/YY - h:mm a")}`}</ListGroup.Item>
           </ListGroup>
         </Card.Body>
         <ChartContainer currentLotItem={currentLotItem} />

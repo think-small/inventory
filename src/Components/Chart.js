@@ -70,6 +70,32 @@ const ItemChart = props => {
     }, {});
   };
 
+  const aggregateQuantityData = (numOfDays, data) => {
+    const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
+      (acc, curr) => {
+        const property = moment(curr.timestamp).format("MM-DD-YYYY");
+        if (
+          acc.hasOwnProperty(property) &&
+          acc[property].timestamp < curr.timestamp
+        ) {
+          acc[property].amount = curr.amount;
+        } else if (!acc.hasOwnProperty(property)) {
+          acc[property] = {
+            amount: curr.amount,
+            timestamp: curr.timestamp
+          };
+        }
+        return acc;
+      },
+      {}
+    );
+    return Object.entries(quantityRawData).reduce((acc, curr) => {
+      const property = moment(curr[1].timestamp).format("MM-DD-YYYY");
+      acc[property] = curr[1].amount;
+      return acc;
+    }, {});
+  };
+
   /**
    * Creates x-axis labels for all dates from now to numOfDays ago.
    * This is to force Chart.js to render all dates in a given range instead of
@@ -96,7 +122,10 @@ const ItemChart = props => {
    */
   const getData = (transactionsArr, transactionType, numOfDays) => {
     const usageData = getRawData(transactionsArr, transactionType);
-    const aggregatedUsageData = aggregateData(numOfDays, usageData);
+    const aggregatedUsageData =
+      transactionType === "usage"
+        ? aggregateData(numOfDays, usageData)
+        : aggregateQuantityData(numOfDays, usageData);
 
     const tickLabels = createTickLabels(numOfDays);
     const aggregatedUsageDataLabels = Object.keys(aggregatedUsageData);
