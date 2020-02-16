@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { Card, Nav, ListGroup } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import * as d3 from "d3";
+import ChartContainer from "../Components/ChartContainer";
 
 const ItemDetails = props => {
-  //  Get all data for specific analyzer
-  //  Separate items into current lot and new lot items - store each in separate arrays
+  //  GET ALL DATA FOR A SPECIFIC ANALYZER
+  //  SEPARATE ITEMS INTO CURRENT LOT AND NEW LOT - STORE EACH IN SEPARATE ARRAYS
   const { items } = props;
   const item = items[props.match.params.id];
   const currentLotItem = item.filter(
@@ -16,96 +16,59 @@ const ItemDetails = props => {
     item => item.isCurrentLot === false && item.isNewLot === true
   )[0];
 
-  //  Find most recent transaction for a given item
+  //  FIND MOST RECENT TRANSACTION FOR A GIVEN ITEM
   const dateFormat = "MM/DD/YY";
   const dateTimeFormat = "MM/DD/YY - h:mm a";
   const now = moment().valueOf();
-  const lastTransaction = moment(
-    currentLotItem.transactions.reduce((acc, curr) => {
-      if (acc.timestamp === undefined) {
-        acc.timestamp = moment()
-          .unix()
-          .valueOf();
-      }
-      acc.timestamp =
-        now - curr.timestamp < now - acc.timestamp
-          ? curr.timestamp
-          : acc.timestamp;
-      return acc;
-    }, {}).timestamp
-  ).format(dateTimeFormat);
+  // const lastTransaction = moment(
+  //   currentLotItem.transactions.reduce((acc, curr) => {
+  //     if (acc.timestamp === undefined) {
+  //       acc.timestamp = moment()
+  //         .unix()
+  //         .valueOf();
+  //     }
+  //     acc.timestamp =
+  //       now - curr.timestamp < now - acc.timestamp && curr.type === "used"
+  //         ? curr.timestamp
+  //         : acc.timestamp;
+  //     return acc;
+  //   }, {}).timestamp
+  // ).format(dateTimeFormat);
 
-  //  Chart building with d3 for item usage histogram
-  const getItemUsageData = transactionsArr => {
-    return transactionsArr.reduce((acc, curr) => {
-      acc.push({
-        timestamp: curr.timestamp,
-        amount: curr.amount
-      });
-      return acc;
-    }, []);
-  };
-  const buildUsageChart = () => {
-    const margins = {
-      left: 20,
-      right: 20,
-      top: 30,
-      bottom: 5
-    };
-    const svgWidth = 400;
-    const svgHeight = 200;
-    const width = svgWidth - margins.left - margins.right;
-    const height = svgHeight - margins.top - margins.bottom;
-
-    const barWidth = 5;
-    const data = getItemUsageData(
-      currentLotItem.transactions.filter(item => item.type === "used")
-    );
-    const chart = d3
-      .select("svg")
-      .attr("height", svgHeight)
-      .attr("width", svgWidth);
-
-    const xExtent = d3.extent(data, d => d.timestamp);
-    const yExtent = d3.extent(data, d => d.amount);
-    const xScale = d3
-      .scaleTime()
-      .domain(xExtent)
-      .range([0, width]);
-    const yScale = d3
-      .scaleLinear()
-      .domain(yExtent)
-      .range([height - margins.bottom, 0]);
-    const xAxis = d3
-      .axisBottom(xScale)
-      .tickFormat(d3.timeFormat("%b %d"))
-      .ticks(d3.timeDay.every(7));
-    const yAxis = d3.axisLeft(yScale);
-    chart
-      .append("g")
-      .attr(
-        "transform",
-        `translate(${margins.left}, ${height - margins.bottom})`
-      )
-      .call(xAxis);
-    chart
-      .append("g")
-      .attr("transform", `translate(${margins.right}, 0)`)
-      .call(yAxis);
-    chart
-      .selectAll("rect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(d.timestamp) + margins.left)
-      .attr("y", d => yScale(d.amount) - margins.bottom)
-      .attr("width", barWidth)
-      .attr("height", d => height - yScale(d.amount));
-  };
-
-  useEffect(() => {
-    buildUsageChart();
-  }, []);
+  // const last = currentLotItem.transactions.reduce(
+  //   (acc, curr) => {
+  //     if (curr.type === "used") {
+  //       acc.used =
+  //         now - curr.timestamp < now - acc.used.timestamp ? curr : acc.used;
+  //     } else if (curr.type === "received") {
+  //       acc.received =
+  //         now - curr.timestamp < now - acc.received.timestamp
+  //           ? curr
+  //           : acc.received;
+  //     }
+  //     acc.overall =
+  //       now - curr.timestamp < now - acc.overall.timestamp ? curr : acc.overall;
+  //     return acc;
+  //   },
+  //   {
+  //     used: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     },
+  //     received: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     },
+  //     overall: {
+  //       timestamp: moment()
+  //         .unix()
+  //         .valueOf()
+  //     }
+  //   }
+  // );
+  // console.log(last);
 
   return (
     <section>
@@ -130,11 +93,13 @@ const ItemDetails = props => {
               currentLotItem.expirationDate
             ).format(dateFormat)}`}</ListGroup.Item>
             <ListGroup.Item>{`Quantity in Stock: ${currentLotItem.quantity}`}</ListGroup.Item>
-            <ListGroup.Item>{`Last Used: ${lastTransaction}`}</ListGroup.Item>
+            <ListGroup.Item>{`Last Used: ${moment(
+              currentLotItem.lastUsed
+            ).format("MM/DD/YY - h:mm a")}`}</ListGroup.Item>
           </ListGroup>
         </Card.Body>
+        <ChartContainer currentLotItem={currentLotItem} />
       </Card>
-      <svg style={{ margin: "1rem 2rem" }}></svg>
     </section>
   );
 };

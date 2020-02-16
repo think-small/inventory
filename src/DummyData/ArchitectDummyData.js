@@ -1,6 +1,25 @@
 import moment from "moment";
 import uuid from "uuid";
 
+const createTransaction = () => {
+  console.log("creating item");
+  const transactionType = ["used", "received"];
+  return {
+    type: transactionType[Math.floor(Math.random() * 2)],
+    amount: Math.floor(Math.random() * 10),
+    quantityInStock: Math.floor(Math.random() * 100),
+    timestamp: moment()
+      .subtract({ hours: Math.floor(Math.random() * 8760) })
+      .valueOf()
+  };
+};
+
+const populateArray = (arr, length) => {
+  while (arr.length < length) {
+    arr.push(createTransaction());
+  }
+};
+
 const architectDummyData = {
   hepBsAgReagent: [
     {
@@ -123,24 +142,7 @@ const architectDummyData = {
       quantity: 5,
       dateLastUsed: undefined,
       orderID: uuid(),
-      transactions: [
-        {
-          type: "used",
-          amount: 1,
-          quantityInStock: 1,
-          timestamp: moment()
-            .subtract(92, "hours")
-            .valueOf()
-        },
-        {
-          type: "received",
-          numBoxesReceived: 2,
-          quantityInStock: 5,
-          timestamp: moment()
-            .subtract({ weeks: 1, hours: 21 })
-            .valueOf()
-        }
-      ]
+      transactions: []
     }
   ],
   hepCAbReagent: [
@@ -306,5 +308,73 @@ const architectDummyData = {
     }
   ]
 };
+
+populateArray(
+  architectDummyData.hepBNeutralizationReagent[0].transactions,
+  500
+);
+populateArray(architectDummyData.hepBsAgReagent[0].transactions, 100);
+populateArray(architectDummyData.hepCAbReagent[0].transactions, 300);
+populateArray(architectDummyData.rv[0].transactions, 700);
+populateArray(architectDummyData.washBuffer[0].transactions, 200);
+const now = moment().valueOf();
+
+/**
+ * This function updates each item with the appropriate "quantity" and "lastUsed" values.
+ * It does so by doing the following:
+ * 1) Determine if the item is the current lot
+ * 2) If so, iterate through the transactions array and return an object with three properties:
+ *    "used", "received", and "overall". "Used" references the last transaction of type "used".
+ *    "Received" references the last transaction of type "received." Finally, "overall" references
+ *    the last transaction regardless of type.
+ * 3) The item's "quantity" property is set to overall.quantityInStock. Also, the item's "lastUsed"
+ *    property is set to used.timestamp.
+ * @param {Object[]} arr - array of current and new lot items.
+ */
+
+const populateItemData = arr => {
+  arr.forEach(item => {
+    if (item.isCurrentLot) {
+      const lastTransaction = item.transactions.reduce(
+        (acc, curr) => {
+          if (curr.type === "used") {
+            acc.used =
+              now - curr.timestamp < now - acc.used.timestamp ? curr : acc.used;
+          } else if (curr.type === "received") {
+            acc.received =
+              now - curr.timestamp < now - acc.received.timestamp
+                ? curr
+                : acc.received;
+          }
+          acc.overall =
+            now - curr.timestamp < now - acc.overall.timestamp
+              ? curr
+              : acc.overall;
+          return acc;
+        },
+        {
+          used: {
+            timestamp: moment()
+              .unix()
+              .valueOf()
+          },
+          received: {
+            timestamp: moment()
+              .unix()
+              .valueOf()
+          },
+          overall: {
+            timestamp: moment()
+              .unix()
+              .valueOf()
+          }
+        }
+      );
+      item.quantity = lastTransaction.overall.quantityInStock;
+      item.lastUsed = lastTransaction.used.timestamp;
+    }
+  });
+};
+Object.values(architectDummyData).forEach(item => populateItemData(item));
 
 export default architectDummyData;
