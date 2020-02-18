@@ -1,8 +1,8 @@
 import React from "react";
-import moment from "moment";
+
 import Navbar from "../Navbar/Navbar";
 import Tables from "../Table/Tables";
-
+import Jumbotron1 from "../Jumbotron/Jumbotron"; 
 
 class Cobas8100 extends React.Component {
   state = {
@@ -130,36 +130,28 @@ class Cobas8100 extends React.Component {
   }
 
   render() {
-    const current_time = moment().format("LT");
-    const current_date = moment().format("L");
+
 
     return (
       <div>
         <Navbar />
-      
-        <div> Cobas 8100 Inventory</div>
-        <div>
-          <i>
-            Current Local Time: {current_date} {current_time}
-          </i>{" "}
-        </div>
-        <div>Please enter new values for Inventory</div>
-        <form
-          onSubmit={() => {
-            this.handleSubmit(event);
-          }}
-          method="POST"
-        >
-          <label>
-            Lot #:{" "}
-            <input
+
+        <Jumbotron1 Title="Cobas 8100" />
+         
+     
+     
+        <div style={{padding: "20px", margin: "10px"}}>Add a New Lot:
+        <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
+            <input style={{margin: "10px", borderRadius: "1px"} }
               type="text"
               name="Lot"
               value={this.state.value}
               onChange={() => this.handleChangeLot(event)}
+              placeholder= "Lot Number"
             />
-            <label>
-              Inventory Type:
+
+          
+        
               <select
                 value={this.state.value}
                 onChange={() => {
@@ -173,42 +165,47 @@ class Cobas8100 extends React.Component {
                   Pipette Tips
                 </option>
               </select>
-            </label>
-            Quantity:{" "}
+
+
+ 
             <input
+            style={{margin: "10px", borderRadius: "1px"} }
               type="text"
               name="Quantity"
               value={this.state.value}
               onChange={() => this.handleChangeQuantity(event)}
+              placeholder="Quantity"
             />
             Expiration Date:{" "}
             <input
+            style={{margin: "10px", borderRadius: "1px"} }
               type="text"
               placeholder="mm/dd/yyyy"
               name="Expiration"
               value={this.state.value}
               onChange={() => this.handleChangeExpiration(event)}
             />
-          </label>
 
-          <input type="submit" value="Update" style={{ margin: "5px" }} />
+
+          <input type="submit" value="Update" style={{ borderRadius: "1px" }} />
         </form>
 
-        <hr></hr>
-
-        <div> Values from the mySQL Database: </div>
+       </div>
+       
+      <hr></hr>
+   
 
 
 
         <div>
+               <div style={{padding: "20px"}}> Values from the Database: </div>
             <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
              handleChangeQuantity= {() => this.handleChangeQuantity(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
          
-         
-          </div>
+         </div>
 
 
         </div>
