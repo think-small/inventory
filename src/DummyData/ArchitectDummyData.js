@@ -2,7 +2,6 @@ import moment from "moment";
 import uuid from "uuid";
 
 const createTransaction = () => {
-  console.log("creating item");
   const transactionType = ["used", "received"];
   return {
     type: transactionType[Math.floor(Math.random() * 2)],
@@ -313,7 +312,7 @@ populateArray(
   architectDummyData.hepBNeutralizationReagent[0].transactions,
   500
 );
-populateArray(architectDummyData.hepBsAgReagent[0].transactions, 100);
+populateArray(architectDummyData.hepBsAgReagent[0].transactions, 500);
 populateArray(architectDummyData.hepCAbReagent[0].transactions, 300);
 populateArray(architectDummyData.rv[0].transactions, 700);
 populateArray(architectDummyData.washBuffer[0].transactions, 200);

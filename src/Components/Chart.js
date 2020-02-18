@@ -63,14 +63,27 @@ const ItemChart = props => {
    * Bins data into common dates.
    * Chart.js cannot easily plot data that share x-axis labels, so aggregating data
    * with common x-axis labels is required for proper rendering.
-   * @todo add functionality to change bin size (ie bins that stretch a week or month).
    * @param {number} numOfDays - number of days to go back to filter transactions.
    * @param {Object[]} data - array of transaction objects.
    * @return {Object[]} array of transaction objects.
    */
   const aggregateData = (numOfDays, data) => {
+    let dateFormat = "";
+    switch (numOfDays) {
+      case 1:
+        dateFormat = "YYYY-MM-DD h a";
+        break;
+      case 30:
+        dateFormat = "YYYY-MM-DD";
+        break;
+      case 365:
+        dateFormat = "YYYY-MM";
+        break;
+      default:
+        dateFormat = "YYYY-MM-DD";
+    }
     return filterByNumberOfDays(numOfDays, data).reduce((acc, curr) => {
-      const property = moment(curr.timestamp).format("MM-DD-YYYY");
+      const property = moment(curr.timestamp).format(dateFormat);
       if (acc.hasOwnProperty(property)) {
         acc[property] += curr.amount;
       } else {
@@ -92,9 +105,17 @@ const ItemChart = props => {
    * The "amount" property is what will be used as the y-coordinate in chart.js.
    */
   const aggregateQuantityData = (numOfDays, data) => {
+    let dateFormat = "";
+    switch (numOfDays) {
+      case 365:
+        dateFormat = "YYYY-MM";
+        break;
+      default:
+        dateFormat = "YYYY-MM-DD";
+    }
     const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
       (acc, curr) => {
-        const property = moment(curr.timestamp).format("MM-DD-YYYY");
+        const property = moment(curr.timestamp).format(dateFormat);
         if (
           acc.hasOwnProperty(property) &&
           acc[property].timestamp < curr.timestamp
@@ -111,7 +132,7 @@ const ItemChart = props => {
       {}
     );
     return Object.entries(quantityRawData).reduce((acc, curr) => {
-      const property = moment(curr[1].timestamp).format("MM-DD-YYYY");
+      const property = moment(curr[1].timestamp).format(dateFormat);
       acc[property] = curr[1].amount;
       return acc;
     }, {});
@@ -125,11 +146,35 @@ const ItemChart = props => {
    * @return {Object[]} array of dates in "MM-DD-YYYY" format.
    */
   const createTickLabels = numOfDays => {
-    const emptyArr = new Array(numOfDays).fill(0);
+    let dateFormat = "";
+    let binSize = "";
+    let emptyArr;
+
+    switch (numOfDays) {
+      case 1:
+        dateFormat = "h a";
+        binSize = "minutes";
+        emptyArr = new Array(24).fill(0);
+        break;
+      case 30:
+        dateFormat = "YYYY-MM-DD";
+        binSize = "days";
+        emptyArr = new Array(30).fill(0);
+        break;
+      case 365:
+        dateFormat = "YYYY-MM";
+        binSize = "months";
+        emptyArr = new Array(12).fill(0);
+        break;
+      default:
+        dateFormat = "YYYY-MM-DD";
+        binSize = "days";
+        emptyArr = new Array(7).fill(0);
+    }
     return emptyArr.map((tick, index) => {
       return moment()
-        .subtract({ days: index })
-        .format("MM-DD-YYYY");
+        .subtract({ [binSize]: index })
+        .format(dateFormat);
     });
   };
 
@@ -190,6 +235,28 @@ const ItemChart = props => {
       layoutSettings.ylabel = "Amount Received";
     }
 
+    /**
+     * @todo create charts for length "day."
+     */
+    const chartSettings = {};
+    switch (numOfDays) {
+      case 1:
+        chartSettings.unit = "hour";
+        chartSettings.format = "h A";
+        break;
+      case 30:
+        chartSettings.unit = "day";
+        chartSettings.format = "MMM D";
+        break;
+      case 365:
+        chartSettings.unit = "month";
+        chartSettings.format = "MMM YYYY";
+        break;
+      default:
+        chartSettings.unit = "day";
+        chartSettings.format = "MMM D";
+    }
+
     //  Needed to prevent persistence of previous data;
     //  consier chart.update() if destroy() is slow.
     if (chart) chart.destroy();
@@ -227,9 +294,9 @@ const ItemChart = props => {
               distribution: "series",
               offset: true,
               time: {
-                unit: "day",
+                unit: chartSettings.unit,
                 displayFormats: {
-                  day: "MMM D"
+                  [chartSettings.unit]: chartSettings.format
                 }
               }
             }
