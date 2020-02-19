@@ -65,11 +65,11 @@ const ChartContainer = props => {
           </Form.Group>
           <Form.Group>
             <Form.Label>Time Range</Form.Label>
-            <Form.Control as="select" onChange={handleSelect}>
-              <option disabled name="day" value="1">
+            <Form.Control as="select" defaultValue="7" onChange={handleSelect}>
+              <option name="day" value="1">
                 Day
               </option>
-              <option defaultChecked name="week" value="7">
+              <option name="week" value="7">
                 Week
               </option>
               <option name="month" value="30">

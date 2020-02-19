@@ -68,22 +68,24 @@ const ItemChart = props => {
    * @return {Object[]} array of transaction objects.
    */
   const aggregateData = (numOfDays, data) => {
-    let dateFormat = "";
+    let timeFrame = "";
     switch (numOfDays) {
       case 1:
-        dateFormat = "YYYY-MM-DD h a";
+        timeFrame = "hour";
         break;
       case 30:
-        dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
         break;
       case 365:
-        dateFormat = "YYYY-MM";
+        timeFrame = "month";
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
     }
     return filterByNumberOfDays(numOfDays, data).reduce((acc, curr) => {
-      const property = moment(curr.timestamp).format(dateFormat);
+      const property = moment(curr.timestamp)
+        .startOf(timeFrame)
+        .format();
       if (acc.hasOwnProperty(property)) {
         acc[property] += curr.amount;
       } else {
@@ -106,16 +108,24 @@ const ItemChart = props => {
    */
   const aggregateQuantityData = (numOfDays, data) => {
     let dateFormat = "";
+    let timeFrame = "";
     switch (numOfDays) {
+      case 1:
+        timeFrame = "hour";
+        break;
       case 365:
         dateFormat = "YYYY-MM";
+        timeFrame = "month";
         break;
       default:
         dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
     }
     const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
       (acc, curr) => {
-        const property = moment(curr.timestamp).format(dateFormat);
+        const property = moment(curr.timestamp)
+          .startOf(timeFrame)
+          .format();
         if (
           acc.hasOwnProperty(property) &&
           acc[property].timestamp < curr.timestamp
@@ -132,7 +142,9 @@ const ItemChart = props => {
       {}
     );
     return Object.entries(quantityRawData).reduce((acc, curr) => {
-      const property = moment(curr[1].timestamp).format(dateFormat);
+      const property = moment(curr[1].timestamp)
+        .startOf(timeFrame)
+        .format();
       acc[property] = curr[1].amount;
       return acc;
     }, {});
@@ -146,35 +158,36 @@ const ItemChart = props => {
    * @return {Object[]} array of dates in "MM-DD-YYYY" format.
    */
   const createTickLabels = numOfDays => {
-    let dateFormat = "";
+    let timeFrame = "";
     let binSize = "";
     let emptyArr;
 
     switch (numOfDays) {
       case 1:
-        dateFormat = "h a";
-        binSize = "minutes";
+        timeFrame = "hour";
+        binSize = "hours";
         emptyArr = new Array(24).fill(0);
         break;
       case 30:
-        dateFormat = "YYYY-MM-DD";
         binSize = "days";
+        timeFrame = "day";
         emptyArr = new Array(30).fill(0);
         break;
       case 365:
-        dateFormat = "YYYY-MM";
         binSize = "months";
+        timeFrame = "month";
         emptyArr = new Array(12).fill(0);
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
         binSize = "days";
+        timeFrame = "day";
         emptyArr = new Array(7).fill(0);
     }
     return emptyArr.map((tick, index) => {
       return moment()
         .subtract({ [binSize]: index })
-        .format(dateFormat);
+        .startOf(timeFrame)
+        .format();
     });
   };
 
@@ -232,17 +245,14 @@ const ItemChart = props => {
       layoutSettings.yLabel = "Amount in Stock";
     } else if (type === "received") {
       layoutSettings.titleText = "Received Data";
-      layoutSettings.ylabel = "Amount Received";
+      layoutSettings.yLabel = "Amount Received";
     }
 
-    /**
-     * @todo create charts for length "day."
-     */
     const chartSettings = {};
     switch (numOfDays) {
       case 1:
         chartSettings.unit = "hour";
-        chartSettings.format = "h A";
+        chartSettings.format = "hh a";
         break;
       case 30:
         chartSettings.unit = "day";
@@ -314,6 +324,19 @@ const ItemChart = props => {
           ]
         },
         tooltips: {
+          callbacks: {
+            title: tooltipItem => {
+              switch (numOfDays) {
+                case 365:
+                  return `${tooltipItem[0]["label"]
+                    .split("-")
+                    .slice(0, 2)
+                    .join("-")}`;
+                default:
+                  return `${tooltipItem[0]["label"].split("T")[0]}`;
+              }
+            }
+          },
           custom: tooltip => (tooltip.displayColors = false)
         }
       }
