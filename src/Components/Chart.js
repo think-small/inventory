@@ -338,6 +338,21 @@ const ItemChart = props => {
             }
           },
           custom: tooltip => (tooltip.displayColors = false)
+        },
+        onClick: (e, item) => {              
+          //  HANDLE ALL CHARTS THAT ARE NOT DEPENDENT UPON EXACT TIME
+          if (item[0] && item[0].hasOwnProperty('_model')) {
+              const dateString = item[0]._model.label;
+              const dateObj = new Date(dateString);
+              const momentObj = moment(dateObj);
+
+              const rawData = getRawData(props.currentLotItem.transactions, props.chartType);
+              const filteredByDateData = rawData.filter(transaction => {
+                if (moment(transaction.timestamp).startOf(chartSettings.unit).format() === momentObj.startOf(chartSettings.unit).format())
+                  return transaction;
+              })            
+              filteredByDateData.forEach(transaction => console.log(moment(transaction.timestamp).format("YYYY-MM-DD hh:mm a"), `amount: ${transaction.amount}`))            
+          }
         }
       }
     });
