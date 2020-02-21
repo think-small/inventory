@@ -1,46 +1,70 @@
 import React, { useEffect, useState } from "react";
+import { Modal, Button, Table } from "react-bootstrap";
 import moment from "moment";
 import Chart from "chart.js";
 
 let chart; //  declare chart as global to allow chart.destroy() to work properly
 
 const ItemChart = props => {
+  // STATE AND CLICK HANDLER FUNCTIONS
+  const [show, setShow] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   //  HELPER FUNCTIONS FOR CHART BUILDING
   /**
    * Retrieves transactions for an item given a transaction type.
    * @param {Object[]} transactionsArr - array of all transaction objects for an item.
    * @param {string} transactionType - correlates to type property on transaction objects.
+   * @param {boolean} getAllData - if false, each transaction object contains only "timestamp"
+   * and "amount" properties. If true, each trransaction object has all original properties.
    * @return {Object[]} array of transaction objects. Each object has 'timestamp' and
    * 'amount' properties. These correspond to 'x' and 'y' values for chart building.
    * This format is necessary for working with Chart.js.
    */
-  const getRawData = (transactionsArr, transactionType) => {
+  const getRawData = (transactionsArr, transactionType, getAllData = false) => {
     switch (transactionType) {
       case "usage":
-        return transactionsArr
-          .filter(item => item.type === "used")
-          .reduce((acc, curr) => {
-            acc.push({
-              timestamp: curr.timestamp,
-              amount: curr.amount
-            });
-            return acc;
-          }, []);
+        if (!getAllData) {
+          return transactionsArr
+            .filter(item => item.type === "used")
+            .reduce((acc, curr) => {
+              acc.push({
+                timestamp: curr.timestamp,
+                amount: curr.amount
+              });
+              return acc;
+            }, []);
+        } else {
+          return transactionsArr.filter(item => item.type === "used");
+        }
       case "received":
-        return transactionsArr
-          .filter(item => item.type === "received")
-          .reduce((acc, curr) => {
+        if (!getAllData) {
+          return transactionsArr
+            .filter(item => item.type === "received")
+            .reduce((acc, curr) => {
+              acc.push({
+                timestamp: curr.timestamp,
+                amount: curr.amount
+              });
+              return acc;
+            }, []);
+        } else {
+          return transactionsArr.filter(item => item.type === "received");
+        }
+      case "inStock":
+        if (!getAllData) {
+          return transactionsArr.reduce((acc, curr) => {
             acc.push({
               timestamp: curr.timestamp,
-              amount: curr.amount
+              amount: curr.quantityInStock
             });
             return acc;
           }, []);
-      case "inStock":
-        return transactionsArr.reduce((acc, curr) => {
-          acc.push({ timestamp: curr.timestamp, amount: curr.quantityInStock });
-          return acc;
-        }, []);
+        } else {
+          return transactionsArr;
+        }
       default:
         return;
     }
@@ -225,8 +249,7 @@ const ItemChart = props => {
   };
 
   //  CHART BUILDING FUNCTIONS
-  //  USAGE CHART
-  const buildUsageChart = (transactionsArr, displayName, type, numOfDays) => {
+  const buildChart = (transactionsArr, displayName, type, numOfDays) => {
     const data = getData(transactionsArr, type, numOfDays);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
@@ -339,19 +362,28 @@ const ItemChart = props => {
           },
           custom: tooltip => (tooltip.displayColors = false)
         },
-        onClick: (e, item) => {              
-          //  HANDLE ALL CHARTS THAT ARE NOT DEPENDENT UPON EXACT TIME
-          if (item[0] && item[0].hasOwnProperty('_model')) {
-              const dateString = item[0]._model.label;
-              const dateObj = new Date(dateString);
-              const momentObj = moment(dateObj);
+        onClick: (e, item) => {
+          if (item[0] && item[0].hasOwnProperty("_model")) {
+            const dateString = item[0]._model.label;
+            const dateObj = new Date(dateString);
+            const momentObj = moment(dateObj);
 
-              const rawData = getRawData(props.currentLotItem.transactions, props.chartType);
-              const filteredByDateData = rawData.filter(transaction => {
-                if (moment(transaction.timestamp).startOf(chartSettings.unit).format() === momentObj.startOf(chartSettings.unit).format())
-                  return transaction;
-              })            
-              filteredByDateData.forEach(transaction => console.log(moment(transaction.timestamp).format("YYYY-MM-DD hh:mm a"), `amount: ${transaction.amount}`))            
+            const rawData = getRawData(
+              props.currentLotItem.transactions,
+              props.chartType,
+              true
+            );
+            const filteredByDateData = rawData
+              .filter(transaction => {
+                return (
+                  moment(transaction.timestamp)
+                    .startOf(chartSettings.unit)
+                    .format() === momentObj.startOf(chartSettings.unit).format()
+                );
+              })
+              .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
+            setTransactionHistory([...filteredByDateData]);
+            setShow(true);
           }
         }
       }
@@ -359,7 +391,7 @@ const ItemChart = props => {
   };
 
   useEffect(() => {
-    buildUsageChart(
+    buildChart(
       props.currentLotItem.transactions,
       props.currentLotItem.displayName,
       props.chartType,
@@ -370,6 +402,49 @@ const ItemChart = props => {
   return (
     <>
       <canvas id="itemChart"></canvas>
+      <Modal
+        scrollable
+        id="transactions-modal"
+        show={show}
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Transaction History</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {transactionHistory && (
+            <div className="table-fixed-header">
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactionHistory.map(transaction => (
+                    <tr key={transaction.timestamp}>
+                      <td>
+                        {moment(transaction.timestamp).format(
+                          "YYYY-MM-DD, h:mm A"
+                        )}
+                      </td>
+                      <td>{transaction.type}</td>
+                      <td>{transaction.amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

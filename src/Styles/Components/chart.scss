@@ -1,0 +1,23 @@
+.modal-body {
+  padding-top: 0;
+}
+
+.modal-header {
+  border: none;
+}
+
+table {
+  position: relative;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  background-color: rgb(31, 29, 29);
+  color: $white-color;
+}
