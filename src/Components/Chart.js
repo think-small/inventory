@@ -414,12 +414,12 @@ const ItemChart = props => {
         <Modal.Body>
           {transactionHistory && (
             <div className="table-fixed-header">
-              <Table>
+              <Table className="chart-modal-table">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Amount</th>
+                    <th className="chart-modal-th">Date</th>
+                    <th className="chart-modal-th">Type</th>
+                    <th className="chart-modal-th">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
