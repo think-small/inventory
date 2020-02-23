@@ -5,7 +5,6 @@ import { createTickLabels } from "./DataVisualization";
 //  1) ACQUISITION
 //  2) FILTERING
 //  3) AGGREGATION
-//  4) CHART BUILDING
 
 //  1) ACQUISITION
 /**

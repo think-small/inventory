@@ -248,7 +248,11 @@ const ItemChart = props => {
                         )}
                       </td>
                       <td>{transaction.type}</td>
-                      <td>{transaction.amount}</td>
+                      <td>
+                        {transaction.type === "used"
+                          ? transaction.amount
+                          : transaction.numBoxesReceived}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
