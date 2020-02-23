@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Modal, Button, Table } from "react-bootstrap";
 import moment from "moment";
 import Chart from "chart.js";
@@ -9,8 +9,16 @@ const ItemChart = props => {
   // STATE AND CLICK HANDLER FUNCTIONS
   const [show, setShow] = useState(false);
   const [transactionHistory, setTransactionHistory] = useState([]);
+  const isInitialMount = useRef(true);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //  ACCESSING DOM NODES
+  const tableRef = useRef();
+  const tableHeader1 = useRef();
+  const tableHeader2 = useRef();
+  const tableHeader3 = useRef();
 
   //  HELPER FUNCTIONS FOR CHART BUILDING
   /**
@@ -131,18 +139,15 @@ const ItemChart = props => {
    * The "amount" property is what will be used as the y-coordinate in chart.js.
    */
   const aggregateQuantityData = (numOfDays, data) => {
-    let dateFormat = "";
     let timeFrame = "";
     switch (numOfDays) {
       case 1:
         timeFrame = "hour";
         break;
       case 365:
-        dateFormat = "YYYY-MM";
         timeFrame = "month";
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
         timeFrame = "day";
     }
     const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
@@ -383,12 +388,44 @@ const ItemChart = props => {
               })
               .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
             setTransactionHistory([...filteredByDateData]);
-            setShow(true);
+            handleShow();
           }
         }
       }
     });
   };
+
+  useEffect(() => {
+    //  useLayoutEffect is utilized since there is direct DOM manipulation
+    //  Note: useLayoutEffect should fire before useEffect
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      if (show) {
+        const tableBodyOptions = {
+          root: null,
+          threshold: 0,
+          rootMargin: "-145px 0px 0px 0px" //  -145px to avoid adding and removing isScrolling class when modal is opened.
+        };
+        const tableBodyObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && tableHeader1.current) {
+              //  null check for ref prevents firing when modal closes
+              tableHeader1.current.classList.add("isScrolling");
+              tableHeader2.current.classList.add("isScrolling");
+              tableHeader3.current.classList.add("isScrolling");
+            } else if (entry.isIntersecting && tableHeader1.current) {
+              //  null check for ref prevents firing when modal closes
+              tableHeader1.current.classList.remove("isScrolling");
+              tableHeader2.current.classList.remove("isScrolling");
+              tableHeader3.current.classList.remove("isScrolling");
+            }
+          });
+        }, tableBodyOptions);
+        tableBodyObserver.observe(tableRef.current);
+      }
+    }
+  }, [show]);
 
   useEffect(() => {
     buildChart(
@@ -417,14 +454,23 @@ const ItemChart = props => {
               <Table className="chart-modal-table">
                 <thead>
                   <tr>
-                    <th className="chart-modal-th">Date</th>
-                    <th className="chart-modal-th">Type</th>
-                    <th className="chart-modal-th">Amount</th>
+                    <th className="chart-modal-th" ref={tableHeader1}>
+                      Date
+                    </th>
+                    <th className="chart-modal-th" ref={tableHeader2}>
+                      Type
+                    </th>
+                    <th className="chart-modal-th" ref={tableHeader3}>
+                      Amount
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {transactionHistory.map(transaction => (
-                    <tr key={transaction.timestamp}>
+                  {transactionHistory.map((transaction, index) => (
+                    <tr
+                      key={transaction.timestamp}
+                      ref={index === 0 ? tableRef : null}
+                    >
                       <td>
                         {moment(transaction.timestamp).format(
                           "YYYY-MM-DD, h:mm A"
