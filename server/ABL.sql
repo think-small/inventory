@@ -1,3 +1,25 @@
+CREATE TABLE IF NOT EXISTS new_table
+SELECT Quantity, Date, Expiration_Date
+From Cobas_8100
+
+SHOW PROCESSLIST;
+SHOW EVENTS; 
+
+SET GLOBAL event_scheduler = ON; 
+ 
+CREATE TABLE IF NOT EXISTS Cobas_8100_Daily_Records (ENTRIES INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY)
+SELECT id, Lot, Quantity, Date, Expiration_Date From Cobas_8100
+
+CREATE EVENT IF NOT EXISTS test_event_01
+ON SCHEDULE EVERY 1 SECOND
+DO
+INSERT INTO Cobas_8100_Daily_Records (id, Lot, Quantity, Date, Expiration_Date)  
+SELECT id, Lot, Quantity, Date, Expiration_Date From Cobas_8100
+
+
+
+
+
 
 
 CREATE TABLE Cobas_8100 (

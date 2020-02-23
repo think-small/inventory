@@ -49,6 +49,26 @@ connection.connect(err => {
 });
 
 
+
+/** 
+  var sql1 = "DROP TABLE IF EXISTS customers";
+  connection.query(sql1, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+
+
+  var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+*/
+
+
+
+
+  
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
