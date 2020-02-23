@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "../Navbar/Navbar";
 import Tables from "../Table/Tables";
 import Jumbotron1 from "../Jumbotron/Jumbotron"; 
+import Table from "react-bootstrap/Table";
 
 class Cobas8100 extends React.Component {
   state = {
@@ -13,6 +14,7 @@ class Cobas8100 extends React.Component {
 
     Id: 0,
     Database: [],
+    Transcations: [], 
     id: ""
   };
 
@@ -26,6 +28,22 @@ class Cobas8100 extends React.Component {
 
         this.setState({ Database: myJson });
       });
+
+
+      fetch("api/8100_all")
+      .then(response => {
+        return response.json();
+      })
+      .then(myJson => {
+        console.log(myJson);
+
+        this.setState({ Transcations: myJson });
+
+        
+      });
+
+
+
   }
 
   handleChangeName(event) {
@@ -35,6 +53,7 @@ class Cobas8100 extends React.Component {
   }
   handleChangeQuantity(event) {
     this.setState({ Quantity: event.target.value });
+  
   }
 
   handleChangeLot(event) {
@@ -43,6 +62,40 @@ class Cobas8100 extends React.Component {
   handleChangeExpiration(event) {
     this.setState({ Expiration: event.target.value });
   }
+
+
+  // add a new lot number into the transactions table
+  addTransactions(event) {
+  //  alert(event.target.value);
+    
+    var data = {Lot: event.target.value};
+
+    fetch(`/api/post/8100_Transactions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(function(response) {
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+        return response.json();
+      })
+
+      .then(function(data) {
+        //  alert(data);
+
+        if (data == "success") {
+          console.log("thanks for submitting!");
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+
+
+
+   }
 
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.Current_Name);
@@ -83,13 +136,55 @@ class Cobas8100 extends React.Component {
     event.target.reset(); //this will clear the form after you submit
   }
 
+
+
   handleUpdate(event) {
     event.preventDefault();
-    // alert('coming soon, update into the database');
-    // alert(this.state.Quantity);
-    // alert(event.target.value);  //get the Id (from the button )
 
-    const data = { Quantity: this.state.Quantity, Id: event.target.value };
+    //alert(typeof parseInt(event.target.value));
+
+
+   for(var x = 0; x<this.state.Database.length; x++) {
+        //  console.log(parseInt(event.target.value));
+          //    console.log(this.state.Database[x].id);
+            if (parseInt(event.target.value)==this.state.Database[x].id) {
+              
+              //  alert(this.state.Database[x].Lot);  //okay now yyou have the lot 
+            var na = this.state.Database[x].Lot;
+
+            var info = {Lot: na, Amount: this.state.Database[x].Quantity}; 
+                fetch(`/api/post/8100_Transactions`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(info)
+                })
+                  .then(function(response) {
+                    if (response.status >= 400) {
+                      throw new Error("Bad response from server");
+                    }
+                    return response.json();
+                  })
+            
+                  .then(function(data) {
+                    //  alert(data);
+            
+                    if (data == "success") {
+                      console.log("thanks for submitting!");
+                    }
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+               }    
+        
+              }
+     
+   //}
+
+  
+
+      /** when you do a put command it updates everything, you may want insert???? */
+    const data = { Quantity: this.state.Quantity, Id: event.target.value, Name: this.state.Name, Lot: this.state.Lot, Expiration: this.state.Expiration};
     fetch("api/update/8100", {
       method: "PUT",
       headers: {
@@ -104,6 +199,8 @@ class Cobas8100 extends React.Component {
       .catch(error => {
         console.error("Error:", error);
       });
+
+  
   }
 
   handleDelete(event) {
@@ -131,7 +228,7 @@ class Cobas8100 extends React.Component {
 
   render() {
 
-
+    
     return (
       <div>
         <Navbar />
@@ -199,12 +296,45 @@ class Cobas8100 extends React.Component {
 
         <div>
                <div style={{padding: "20px"}}> Values from the Database: </div>
-            <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
+            <Tables From_Database={this.state.Database} addTransactions = {()=>{this.addTransactions(event)}}handleUpdate={() => {this.handleUpdate(event) }} 
              handleChangeQuantity= {() => this.handleChangeQuantity(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
-         
+
+
+
+
+
+         <p>from the join table....Transaction History </p>
+         <hr></hr>
+<Table striped bordered hover size="sm">
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Current Quantity (value from Cobas8100 table)</th>
+      <th>Name</th>
+      <th>(Transaction History) Amount</th>
+      <th>(Transaction) Quantity</th>
+      <th>Update time</th>
+    </tr>
+  </thead>
+  <tbody>
+{this.state.Transcations.map(items=> (
+  <tr>
+      <td>{items.Lot}</td>
+      <td>{items.Quantity}</td>
+      <td>{items.Name}</td>
+      <td>{items.Amount}</td>
+      <td>{items.Quantity_In_Stock}</td>
+      <td>{items.Update_Time}</td>
+    </tr>
+))}
+  </tbody>
+</Table>
+       
+       
+       
          </div>
 
 

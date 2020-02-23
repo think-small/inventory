@@ -12,9 +12,10 @@ const Tables = (props)=> {
 <div style={{padding: "10px"}} >
         <Table striped bordered hover>
         <thead>
-          <tr>
+          <tr>  
+            <th>Lot #</th>
             <th>Name</th>
-            <th>Current Lot</th>
+          
             <th>Expiration Date</th>
             <th>Quantity</th>
             <th>Submission Time</th>
@@ -24,8 +25,8 @@ const Tables = (props)=> {
          <tbody>
         {Database.map(items=> (  
           <tr>
+            <td>{items.Lot} <button onClick={props.addTransactions}  value={items.Lot} > Add Lot </button>     </td>
             <td>{items.Name}</td>
-            <td>{items.Lot}</td>
             <td>{items.Expiration_Date}</td>
          
          
@@ -47,7 +48,10 @@ const Tables = (props)=> {
                              type="text"
                              name="Quantity"
                              value={items.value}
-                             onChange={props.handleChangeQuantity}
+                       
+                             onChange={
+                             props.handleChangeQuantity}
+                             
                            />
                          </label>
                 
