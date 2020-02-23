@@ -1,46 +1,78 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { Modal, Button, Table } from "react-bootstrap";
 import moment from "moment";
 import Chart from "chart.js";
 
 let chart; //  declare chart as global to allow chart.destroy() to work properly
 
 const ItemChart = props => {
+  // STATE AND CLICK HANDLER FUNCTIONS
+  const [show, setShow] = useState(false);
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const isInitialMount = useRef(true);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  //  ACCESSING DOM NODES
+  const tableRef = useRef();
+  const tableHeader1 = useRef();
+  const tableHeader2 = useRef();
+  const tableHeader3 = useRef();
+
   //  HELPER FUNCTIONS FOR CHART BUILDING
   /**
    * Retrieves transactions for an item given a transaction type.
    * @param {Object[]} transactionsArr - array of all transaction objects for an item.
    * @param {string} transactionType - correlates to type property on transaction objects.
+   * @param {boolean} getAllData - if false, each transaction object contains only "timestamp"
+   * and "amount" properties. If true, each trransaction object has all original properties.
    * @return {Object[]} array of transaction objects. Each object has 'timestamp' and
    * 'amount' properties. These correspond to 'x' and 'y' values for chart building.
    * This format is necessary for working with Chart.js.
    */
-  const getRawData = (transactionsArr, transactionType) => {
+  const getRawData = (transactionsArr, transactionType, getAllData = false) => {
     switch (transactionType) {
       case "usage":
-        return transactionsArr
-          .filter(item => item.type === "used")
-          .reduce((acc, curr) => {
-            acc.push({
-              timestamp: curr.timestamp,
-              amount: curr.amount
-            });
-            return acc;
-          }, []);
+        if (!getAllData) {
+          return transactionsArr
+            .filter(item => item.type === "used")
+            .reduce((acc, curr) => {
+              acc.push({
+                timestamp: curr.timestamp,
+                amount: curr.amount
+              });
+              return acc;
+            }, []);
+        } else {
+          return transactionsArr.filter(item => item.type === "used");
+        }
       case "received":
-        return transactionsArr
-          .filter(item => item.type === "received")
-          .reduce((acc, curr) => {
+        if (!getAllData) {
+          return transactionsArr
+            .filter(item => item.type === "received")
+            .reduce((acc, curr) => {
+              acc.push({
+                timestamp: curr.timestamp,
+                amount: curr.amount
+              });
+              return acc;
+            }, []);
+        } else {
+          return transactionsArr.filter(item => item.type === "received");
+        }
+      case "inStock":
+        if (!getAllData) {
+          return transactionsArr.reduce((acc, curr) => {
             acc.push({
               timestamp: curr.timestamp,
-              amount: curr.amount
+              amount: curr.quantityInStock
             });
             return acc;
           }, []);
-      case "inStock":
-        return transactionsArr.reduce((acc, curr) => {
-          acc.push({ timestamp: curr.timestamp, amount: curr.quantityInStock });
-          return acc;
-        }, []);
+        } else {
+          return transactionsArr;
+        }
       default:
         return;
     }
@@ -68,22 +100,24 @@ const ItemChart = props => {
    * @return {Object[]} array of transaction objects.
    */
   const aggregateData = (numOfDays, data) => {
-    let dateFormat = "";
+    let timeFrame = "";
     switch (numOfDays) {
       case 1:
-        dateFormat = "YYYY-MM-DD h a";
+        timeFrame = "hour";
         break;
       case 30:
-        dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
         break;
       case 365:
-        dateFormat = "YYYY-MM";
+        timeFrame = "month";
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
     }
     return filterByNumberOfDays(numOfDays, data).reduce((acc, curr) => {
-      const property = moment(curr.timestamp).format(dateFormat);
+      const property = moment(curr.timestamp)
+        .startOf(timeFrame)
+        .format();
       if (acc.hasOwnProperty(property)) {
         acc[property] += curr.amount;
       } else {
@@ -105,17 +139,22 @@ const ItemChart = props => {
    * The "amount" property is what will be used as the y-coordinate in chart.js.
    */
   const aggregateQuantityData = (numOfDays, data) => {
-    let dateFormat = "";
+    let timeFrame = "";
     switch (numOfDays) {
+      case 1:
+        timeFrame = "hour";
+        break;
       case 365:
-        dateFormat = "YYYY-MM";
+        timeFrame = "month";
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
+        timeFrame = "day";
     }
     const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
       (acc, curr) => {
-        const property = moment(curr.timestamp).format(dateFormat);
+        const property = moment(curr.timestamp)
+          .startOf(timeFrame)
+          .format();
         if (
           acc.hasOwnProperty(property) &&
           acc[property].timestamp < curr.timestamp
@@ -132,7 +171,9 @@ const ItemChart = props => {
       {}
     );
     return Object.entries(quantityRawData).reduce((acc, curr) => {
-      const property = moment(curr[1].timestamp).format(dateFormat);
+      const property = moment(curr[1].timestamp)
+        .startOf(timeFrame)
+        .format();
       acc[property] = curr[1].amount;
       return acc;
     }, {});
@@ -146,35 +187,36 @@ const ItemChart = props => {
    * @return {Object[]} array of dates in "MM-DD-YYYY" format.
    */
   const createTickLabels = numOfDays => {
-    let dateFormat = "";
+    let timeFrame = "";
     let binSize = "";
     let emptyArr;
 
     switch (numOfDays) {
       case 1:
-        dateFormat = "h a";
-        binSize = "minutes";
+        timeFrame = "hour";
+        binSize = "hours";
         emptyArr = new Array(24).fill(0);
         break;
       case 30:
-        dateFormat = "YYYY-MM-DD";
         binSize = "days";
+        timeFrame = "day";
         emptyArr = new Array(30).fill(0);
         break;
       case 365:
-        dateFormat = "YYYY-MM";
         binSize = "months";
+        timeFrame = "month";
         emptyArr = new Array(12).fill(0);
         break;
       default:
-        dateFormat = "YYYY-MM-DD";
         binSize = "days";
+        timeFrame = "day";
         emptyArr = new Array(7).fill(0);
     }
     return emptyArr.map((tick, index) => {
       return moment()
         .subtract({ [binSize]: index })
-        .format(dateFormat);
+        .startOf(timeFrame)
+        .format();
     });
   };
 
@@ -212,8 +254,7 @@ const ItemChart = props => {
   };
 
   //  CHART BUILDING FUNCTIONS
-  //  USAGE CHART
-  const buildUsageChart = (transactionsArr, displayName, type, numOfDays) => {
+  const buildChart = (transactionsArr, displayName, type, numOfDays) => {
     const data = getData(transactionsArr, type, numOfDays);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
@@ -232,17 +273,14 @@ const ItemChart = props => {
       layoutSettings.yLabel = "Amount in Stock";
     } else if (type === "received") {
       layoutSettings.titleText = "Received Data";
-      layoutSettings.ylabel = "Amount Received";
+      layoutSettings.yLabel = "Amount Received";
     }
 
-    /**
-     * @todo create charts for length "day."
-     */
     const chartSettings = {};
     switch (numOfDays) {
       case 1:
         chartSettings.unit = "hour";
-        chartSettings.format = "h A";
+        chartSettings.format = "hh a";
         break;
       case 30:
         chartSettings.unit = "day";
@@ -314,14 +352,83 @@ const ItemChart = props => {
           ]
         },
         tooltips: {
+          callbacks: {
+            title: tooltipItem => {
+              switch (numOfDays) {
+                case 365:
+                  return `${tooltipItem[0]["label"]
+                    .split("-")
+                    .slice(0, 2)
+                    .join("-")}`;
+                default:
+                  return `${tooltipItem[0]["label"].split("T")[0]}`;
+              }
+            }
+          },
           custom: tooltip => (tooltip.displayColors = false)
+        },
+        onClick: (e, item) => {
+          if (item[0] && item[0].hasOwnProperty("_model")) {
+            const dateString = item[0]._model.label;
+            const dateObj = new Date(dateString);
+            const momentObj = moment(dateObj);
+
+            const rawData = getRawData(
+              props.currentLotItem.transactions,
+              props.chartType,
+              true
+            );
+            const filteredByDateData = rawData
+              .filter(transaction => {
+                return (
+                  moment(transaction.timestamp)
+                    .startOf(chartSettings.unit)
+                    .format() === momentObj.startOf(chartSettings.unit).format()
+                );
+              })
+              .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
+            setTransactionHistory([...filteredByDateData]);
+            handleShow();
+          }
         }
       }
     });
   };
 
   useEffect(() => {
-    buildUsageChart(
+    //  useLayoutEffect is utilized since there is direct DOM manipulation
+    //  Note: useLayoutEffect should fire before useEffect
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      if (show) {
+        const tableBodyOptions = {
+          root: null,
+          threshold: 0,
+          rootMargin: "-145px 0px 0px 0px" //  -145px to avoid adding and removing isScrolling class when modal is opened.
+        };
+        const tableBodyObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && tableHeader1.current) {
+              //  null check for ref prevents firing when modal closes
+              tableHeader1.current.classList.add("isScrolling");
+              tableHeader2.current.classList.add("isScrolling");
+              tableHeader3.current.classList.add("isScrolling");
+            } else if (entry.isIntersecting && tableHeader1.current) {
+              //  null check for ref prevents firing when modal closes
+              tableHeader1.current.classList.remove("isScrolling");
+              tableHeader2.current.classList.remove("isScrolling");
+              tableHeader3.current.classList.remove("isScrolling");
+            }
+          });
+        }, tableBodyOptions);
+        tableBodyObserver.observe(tableRef.current);
+      }
+    }
+  }, [show]);
+
+  useEffect(() => {
+    buildChart(
       props.currentLotItem.transactions,
       props.currentLotItem.displayName,
       props.chartType,
@@ -332,6 +439,58 @@ const ItemChart = props => {
   return (
     <>
       <canvas id="itemChart"></canvas>
+      <Modal
+        scrollable
+        id="transactions-modal"
+        show={show}
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Transaction History</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {transactionHistory && (
+            <div className="table-fixed-header">
+              <Table className="chart-modal-table">
+                <thead>
+                  <tr>
+                    <th className="chart-modal-th" ref={tableHeader1}>
+                      Date
+                    </th>
+                    <th className="chart-modal-th" ref={tableHeader2}>
+                      Type
+                    </th>
+                    <th className="chart-modal-th" ref={tableHeader3}>
+                      Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactionHistory.map((transaction, index) => (
+                    <tr
+                      key={transaction.timestamp}
+                      ref={index === 0 ? tableRef : null}
+                    >
+                      <td>
+                        {moment(transaction.timestamp).format(
+                          "YYYY-MM-DD, h:mm A"
+                        )}
+                      </td>
+                      <td>{transaction.type}</td>
+                      <td>{transaction.amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
