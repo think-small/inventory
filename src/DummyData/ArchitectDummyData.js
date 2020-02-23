@@ -3,14 +3,19 @@ import uuid from "uuid";
 
 const createTransaction = () => {
   const transactionType = ["used", "received"];
-  return {
+  const transaction = {
     type: transactionType[Math.floor(Math.random() * 2)],
-    amount: Math.floor(Math.random() * 10),
     quantityInStock: Math.floor(Math.random() * 100),
     timestamp: moment()
       .subtract({ hours: Math.floor(Math.random() * 8760) })
       .valueOf()
   };
+  if (transaction.type === "used") {
+    transaction.amount = Math.floor(Math.random() * 10);
+  } else {
+    transaction.numBoxesReceived = Math.floor(Math.random() * 10);
+  }
+  return transaction;
 };
 
 const populateArray = (arr, length) => {
