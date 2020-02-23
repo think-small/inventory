@@ -56,8 +56,12 @@ app.use(bodyParser.json())
 
 
 // get the values from the mysql database and then serve the values as a json object 
-app.get('/api/ABL',(req, res) => {
-     connection.query('SELECT * from ABL', (error, result)=> {
+app.get('/api/8100_all',(req, res) => {
+
+
+  var sql = 'SELECT Cobas_8100.Lot, Cobas_8100.Quantity, Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
+
+     connection.query(sql, (error, result)=> {
        if (error) {
          res.send(error); 
        }
@@ -69,7 +73,7 @@ app.get('/api/ABL',(req, res) => {
 
 
 app.get('/api/8100',(req, res) => {
-  connection.query('SELECT * from Cobas_8100', (error, result)=> {
+  connection.query('SELECT * from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
     if (error) {
       res.send(error); 
     }
@@ -79,7 +83,20 @@ app.get('/api/8100',(req, res) => {
   })
 })
 
+app.get('/api/81001',(req, res) => {
+  connection.query('SELECT * from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
+    if (error) {
+      res.send(error); 
+    }
+    else {
 
+    res.json(result)    //({data: result})  if you want data to be more nested...
+
+
+
+    }
+  })
+})
 
 
 
@@ -87,6 +104,17 @@ app.get('/api/8100',(req, res) => {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.post(`/api/post/8100_Transactions`, (req,res) => {
+// add lot into transcations table
+console.log(req.body.Lot); 
+connection.query(`INSERT Cobas_8100_Transactions (Lot,Amount, Quantity_In_Stock) VALUES (?,?,?)`, [req.body.Lot, req.body.Amount,'Default'],  (error, results)=> {
+  if (error) 
+  return console.error(error.message);
+  console.log('updated worked!');
+})
+}
+)
+//INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date) VALUES (?,?,?,?,?)
 
 app.post('/api/post/8100', (req,res)=> {
 
@@ -98,6 +126,8 @@ app.post('/api/post/8100', (req,res)=> {
       const Lot = req.body.Lot;  
       const Quantity = req.body.Quantity;
       const Expiration_Date = req.body.Expiration;
+
+    
 
    connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date) VALUES (?,?,?,?,?)' , 
     [id, Name, Lot, Quantity, Expiration_Date],(error, result)=> {
@@ -140,13 +170,26 @@ app.put('/api/update/8100', (req,res)=> {
   console.log(req.body.Id);
     let Quantity = req.body.Quantity; 
     let Id = req.body.Id; 
+    let Lot = req.body.Lot; 
+/** 
+    connection.query(`INSERT Cobas_8100  ( Quantity, Id, Name, Lot,Expiration_Date) VALUES (?,?,?,?,?)`, [Quantity, Id, req.body.Name,req.body.Lot, req.body.Expiration],  (error, results)=> {
+      if (error) 
+      return console.error(error.message);
+      console.log('updated worked!');
+    })
+ **/
 // get the id from the frontend and also get the Quantity (from Cobas8100.js page)
+
 
 connection.query(`UPDATE Cobas_8100 SET Quantity  =? WHERE Id = ?`, [ Quantity, Id], (error, results) =>{
           if (error) 
           return console.error(error.message);
           console.log('updated worked!');
 } )
+
+
+
+
 })
 
 

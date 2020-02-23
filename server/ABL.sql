@@ -13,7 +13,19 @@ INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `Expiration_Date`) VA
 (1, 'Blue Caps', 'F6', '20', '2020-06-15');
 
 
+CREATE TABLE Cobas_8100_Transactions (
+Lot VARCHAR(45) NOT NULL, 
+Amount VARCHAR(45) NOT NULL, 
+Quantity_In_Stock VARCHAR(45) NOT NULL,
+Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
 
+INSERT INTO `Cobas_8100_Transactions` (`Lot`, `Amount`, `Quantity_In_Stock`) VALUES 
+('Blue Caps', '2', '33');
+
+
+SELECT Cobas_8100.Lot, Cobas_8100.Quantity, Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time
+FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot;
 
 
 
