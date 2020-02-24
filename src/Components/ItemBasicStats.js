@@ -1,9 +1,12 @@
 import React from "react";
 import { ListGroup } from "react-bootstrap";
+import moment from "moment";
 import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
 import { calcAverage } from "../UtilityFunctions/Statistics";
 
-const ItemBasicStats = ({ currentLotItem: { transactions } }) => {
+const ItemBasicStats = ({
+  currentLotItem: { transactions, countPerBox, warnings }
+}) => {
   //  ACQUIRE DATA
   const usageData = getRawData(transactions, "usage");
   const receivedData = getRawData(transactions, "received");
@@ -21,9 +24,17 @@ const ItemBasicStats = ({ currentLotItem: { transactions } }) => {
     <ListGroup>
       <ListGroup.Item>Average Monthly Usage: {monthlyUsage}</ListGroup.Item>
       <ListGroup.Item>
-        Average Monthly Units Received: {monthlyReceived}
+        Average Monthly Units Received: {monthlyReceived * countPerBox}
       </ListGroup.Item>
-      <ListGroup.Item>Current Warnings || Warnings History</ListGroup.Item>
+      <ListGroup.Item>
+        Last Warning:{" "}
+        {warnings.length > 0
+          ? moment(warnings[warnings.length - 1].timestamp).format(
+              "YYYY-MM-DD, h:mm A"
+            )
+          : "No Warnings"}{" "}
+        || Warnings History: {warnings.length}
+      </ListGroup.Item>
     </ListGroup>
   );
 };

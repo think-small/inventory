@@ -251,7 +251,8 @@ const ItemChart = props => {
                       <td>
                         {transaction.type === "used"
                           ? transaction.amount
-                          : transaction.numBoxesReceived}
+                          : transaction.numBoxesReceived *
+                            props.currentLotItem.countPerBox}
                       </td>
                     </tr>
                   ))}
