@@ -61,7 +61,7 @@ app.use(bodyParser.json())
 app.get('/api/8100_all',(req, res) => {
 
 
-  var sql = 'SELECT Cobas_8100.Lot, Cobas_8100_Transactions.Expiration_Date, Cobas_8100_Transactions.Time_Left, Cobas_8100.Quantity,  Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
+  var sql = 'SELECT Cobas_8100.Lot, Cobas_8100_Transactions.Expiration_Date,  Cobas_8100.Quantity,  Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
 
      connection.query(sql, (error, result)=> {
        if (error) {
@@ -111,7 +111,7 @@ app.post(`/api/post/8100_Transactions`, (req,res) => {
 // add lot into transcations table
 //console.log(req.body.Lot); // Expiration_Date, Days_Left,
 //console.log(req.body.Expiration); 
-connection.query(`INSERT Cobas_8100_Transactions (Lot, Expiration_Date, Time_Left, Amount, Quantity_In_Stock) VALUES (?,?,?,?,?)`, [req.body.Lot,req.body.Expiration,  '2017-01-01', req.body.Amount,'Default'],  (error, results)=> {
+connection.query(`INSERT Cobas_8100_Transactions (Lot, Expiration_Date,  Amount, Quantity_In_Stock) VALUES (?,?,?,?)`, [req.body.Lot,req.body.Expiration, req.body.Amount,'Default'],  (error, results)=> {
   if (error) 
   return console.error(error.message);
   console.log('updated worked!');

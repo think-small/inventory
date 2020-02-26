@@ -32,22 +32,6 @@ Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `Expiration_Date`, `Warning`) VALUES
 ('2', 'Blue Caps', 'F6', '30', '2020-04-27', 'okay');
 
-
-CREATE TABLE Cobas_8100 (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-Name VARCHAR(45) NOT NULL,
-Lot VARCHAR(45) NOT NULL,
-Quantity VARCHAR(45) NOT NULL, 
-Expiration_Date VARCHAR(45) NOT NULL, 
-Time_Left DATE , 
-Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
-
-INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `Expiration_Date`, `Time_Left`) VALUES
-(1, 'Blue Caps', 'F6', '20', '2020-06-15', '2020-4-27');
-SELECT Expiration_Date, TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left FROM Cobas_8100
-
-
 CREATE TABLE Cobas_8100_Transactions (
 Lot VARCHAR(45) NOT NULL, 
 Expiration_Date VARCHAR(45) NOT NUll, 
@@ -56,8 +40,7 @@ Quantity_In_Stock VARCHAR(45) NOT NULL,
 Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
 
-INSERT INTO `Cobas_8100_Transactions` (`Lot`, `Amount`, `Quantity_In_Stock`) VALUES 
-('Blue Caps', '2', '33');
+
 
 
 SELECT Cobas_8100.Lot, Cobas_8100.Quantity, Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time

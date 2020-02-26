@@ -324,7 +324,7 @@ class Cobas8100 extends React.Component {
     </tr>
   </thead>
   <tbody>
-{this.state.Transcations.map(items=> (
+{this.state.Transcations.length > 0 ? this.state.Transcations.map(items=> (
   <tr>
       <td>{items.Lot}</td>
    
@@ -336,7 +336,9 @@ class Cobas8100 extends React.Component {
     
       <td>{items.Update_Time}</td>
     </tr>
-))}
+))
+: <div>nothing yet</div>
+}
   </tbody>
 </Table>
        
