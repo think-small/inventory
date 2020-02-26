@@ -79,7 +79,7 @@ app.use(bodyParser.json())
 app.get('/api/8100_all',(req, res) => {
 
 
-  var sql = 'SELECT Cobas_8100.Lot, Cobas_8100.Quantity, Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
+  var sql = 'SELECT Cobas_8100.Lot, Cobas_8100_Transactions.Expiration_Date, Cobas_8100_Transactions.Time_Left, Cobas_8100.Quantity,  Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
 
      connection.query(sql, (error, result)=> {
        if (error) {
@@ -93,7 +93,8 @@ app.get('/api/8100_all',(req, res) => {
 
 
 app.get('/api/8100',(req, res) => {
-  connection.query('SELECT * from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
+  //TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left
+  connection.query('SELECT id, Name, Lot, Quantity, Expiration_Date, Time_Left, Date from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
     if (error) {
       res.send(error); 
     }
@@ -101,6 +102,13 @@ app.get('/api/8100',(req, res) => {
       res.json(result)    //({data: result})  if you want data to be more nested...
     }
   })
+
+
+
+
+
+
+
 })
 
 app.get('/api/81001',(req, res) => {
@@ -126,8 +134,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.post(`/api/post/8100_Transactions`, (req,res) => {
 // add lot into transcations table
-console.log(req.body.Lot); 
-connection.query(`INSERT Cobas_8100_Transactions (Lot,Amount, Quantity_In_Stock) VALUES (?,?,?)`, [req.body.Lot, req.body.Amount,'Default'],  (error, results)=> {
+//console.log(req.body.Lot); // Expiration_Date, Days_Left,
+//console.log(req.body.Expiration); 
+connection.query(`INSERT Cobas_8100_Transactions (Lot, Expiration_Date, Time_Left, Amount, Quantity_In_Stock) VALUES (?,?,?,?,?)`, [req.body.Lot,req.body.Expiration,  '2017-01-01', req.body.Amount,'Default'],  (error, results)=> {
   if (error) 
   return console.error(error.message);
   console.log('updated worked!');
@@ -146,8 +155,8 @@ app.post('/api/post/8100', (req,res)=> {
       const Lot = req.body.Lot;  
       const Quantity = req.body.Quantity;
       const Expiration_Date = req.body.Expiration;
-
-    
+     // const Time_Left = req.body.Time_Left; 
+    //SELECT Expiration_Date, TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left FROM Cobas_8100
 
    connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date) VALUES (?,?,?,?,?)' , 
     [id, Name, Lot, Quantity, Expiration_Date],(error, result)=> {

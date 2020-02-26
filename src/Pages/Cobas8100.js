@@ -12,6 +12,8 @@ class Cobas8100 extends React.Component {
     Quantity: "",
     Expiration: "",
 
+
+
     Id: 0,
     Database: [],
     Transcations: [], 
@@ -106,7 +108,8 @@ class Cobas8100 extends React.Component {
       Name: this.state.Name,
       Quantity: this.state.Quantity,
       Lot: this.state.Lot,
-      Expiration: this.state.Expiration
+      Expiration: this.state.Expiration,
+
     };
     console.log(data);
     fetch("/api/post/8100", {
@@ -149,10 +152,10 @@ class Cobas8100 extends React.Component {
           //    console.log(this.state.Database[x].id);
             if (parseInt(event.target.value)==this.state.Database[x].id) {
               
-              //  alert(this.state.Database[x].Lot);  //okay now yyou have the lot 
-            var na = this.state.Database[x].Lot;
-
-            var info = {Lot: na, Amount: this.state.Database[x].Quantity}; 
+              //  alert(this.state.Database[x].Lot); 
+            var na = this.state.Database[x].Lot; //gets the lot number
+                   // alert(this.state.Database[x].Expiration_Date)
+            var info = {Lot: na, Amount: this.state.Database[x].Quantity, Expiration: this.state.Database[x].Expiration_Date}; 
                 fetch(`/api/post/8100_Transactions`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -227,7 +230,7 @@ class Cobas8100 extends React.Component {
   }
 
   render() {
-
+    
     
     return (
       <div>
@@ -235,7 +238,7 @@ class Cobas8100 extends React.Component {
 
         <Jumbotron1 Title="Cobas 8100" />
          
-     
+
      
         <div style={{padding: "20px", margin: "10px"}}>Add a New Lot:
         <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
@@ -277,7 +280,7 @@ class Cobas8100 extends React.Component {
             <input
             style={{margin: "10px", borderRadius: "1px"} }
               type="text"
-              placeholder="mm/dd/yyyy"
+              placeholder="YYYY/MM/DD"
               name="Expiration"
               value={this.state.value}
               onChange={() => this.handleChangeExpiration(event)}
@@ -312,7 +315,8 @@ class Cobas8100 extends React.Component {
   <thead>
     <tr>
       <th>Lot #</th>
-      <th>Current Quantity (value from Cobas8100 table)</th>
+      <th>Current Quantity(from Cobas8100 table)</th>
+      <th>Expiration Date</th>
       <th>Name</th>
       <th>(Transaction History) Amount</th>
       <th>(Transaction) Quantity</th>
@@ -323,10 +327,13 @@ class Cobas8100 extends React.Component {
 {this.state.Transcations.map(items=> (
   <tr>
       <td>{items.Lot}</td>
-      <td>{items.Quantity}</td>
+   
+      <td>{items.Quantity}</td> 
+       <td>{items.Expiration_Date}</td>
       <td>{items.Name}</td>
       <td>{items.Amount}</td>
-      <td>{items.Quantity_In_Stock}</td>
+      <td>{items.Quantity_In_Stock}</td>   
+    
       <td>{items.Update_Time}</td>
     </tr>
 ))}
