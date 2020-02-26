@@ -14,10 +14,11 @@ const ablDummyData = {
       par: 8,
       countPerBox: 4,
       quantity: 32,
-      dateLastUsed: moment()
+      lastUsed: moment()
         .subtract(3, "days")
         .valueOf(),
       orderID: uuid(),
+      warnings: [],
       transactions: [
         {
           type: "used",
@@ -54,8 +55,9 @@ const ablDummyData = {
       par: 8,
       countPerBox: 4,
       quantity: 24,
-      dateLastUsed: undefined,
+      lastUsed: undefined,
       orderID: uuid(),
+      warnings: [],
       transactions: []
     }
   ],
@@ -71,8 +73,9 @@ const ablDummyData = {
       par: 8,
       countPerBox: 4,
       quantity: 16,
-      dateLastUsed: undefined,
+      lastUsed: undefined,
       orderID: uuid(),
+      warnings: [],
       transactions: [
         {
           type: "used",
@@ -105,8 +108,9 @@ const ablDummyData = {
       par: 8,
       countPerBox: 4,
       quantity: 24,
-      dateLastUsed: undefined,
+      lastUsed: undefined,
       orderID: uuid(),
+      warnings: [],
       transactions: [
         {
           type: "used",

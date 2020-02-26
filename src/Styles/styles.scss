@@ -1,17 +1,15 @@
 @import "./base/settings";
 @import "./Components/sidebar.scss";
 @import "./Components/chart.scss";
+@import "./Components//itemdetails.scss";
 
 //  App Container
 .app-container {
   display: flex;
-
 }
 
 //  Content Container
 .content-container {
   margin-left: 10rem;
   width: 100%;
- 
-  
 }
