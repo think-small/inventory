@@ -50,24 +50,6 @@ connection.connect(err => {
 
 
 
-/** 
-  var sql1 = "DROP TABLE IF EXISTS customers";
-  connection.query(sql1, function (err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
-
-
-  var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
-*/
-
-
-
-
   
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -94,7 +76,7 @@ app.get('/api/8100_all',(req, res) => {
 
 app.get('/api/8100',(req, res) => {
   //TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left
-  connection.query('SELECT id, Name, Lot, Quantity, Expiration_Date, Time_Left, Date from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
+  connection.query('SELECT id, Name, Lot, Quantity, Expiration_Date, Warning, Time_Left, Date from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
     if (error) {
       res.send(error); 
     }
@@ -102,13 +84,6 @@ app.get('/api/8100',(req, res) => {
       res.json(result)    //({data: result})  if you want data to be more nested...
     }
   })
-
-
-
-
-
-
-
 })
 
 app.get('/api/81001',(req, res) => {
@@ -118,7 +93,7 @@ app.get('/api/81001',(req, res) => {
     }
     else {
 
-    res.json(result)    //({data: result})  if you want data to be more nested...
+    res.json(result) 
 
 
 
@@ -158,8 +133,8 @@ app.post('/api/post/8100', (req,res)=> {
      // const Time_Left = req.body.Time_Left; 
     //SELECT Expiration_Date, TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left FROM Cobas_8100
 
-   connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date) VALUES (?,?,?,?,?)' , 
-    [id, Name, Lot, Quantity, Expiration_Date],(error, result)=> {
+   connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date, Warning) VALUES (?,?,?,?,?,?)' , 
+    [id, Name, Lot, Quantity, Expiration_Date, 'Not expired-yet...'],(error, result)=> {
      if (error) {
        res.send(error);
        console.log(error); 
@@ -170,6 +145,34 @@ app.post('/api/post/8100', (req,res)=> {
      }
      
      })
+
+// updates all columns based on this condition
+     connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 7' , 
+     ['Better order soon! About to expire'],(error, result)=> {
+      if (error) {
+        res.send(error);
+        console.log(error); 
+      }
+      else {
+        console.log('Post worked!!');
+        console.log(result);
+      }
+      
+      })
+
+      connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left < 0' , 
+      ['it already expired bro'],(error, result)=> {
+       if (error) {
+         res.send(error);
+         console.log(error); 
+       }
+       else {
+         console.log('Post worked!!');
+         console.log(result);
+       }
+       
+       })
+
 
 
     });

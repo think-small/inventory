@@ -280,7 +280,7 @@ class Cobas8100 extends React.Component {
             <input
             style={{margin: "10px", borderRadius: "1px"} }
               type="text"
-              placeholder="YYYY/MM/DD"
+              placeholder="YYYY-MM-DD"
               name="Expiration"
               value={this.state.value}
               onChange={() => this.handleChangeExpiration(event)}

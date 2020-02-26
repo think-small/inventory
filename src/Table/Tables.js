@@ -18,7 +18,9 @@ const Tables = (props)=> {
           
             <th>Expiration Date</th>
             <th>Days Left To Expiration</th>
-            <th>Quantity</th>
+             <th>Warning</th>
+             <th>Quantity</th>
+           
             <th>Submission Time</th>
             <th>Delete</th>
           </tr>
@@ -28,9 +30,9 @@ const Tables = (props)=> {
           <tr>
             <td>{items.Lot} <button onClick={props.addTransactions}  value={items.Lot} > Add Lot </button>     </td>
             <td>{items.Name}</td>
-            <td>{items.Expiration_Date}</td>
+            <td><div>{items.Expiration_Date }<button >Update Expiration Date</button></div></td>
             <td>{items.Time_Left}</td>
-         
+          <td>{items.Warning}</td>
          
             <td><div>
                    {" "}
