@@ -393,7 +393,7 @@ class Cobas8100 extends React.Component {
       <td>{items.Amount}</td>
       <td>{items.Quantity_In_Stock}</td>   
     
-      <td>{items.Update_Time.substring(0,16)}</td>
+      <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>
     </tr>
 ))
 : <div>nothing yet</div>
