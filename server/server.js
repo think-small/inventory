@@ -107,10 +107,12 @@ app.get('/api/81001',(req, res) => {
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../public')));
 
+
+
 app.post(`/api/post/8100_Transactions`, (req,res) => {
 // add lot into transcations table
 //console.log(req.body.Lot); // Expiration_Date, Days_Left,
-//console.log(req.body.Expiration); 
+console.log(req.body.Expiration); 
 connection.query(`INSERT Cobas_8100_Transactions (Lot, Expiration_Date,  Amount, Quantity_In_Stock) VALUES (?,?,?,?)`, [req.body.Lot,req.body.Expiration, req.body.Amount,'Default'],  (error, results)=> {
   if (error) 
   return console.error(error.message);
@@ -198,11 +200,12 @@ app.delete('/api/delete/8100', (req,res)=> {
 
 app.put('/api/update/8100', (req,res)=> {
 
-  console.log(req.body.Quantity);
-  console.log(req.body.Id);
+  console.log('the quantity is ' + req.body.Quantity);
+  //console.log(req.body.Id);
     let Quantity = req.body.Quantity; 
     let Id = req.body.Id; 
     let Lot = req.body.Lot; 
+  console.log('the Expriation Date is ' + req.body.Expiration);
 /** 
     connection.query(`INSERT Cobas_8100  ( Quantity, Id, Name, Lot,Expiration_Date) VALUES (?,?,?,?,?)`, [Quantity, Id, req.body.Name,req.body.Lot, req.body.Expiration],  (error, results)=> {
       if (error) 
@@ -211,13 +214,23 @@ app.put('/api/update/8100', (req,res)=> {
     })
  **/
 // get the id from the frontend and also get the Quantity (from Cobas8100.js page)
-
-
-connection.query(`UPDATE Cobas_8100 SET Quantity  =? WHERE Id = ?`, [ Quantity, Id], (error, results) =>{
+console.log('the id is ' + Id); 
+if (req.body.Quantity ==="") {
+connection.query(`UPDATE Cobas_8100 SET Expiration_Date  =? WHERE Id = ?`, [ req.body.Expiration, Id], (error, results) =>{
           if (error) 
           return console.error(error.message);
-          console.log('updated worked!');
+          console.log('Expiration Date update worked!');
 } )
+}
+
+if (req.body.Expiration ==="") {
+  connection.query(`UPDATE Cobas_8100 SET Quantity  =? WHERE Id = ?`, [ Quantity, Id], (error, results) =>{
+            if (error) 
+            return console.error(error.message);
+            console.log('updated worked!');
+  } )
+  }
+
 
 
 

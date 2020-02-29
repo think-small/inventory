@@ -48,6 +48,10 @@ class Cobas8100 extends React.Component {
 
   }
 
+
+  
+
+
   handleChangeName(event) {
     // console.log((event.target.value));
     // console.log(event.target.name);
@@ -145,17 +149,22 @@ class Cobas8100 extends React.Component {
     event.preventDefault();
 
     //alert(typeof parseInt(event.target.value));
-
+   //   alert(event.target.value);
 
    for(var x = 0; x<this.state.Database.length; x++) {
         //  console.log(parseInt(event.target.value));
           //    console.log(this.state.Database[x].id);
+          
             if (parseInt(event.target.value)==this.state.Database[x].id) {
               
               //  alert(this.state.Database[x].Lot); 
             var na = this.state.Database[x].Lot; //gets the lot number
-                   // alert(this.state.Database[x].Expiration_Date)
-            var info = {Lot: na, Amount: this.state.Database[x].Quantity, Expiration: this.state.Database[x].Expiration_Date}; 
+                  // alert(this.state.Database[x].Expiration_Date)   U WANT THE NEW VALUE FRON THE STATE THOUGH
+            alert(this.state.Expiration) 
+            // expiration: this.state.Expiration     
+           
+           if (this.state.Expiration==="") {
+            var info = {Lot: na, Amount: this.state.Quantity, Expiration: this.state.Database[x].Expiration_Date}; 
                 fetch(`/api/post/8100_Transactions`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -178,7 +187,54 @@ class Cobas8100 extends React.Component {
                   .catch(function(err) {
                     console.log(err);
                   });
-               }    
+                }
+               
+              if (this.state.Quantity==="") {
+                var info = {Lot: na, Amount: this.state.Database[x].Quantity, Expiration: this.state.Expiration}; 
+                fetch(`/api/post/8100_Transactions`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(info)
+                })
+                  .then(function(response) {
+                    if (response.status >= 400) {
+                      throw new Error("Bad response from server");
+                    }
+                    return response.json();
+                  })
+            
+                  .then(function(data) {
+                    //  alert(data);
+            
+                    if (data == "success") {
+                      console.log("thanks for submitting!");
+                    }
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+ }  
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+                }    
         
               }
      
@@ -300,7 +356,7 @@ class Cobas8100 extends React.Component {
         <div>
                <div style={{padding: "20px"}}> Values from the Database: </div>
             <Tables From_Database={this.state.Database} addTransactions = {()=>{this.addTransactions(event)}}handleUpdate={() => {this.handleUpdate(event) }} 
-             handleChangeQuantity= {() => this.handleChangeQuantity(event)}
+             handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
@@ -316,11 +372,11 @@ class Cobas8100 extends React.Component {
     <tr>
       <th>Lot #</th>
       <th>Current Quantity(from Cobas8100 table)</th>
-      <th>Expiration Date</th>
+      <th>Expiration Date (History?)</th>
       <th>Name</th>
       <th>(Transaction History) Amount</th>
       <th>(Transaction) Quantity</th>
-      <th>Update time</th>
+      <th>Last Update On:</th>
     </tr>
   </thead>
   <tbody>

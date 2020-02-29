@@ -30,13 +30,51 @@ const Tables = (props)=> {
           <tr>
             <td>{items.Lot} <button onClick={props.addTransactions}  value={items.Lot} > Add Lot </button>     </td>
             <td>{items.Name}</td>
-            <td><div>{items.Expiration_Date }<button >Update Expiration Date</button></div></td>
+            <td><div>{items.Expiration_Date }
+            
+            <form
+                         onSubmit={
+                           props.handleUpdate
+                         }
+                         method="POST"
+                       >
+                         <label>
+                           Update Expiration Date: 
+                           <input
+                             type="text"
+                             name="Expiration"
+                             placeholder="YYYY-MM-DD"
+                             value={items.value}
+                       
+                             onChange={
+                             props.handleChangeExpiration}
+                             
+                           />
+                         </label>
+                
+                       </form>
+         
+             <button
+                     
+                     value={items.id}
+                     onClick={
+                       props.handleUpdate
+                     }
+                   >
+                     Update Expiration Date
+                   </button>
+             
+             
+             </div></td>
             <td>{items.Time_Left}</td>
+        
+        
+        
           <td>{items.Warning}</td>
          
             <td><div>
                    {" "}
-                   {items.Quantity <= 20 ? (
+                   {items.Quantity <= 100 ? (
                      <div style={{ color: "red" }}>
                        {" "}
                        **Low Quantity** Only {items.Quantity} Left
