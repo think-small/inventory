@@ -160,7 +160,7 @@ class Cobas8100 extends React.Component {
               //  alert(this.state.Database[x].Lot); 
             var na = this.state.Database[x].Lot; //gets the lot number
                   // alert(this.state.Database[x].Expiration_Date)   U WANT THE NEW VALUE FRON THE STATE THOUGH
-            alert(this.state.Expiration) 
+          //  alert(this.state.Expiration) 
             // expiration: this.state.Expiration     
            
            if (this.state.Expiration==="") {
@@ -365,39 +365,42 @@ class Cobas8100 extends React.Component {
 
 
 
-         <p>from the join table....Transaction History </p>
+     
          <hr></hr>
-<Table striped bordered hover size="sm">
+
+         <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
+<Table striped bordered hover size="sm" >
   <thead>
     <tr>
       <th>Lot #</th>
-      <th>Current Quantity(from Cobas8100 table)</th>
-      <th>Expiration Date (History?)</th>
-      <th>Name</th>
-      <th>(Transaction History) Amount</th>
-      <th>(Transaction) Quantity</th>
-      <th>Last Update On:</th>
+    {/*  <th>Current Quantity(from Cobas8100 table)</th>    */}
+       <th>Name</th>
+      <th>Expiration Date</th>     
+     
+      <th>Amount Left</th>
+      <th>Quantity</th>
+      <th>Last Updated On:</th>
     </tr>
   </thead>
   <tbody>
 {this.state.Transcations.length > 0 ? this.state.Transcations.map(items=> (
   <tr>
       <td>{items.Lot}</td>
-   
-      <td>{items.Quantity}</td> 
-       <td>{items.Expiration_Date}</td>
       <td>{items.Name}</td>
+    {/* <td>{items.Quantity}</td> */}
+       <td>{items.Expiration_Date.substring(0,10)}</td>
+   
       <td>{items.Amount}</td>
       <td>{items.Quantity_In_Stock}</td>   
     
-      <td>{items.Update_Time}</td>
+      <td>{items.Update_Time.substring(0,16)}</td>
     </tr>
 ))
 : <div>nothing yet</div>
 }
   </tbody>
 </Table>
-       
+      </div> 
        
        
          </div>

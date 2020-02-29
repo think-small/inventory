@@ -10,7 +10,7 @@ const Tables = (props)=> {
     return (
    
 <div style={{padding: "10px"}} >
-        <Table striped bordered hover>
+        <Table striped bordered hover size="small" >
         <thead>
           <tr>  
             <th>Lot #</th>
@@ -30,7 +30,7 @@ const Tables = (props)=> {
           <tr>
             <td>{items.Lot} <button onClick={props.addTransactions}  value={items.Lot} > Add Lot </button>     </td>
             <td>{items.Name}</td>
-            <td><div>{items.Expiration_Date }
+            <td><div>{items.Expiration_Date.substring(0,10) }
             
             <form
                          onSubmit={
@@ -61,7 +61,7 @@ const Tables = (props)=> {
                        props.handleUpdate
                      }
                    >
-                     Update Expiration Date
+                     Update Date
                    </button>
              
              
@@ -115,7 +115,7 @@ const Tables = (props)=> {
              
                 
              
-             <td>{items.Date}</td>
+             <td>{items.Date.substring(0,16)}</td>
             <td> <button onClick={props.handleDelete}  value={items.id} > Delete Lot </button>                    </td>
             </tr>
           ))}
