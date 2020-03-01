@@ -70,38 +70,6 @@ class Cobas8100 extends React.Component {
   }
 
 
-  // add a new lot number into the transactions table
-  addTransactions(event) {
-  //  alert(event.target.value);
-    
-    var data = {Lot: event.target.value};
-
-    fetch(`/api/post/8100_Transactions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
-
-      .then(function(data) {
-        //  alert(data);
-
-        if (data == "success") {
-          console.log("thanks for submitting!");
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-
-
-   }
 
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.Current_Name);
@@ -265,6 +233,20 @@ class Cobas8100 extends React.Component {
   handleDelete(event) {
     event.preventDefault();
     //alert(event.target.value);
+   // alert(event.target.value);
+
+    // get the lot# from the db
+
+    var Lot;
+    for (var x = 0; x<this.state.Database.length; x++) {
+     
+      if (event.target.value==this.state.Database[x].id) {
+         Lot = this.state.Database[x].Lot;
+      }
+
+    }
+//alert(Lot); 
+
     var data = { Id: event.target.value }; //gets the current id of the lot (which happens to be from the database)
 
     fetch("/api/delete/8100", {
@@ -283,7 +265,30 @@ class Cobas8100 extends React.Component {
       .catch(function(err) {
         console.log(err);
       });
-  }
+  
+
+  var Lot_Number = {Lot: Lot}; 
+      fetch("/api/delete/8100_Transactions", {
+        method: "delete",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Lot_Number)
+      })
+        .then(response => response.json())
+        .then(function(data) {
+          //  alert(data);
+  
+          if (data == "success") {
+            console.log("thanks for submitting!");
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    
+  
+  
+  
+    }
 
   render() {
     
@@ -355,7 +360,7 @@ class Cobas8100 extends React.Component {
 
         <div>
                <div style={{padding: "20px"}}> Values from the Database: </div>
-            <Tables From_Database={this.state.Database} addTransactions = {()=>{this.addTransactions(event)}}handleUpdate={() => {this.handleUpdate(event) }} 
+            <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
              handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>

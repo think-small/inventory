@@ -198,6 +198,25 @@ app.delete('/api/delete/8100', (req,res)=> {
 })
 
 
+app.delete('/api/delete/8100_Transactions', (req,res)=> {
+  
+  let sql = `DELETE FROM Cobas_8100_Transactions WHERE Lot = ?`;
+    
+  let Lot = req.body.Lot; 
+
+  console.log(Lot); 
+
+
+  connection.query(sql, Lot, (error, results, fields) => {
+    if (error)
+      return console.error(error.message);
+   
+    console.log('Deleted Row(s):', results.affectedRows);
+  });
+
+})
+
+
 app.put('/api/update/8100', (req,res)=> {
 
   console.log('the quantity is ' + req.body.Quantity);

@@ -28,7 +28,7 @@ const Tables = (props)=> {
          <tbody>
         {Database.map(items=> (  
           <tr>
-            <td>{items.Lot}  {/*<button onClick={props.addTransactions}  value={items.Lot} > Add Lot </button> */}     </td>
+            <td>{items.Lot} </td>
             <td>{items.Name}</td>
             <td><div>{items.Expiration_Date.substring(0,10) }
             
