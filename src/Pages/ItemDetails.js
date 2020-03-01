@@ -38,7 +38,7 @@ const ItemDetails = props => {
             <div className="item-summary">
               <ItemSummaryInfo currentLotItem={currentLotItem} />
             </div>
-            <div className="item-stats">
+            <div className="item-summary">
               <ItemBasicStats currentLotItem={currentLotItem} />
             </div>
           </section>

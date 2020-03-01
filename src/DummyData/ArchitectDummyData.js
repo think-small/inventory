@@ -5,15 +5,15 @@ const createTransaction = () => {
   const transactionType = ["used", "received"];
   const transaction = {
     type: transactionType[Math.floor(Math.random() * 2)],
-    quantityInStock: Math.floor(Math.random() * 100),
+    quantityInStock: undefined,
     timestamp: moment()
       .subtract({ hours: Math.floor(Math.random() * 8760) })
       .valueOf()
   };
   if (transaction.type === "used") {
-    transaction.amount = Math.floor(Math.random() * 6 + 1);
+    transaction.amount = Math.floor(Math.random() * 4.5 + 1);
   } else {
-    transaction.numBoxesReceived = Math.floor(Math.random() * 3 + 1);
+    transaction.numBoxesReceived = Math.floor(Math.random() * 2 + 1);
   }
   return transaction;
 };
@@ -168,12 +168,12 @@ const architectDummyData = {
 
 populateArray(
   architectDummyData.hepBNeutralizationReagent[0].transactions,
-  200
+  500
 );
-populateArray(architectDummyData.hepBsAgReagent[0].transactions, 200);
-populateArray(architectDummyData.hepCAbReagent[0].transactions, 200);
-populateArray(architectDummyData.rv[0].transactions, 200);
-populateArray(architectDummyData.washBuffer[0].transactions, 200);
+populateArray(architectDummyData.hepBsAgReagent[0].transactions, 500);
+populateArray(architectDummyData.hepCAbReagent[0].transactions, 500);
+populateArray(architectDummyData.rv[0].transactions, 500);
+populateArray(architectDummyData.washBuffer[0].transactions, 500);
 
 Object.values(architectDummyData).forEach(itemArr => {
   const item = itemArr[0];

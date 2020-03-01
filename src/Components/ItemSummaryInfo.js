@@ -12,10 +12,25 @@ const ItemSummaryInfo = ({
 
   return (
     <ListGroup>
-      <ListGroup.Item>{`Lot Number: ${lotNum}`}</ListGroup.Item>
-      <ListGroup.Item>{`Expiration Date: ${formattedExpirationDate}`}</ListGroup.Item>
-      <ListGroup.Item>{`Quantity in Stock: ${quantity}`}</ListGroup.Item>
-      <ListGroup.Item>{`Last Used: ${formattedLastUsedDate}`}</ListGroup.Item>
+      <ListGroup.Item className="list-header">
+        <strong>Item Details</strong>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Lot Number</span>
+        <span>{lotNum}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Expiration Date</span>
+        <span>{formattedExpirationDate}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Quantity In Stock</span>
+        <span>{quantity}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Last Used</span>
+        <span>{formattedLastUsedDate}</span>
+      </ListGroup.Item>
     </ListGroup>
   );
 };

@@ -1,5 +1,32 @@
 .item-summary-and-stats {
   display: flex;
-  justify-content: space-around;
-  margin-right: 23rem;
+}
+
+.item-summary {
+  box-sizing: border-box;
+  border: 0.5rem solid transparent;
+  position: relative;
+  width: 35%;
+}
+
+.item-summary::before {
+  content: "";
+  border: 1px solid red;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.list-header {
+  background-color: $gray-color;
+  color: $primary-color;
+}
+
+.list-row {
+  display: flex;
+  justify-content: space-between;
 }

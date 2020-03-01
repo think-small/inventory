@@ -16,24 +16,26 @@ const ItemChart = props => {
   const handleShow = () => setShow(true);
 
   //  ACCESSING DOM NODES
-  const tableRef = useRef();
-  /**
-   * @todo Find way to create array of refs rather than individually creatings refs for all table headers
-   */
-  const tableHeader1 = useRef();
-  const tableHeader2 = useRef();
-  const tableHeader3 = useRef();
+  const tableRef = useRef([]);
+  const tableHeaderRefs = useRef([]);
+  const tableHeaders = ["Date", "Type", "Amount"];
 
   //  CHART BUILDING FUNCTIONS
-  const buildChart = (transactionsArr, displayName, type, numOfDays) => {
-    const data = getData(transactionsArr, type, numOfDays);
+  const buildChart = (
+    transactionsArr,
+    displayName,
+    type,
+    numOfDays,
+    countPerBox
+  ) => {
+    const data = getData(transactionsArr, type, numOfDays, countPerBox);
     const canvas = document.getElementById("itemChart");
     canvas.width = 600;
     canvas.height = 270;
 
     const layoutSettings = {
-      barColors: data.data.map(_ => "#3d547d"),
-      hoverBarColors: data.data.map(_ => "#d6c120"),
+      barColors: data.data.map(val => (val >= 0 ? "#3d547d" : "#991a11")),
+      hoverBarColors: data.data.map(val => (val >= 0 ? "#6994e0" : "#d12115")),
       padding: 20
     };
     if (type === "usage") {
@@ -102,6 +104,9 @@ const ItemChart = props => {
               type: "time",
               distribution: "series",
               offset: true,
+              gridLines: {
+                display: false
+              },
               time: {
                 unit: chartSettings.unit,
                 displayFormats: {
@@ -180,20 +185,20 @@ const ItemChart = props => {
         };
         const tableBodyObserver = new IntersectionObserver(entries => {
           entries.forEach(entry => {
-            if (!entry.isIntersecting && tableHeader1.current) {
+            if (!entry.isIntersecting && tableHeaderRefs.current[0]) {
               //  null check for ref prevents firing when modal closes
-              tableHeader1.current.classList.add("isScrolling");
-              tableHeader2.current.classList.add("isScrolling");
-              tableHeader3.current.classList.add("isScrolling");
-            } else if (entry.isIntersecting && tableHeader1.current) {
+              tableHeaderRefs.current.forEach(ref =>
+                ref.classList.add("isScrolling")
+              );
+            } else if (entry.isIntersecting && tableHeaderRefs.current[0]) {
               //  null check for ref prevents firing when modal closes
-              tableHeader1.current.classList.remove("isScrolling");
-              tableHeader2.current.classList.remove("isScrolling");
-              tableHeader3.current.classList.remove("isScrolling");
+              tableHeaderRefs.current.forEach(ref =>
+                ref.classList.remove("isScrolling")
+              );
             }
           });
         }, tableBodyOptions);
-        tableBodyObserver.observe(tableRef.current);
+        tableBodyObserver.observe(tableRef.current[0]);
       }
     }
   }, [show]);
@@ -203,7 +208,8 @@ const ItemChart = props => {
       props.currentLotItem.transactions,
       props.currentLotItem.displayName,
       props.chartType,
-      props.dateRange
+      props.dateRange,
+      props.currentLotItem.countPerBox
     );
   }, [props.chartType, props.dateRange]);
 
@@ -225,22 +231,22 @@ const ItemChart = props => {
               <Table className="chart-modal-table">
                 <thead>
                   <tr>
-                    <th className="chart-modal-th" ref={tableHeader1}>
-                      Date
-                    </th>
-                    <th className="chart-modal-th" ref={tableHeader2}>
-                      Type
-                    </th>
-                    <th className="chart-modal-th" ref={tableHeader3}>
-                      Amount
-                    </th>
+                    {tableHeaders.map((header, index) => (
+                      <th
+                        className="chart-modal-th"
+                        key={index}
+                        ref={ref => (tableHeaderRefs.current[index] = ref)}
+                      >
+                        {header}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {transactionHistory.map((transaction, index) => (
                     <tr
                       key={transaction.timestamp}
-                      ref={index === 0 ? tableRef : null}
+                      ref={ref => (tableRef.current[index] = ref)}
                     >
                       <td>
                         {moment(transaction.timestamp).format(

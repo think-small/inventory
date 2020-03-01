@@ -20,7 +20,8 @@ import { createTickLabels } from "./DataVisualization";
 export const getRawData = (
   transactionsArr,
   transactionType,
-  getAllData = false
+  getAllData = false,
+  countPerBox = 1
 ) => {
   switch (transactionType) {
     case "usage":
@@ -44,7 +45,7 @@ export const getRawData = (
           .reduce((acc, curr) => {
             acc.push({
               timestamp: curr.timestamp,
-              amount: curr.numBoxesReceived
+              amount: curr.numBoxesReceived * countPerBox
             });
             return acc;
           }, []);
@@ -76,8 +77,18 @@ export const getRawData = (
  * @param {number} numOfDays - number of days to go back to filter transactions.
  * @return {Object} Object with two properties: data and labels. These arrays are used by Chart.js.
  */
-export const getData = (transactionsArr, transactionType, numOfDays) => {
-  const usageData = getRawData(transactionsArr, transactionType);
+export const getData = (
+  transactionsArr,
+  transactionType,
+  numOfDays,
+  countPerBox
+) => {
+  const usageData = getRawData(
+    transactionsArr,
+    transactionType,
+    false,
+    countPerBox
+  );
   const aggregatedUsageData =
     transactionType === "usage" || transactionType === "received"
       ? aggregateData(numOfDays, usageData)

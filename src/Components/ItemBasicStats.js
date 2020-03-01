@@ -22,18 +22,27 @@ const ItemBasicStats = ({
 
   return (
     <ListGroup>
-      <ListGroup.Item>Average Monthly Usage: {monthlyUsage}</ListGroup.Item>
-      <ListGroup.Item>
-        Average Monthly Units Received: {monthlyReceived * countPerBox}
+      <ListGroup.Item className="list-header">
+        <strong>Statistics</strong>
       </ListGroup.Item>
-      <ListGroup.Item>
-        Last Warning:{" "}
-        {warnings.length > 0
-          ? moment(warnings[warnings.length - 1].timestamp).format(
-              "YYYY-MM-DD, h:mm A"
-            )
-          : "No Warnings"}{" "}
-        || Warnings History: {warnings.length}
+      <ListGroup.Item className="list-row">
+        <span>Average Monthly Usage</span>
+        <span>{monthlyUsage}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Average Monthly Units Received</span>
+        <span>{monthlyReceived * countPerBox}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <span>Last Warning</span>
+        <span>
+          {warnings.length > 0
+            ? moment(warnings[warnings.length - 1].timestamp).format(
+                "YYYY-MM-DD, h:mm A"
+              )
+            : "None"}{" "}
+          || {warnings.length}
+        </span>
       </ListGroup.Item>
     </ListGroup>
   );
