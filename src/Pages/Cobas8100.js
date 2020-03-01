@@ -12,6 +12,8 @@ class Cobas8100 extends React.Component {
     Quantity: "",
     Expiration: "",
 
+
+
     Id: 0,
     Database: [],
     Transcations: [], 
@@ -46,6 +48,10 @@ class Cobas8100 extends React.Component {
 
   }
 
+
+  
+
+
   handleChangeName(event) {
     // console.log((event.target.value));
     // console.log(event.target.name);
@@ -64,38 +70,6 @@ class Cobas8100 extends React.Component {
   }
 
 
-  // add a new lot number into the transactions table
-  addTransactions(event) {
-  //  alert(event.target.value);
-    
-    var data = {Lot: event.target.value};
-
-    fetch(`/api/post/8100_Transactions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
-
-      .then(function(data) {
-        //  alert(data);
-
-        if (data == "success") {
-          console.log("thanks for submitting!");
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-
-
-   }
 
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.Current_Name);
@@ -106,7 +80,8 @@ class Cobas8100 extends React.Component {
       Name: this.state.Name,
       Quantity: this.state.Quantity,
       Lot: this.state.Lot,
-      Expiration: this.state.Expiration
+      Expiration: this.state.Expiration,
+
     };
     console.log(data);
     fetch("/api/post/8100", {
@@ -142,17 +117,22 @@ class Cobas8100 extends React.Component {
     event.preventDefault();
 
     //alert(typeof parseInt(event.target.value));
-
+   //   alert(event.target.value);
 
    for(var x = 0; x<this.state.Database.length; x++) {
         //  console.log(parseInt(event.target.value));
           //    console.log(this.state.Database[x].id);
+          
             if (parseInt(event.target.value)==this.state.Database[x].id) {
               
-              //  alert(this.state.Database[x].Lot);  //okay now yyou have the lot 
-            var na = this.state.Database[x].Lot;
-
-            var info = {Lot: na, Amount: this.state.Database[x].Quantity}; 
+              //  alert(this.state.Database[x].Lot); 
+            var na = this.state.Database[x].Lot; //gets the lot number
+                  // alert(this.state.Database[x].Expiration_Date)   U WANT THE NEW VALUE FRON THE STATE THOUGH
+          //  alert(this.state.Expiration) 
+            // expiration: this.state.Expiration     
+           
+           if (this.state.Expiration==="") {
+            var info = {Lot: na, Amount: this.state.Quantity, Expiration: this.state.Database[x].Expiration_Date}; 
                 fetch(`/api/post/8100_Transactions`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -175,7 +155,54 @@ class Cobas8100 extends React.Component {
                   .catch(function(err) {
                     console.log(err);
                   });
-               }    
+                }
+               
+              if (this.state.Quantity==="") {
+                var info = {Lot: na, Amount: this.state.Database[x].Quantity, Expiration: this.state.Expiration}; 
+                fetch(`/api/post/8100_Transactions`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(info)
+                })
+                  .then(function(response) {
+                    if (response.status >= 400) {
+                      throw new Error("Bad response from server");
+                    }
+                    return response.json();
+                  })
+            
+                  .then(function(data) {
+                    //  alert(data);
+            
+                    if (data == "success") {
+                      console.log("thanks for submitting!");
+                    }
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+ }  
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+                }    
         
               }
      
@@ -206,6 +233,20 @@ class Cobas8100 extends React.Component {
   handleDelete(event) {
     event.preventDefault();
     //alert(event.target.value);
+   // alert(event.target.value);
+
+    // get the lot# from the db
+
+    var Lot;
+    for (var x = 0; x<this.state.Database.length; x++) {
+     
+      if (event.target.value==this.state.Database[x].id) {
+         Lot = this.state.Database[x].Lot;
+      }
+
+    }
+//alert(Lot); 
+
     var data = { Id: event.target.value }; //gets the current id of the lot (which happens to be from the database)
 
     fetch("/api/delete/8100", {
@@ -224,10 +265,33 @@ class Cobas8100 extends React.Component {
       .catch(function(err) {
         console.log(err);
       });
-  }
+  
+
+  var Lot_Number = {Lot: Lot}; 
+      fetch("/api/delete/8100_Transactions", {
+        method: "delete",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Lot_Number)
+      })
+        .then(response => response.json())
+        .then(function(data) {
+          //  alert(data);
+  
+          if (data == "success") {
+            console.log("thanks for submitting!");
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    
+  
+  
+  
+    }
 
   render() {
-
+    
     
     return (
       <div>
@@ -235,7 +299,7 @@ class Cobas8100 extends React.Component {
 
         <Jumbotron1 Title="Cobas 8100" />
          
-     
+
      
         <div style={{padding: "20px", margin: "10px"}}>Add a New Lot:
         <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
@@ -277,7 +341,7 @@ class Cobas8100 extends React.Component {
             <input
             style={{margin: "10px", borderRadius: "1px"} }
               type="text"
-              placeholder="mm/dd/yyyy"
+              placeholder="YYYY-MM-DD"
               name="Expiration"
               value={this.state.value}
               onChange={() => this.handleChangeExpiration(event)}
@@ -296,8 +360,8 @@ class Cobas8100 extends React.Component {
 
         <div>
                <div style={{padding: "20px"}}> Values from the Database: </div>
-            <Tables From_Database={this.state.Database} addTransactions = {()=>{this.addTransactions(event)}}handleUpdate={() => {this.handleUpdate(event) }} 
-             handleChangeQuantity= {() => this.handleChangeQuantity(event)}
+            <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
+             handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
@@ -306,33 +370,42 @@ class Cobas8100 extends React.Component {
 
 
 
-         <p>from the join table....Transaction History </p>
+     
          <hr></hr>
-<Table striped bordered hover size="sm">
+
+         <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
+<Table striped bordered hover size="sm" >
   <thead>
     <tr>
       <th>Lot #</th>
-      <th>Current Quantity (value from Cobas8100 table)</th>
-      <th>Name</th>
-      <th>(Transaction History) Amount</th>
-      <th>(Transaction) Quantity</th>
-      <th>Update time</th>
+    {/*  <th>Current Quantity(from Cobas8100 table)</th>    */}
+       <th>Name</th>
+      <th>Expiration Date</th>     
+     
+      <th>Amount Left</th>
+      <th>Quantity</th>
+      <th>Last Updated On:</th>
     </tr>
   </thead>
   <tbody>
-{this.state.Transcations.map(items=> (
+{this.state.Transcations.length > 0 ? this.state.Transcations.map(items=> (
   <tr>
       <td>{items.Lot}</td>
-      <td>{items.Quantity}</td>
       <td>{items.Name}</td>
+    {/* <td>{items.Quantity}</td> */}
+       <td>{items.Expiration_Date.substring(0,10)}</td>
+   
       <td>{items.Amount}</td>
-      <td>{items.Quantity_In_Stock}</td>
-      <td>{items.Update_Time}</td>
+      <td>{items.Quantity_In_Stock}</td>   
+    
+      <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>
     </tr>
-))}
+))
+: <div>nothing yet</div>
+}
   </tbody>
 </Table>
-       
+      </div> 
        
        
          </div>
