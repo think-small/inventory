@@ -1,10 +1,22 @@
+.item-title {
+  font-size: x-large;
+  text-transform: uppercase;
+  word-spacing: 0.3rem;
+  margin: 0.5rem 0 2rem 0;
+}
+
 .item-summary-and-stats {
   display: flex;
+  .item-summary:first-child {
+    border-right: 3rem solid transparent;
+  }
+  .item-summary:nth-child(2) {
+    border-left: 3rem solid transparent;
+  }
 }
 
 .item-summary {
   box-sizing: border-box;
-  border: 0.5rem solid transparent;
   position: relative;
   width: 35%;
 }
@@ -24,9 +36,18 @@
 .list-header {
   background-color: $gray-color;
   color: $primary-color;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  font-size: smaller;
 }
 
 .list-row {
   display: flex;
   justify-content: space-between;
+  font-size: small;
+
+  span:first-child {
+    font-weight: 500;
+  }
 }

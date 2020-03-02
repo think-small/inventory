@@ -12,9 +12,7 @@ const ItemSummaryInfo = ({
 
   return (
     <ListGroup>
-      <ListGroup.Item className="list-header">
-        <strong>Item Details</strong>
-      </ListGroup.Item>
+      <ListGroup.Item className="list-header">Item Details</ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Lot Number</span>
         <span>{lotNum}</span>

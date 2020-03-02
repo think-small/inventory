@@ -33,7 +33,9 @@ const ItemDetails = props => {
           </Nav>
         </Card.Header>
         <Card.Body>
-          <Card.Title>{currentLotItem.displayName}</Card.Title>
+          <Card.Title className="item-title">
+            {currentLotItem.displayName}
+          </Card.Title>
           <section className="item-summary-and-stats">
             <div className="item-summary">
               <ItemSummaryInfo currentLotItem={currentLotItem} />

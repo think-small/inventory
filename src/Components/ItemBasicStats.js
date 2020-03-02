@@ -22,15 +22,13 @@ const ItemBasicStats = ({
 
   return (
     <ListGroup>
-      <ListGroup.Item className="list-header">
-        <strong>Statistics</strong>
-      </ListGroup.Item>
+      <ListGroup.Item className="list-header">Statistics</ListGroup.Item>
       <ListGroup.Item className="list-row">
-        <span>Average Monthly Usage</span>
+        <span>Monthly Usage</span>
         <span>{monthlyUsage}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
-        <span>Average Monthly Units Received</span>
+        <span>Monthly Units Received</span>
         <span>{monthlyReceived * countPerBox}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
