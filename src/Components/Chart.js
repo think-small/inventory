@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Modal, Button, Table } from "react-bootstrap";
 import moment from "moment";
+import { CSVLink } from "react-csv";
 import Chart from "chart.js";
 import { getRawData, getData } from "../UtilityFunctions/DataCleaning";
 
@@ -267,7 +268,30 @@ const ItemChart = props => {
             </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="transaction-history-modal-footer">
+          <CSVLink
+            className="transaction-download-button"
+            data={transactionHistory.map(transaction => {
+              transaction.timestamp = moment(transaction.timestamp).format(
+                "YYYY-MM-DD h:mm A"
+              );
+              return transaction;
+            })}
+            headers={[
+              { label: "Transaction Type", key: "type" },
+              {
+                label: "Quantity in Stock After Transaction",
+                key: "quantityInStock"
+              },
+              { label: "Timestamp", key: "timestamp" },
+              { label: "Amount Used", key: "amount" },
+              { label: "Number of Boxes Received", key: "numBoxesReceived" }
+            ]}
+            target="_blank"
+            filename={`${props.currentLotItem.displayName} transactions.csv`}
+          >
+            Download
+          </CSVLink>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

@@ -26,3 +26,20 @@
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
   transition: all 200ms ease-in-out;
 }
+
+.transaction-history-modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.transaction-download-button {
+  background-color: $primary-color;
+  color: $white-color;
+  padding: 0.4rem;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: $gray-color;
+  }
+}

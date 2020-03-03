@@ -4,6 +4,14 @@
 @import "./Components/chart.scss";
 @import "./Components//itemdetails.scss";
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 //  App Container
 .app-container {
   display: flex;
