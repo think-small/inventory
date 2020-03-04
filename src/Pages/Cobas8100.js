@@ -4,6 +4,10 @@ import Navbar from "../Navbar/Navbar";
 import Tables from "../Table/Tables";
 import Jumbotron1 from "../Jumbotron/Jumbotron"; 
 import Table from "react-bootstrap/Table";
+import Card from "react-bootstrap/Card"; 
+import ListGroup from "react-bootstrap/ListGroup";
+import ListGroupItem from "react-bootstrap/ListGroupItem";
+
 
 class Cobas8100 extends React.Component {
   state = {
@@ -181,35 +185,12 @@ class Cobas8100 extends React.Component {
                   .catch(function(err) {
                     console.log(err);
                   });
- }  
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
+ }                
                 }    
         
               }
      
    //}
-
-  
-
       /** when you do a put command it updates everything, you may want insert???? */
     const data = { Quantity: this.state.Quantity, Id: event.target.value, Name: this.state.Name, Lot: this.state.Lot, Expiration: this.state.Expiration};
     fetch("api/update/8100", {
@@ -298,11 +279,69 @@ class Cobas8100 extends React.Component {
         <Navbar />
 
         <Jumbotron1 Title="Cobas 8100" />
-         
+   
+   <div style={{ display: "inline-block", float:"right"}} >      
+        <Card style={{ width: '13rem',padding: '5px' }}>
+  <Card.Header>Make a New Lot </Card.Header>
+  <ListGroup variant="flush" >
+      
+      
+  <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
+    <div style={{padding: "5px"}}>
+        
+    <input type="text"   name="Lot"  value={this.state.value} onChange={() => this.handleChangeLot(event) }  placeholder= "Lot Number"   />
 
-     
-        <div style={{padding: "20px", margin: "10px"}}>Add a New Lot:
+    </div>
+    <div style={{padding: "5px"}}>    <select
+                value={this.state.value}
+                onChange={() => {
+                  this.handleChangeName(event);
+                }}
+              >
+                <option name="Name" value="Blue Caps">
+                  Blue Caps
+                </option>
+                <option name="Name" value="Pipette Tips">
+                  Pipette Tips
+                </option>
+              </select>
+    </div>
+    <div style={{padding: "5px"}}>            
+       <input
+          
+              type="text"
+              name="Quantity"
+              value={this.state.value}
+              onChange={() => this.handleChangeQuantity(event)}
+              placeholder="Quantity"
+            />
+        </div>
+
+            <div style={{padding: "5px"}}>
+            Expiration: 
+            <input
+         
+              type="text"
+              placeholder="YYYY-MM-DD"
+              name="Expiration"
+              value={this.state.value}
+              onChange={() => this.handleChangeExpiration(event)}
+            />
+
+
+            </div>
+    <div style={{padding:"5px"}}>  <input type="submit" value="Update" style={{ borderRadius: "1px" }} /> </div>
+ 
+ </form>
+
+  </ListGroup>
+
+</Card>
+</div>
+      {/** 
+        <div style= {{marginRight: "20px"}} >Make a New Lot:  
         <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
+           
             <input style={{margin: "10px", borderRadius: "1px"} }
               type="text"
               name="Lot"
@@ -337,7 +376,8 @@ class Cobas8100 extends React.Component {
               onChange={() => this.handleChangeQuantity(event)}
               placeholder="Quantity"
             />
-            Expiration Date:{" "}
+     
+           Expiration: 
             <input
             style={{margin: "10px", borderRadius: "1px"} }
               type="text"
@@ -352,14 +392,13 @@ class Cobas8100 extends React.Component {
         </form>
 
        </div>
-       
-      <hr></hr>
-   
+    */}   
+
+ 
 
 
-
-        <div>
-               <div style={{padding: "20px"}}> Values from the Database: </div>
+        <div style={{ display: "inline-block", paddingLeft: "10px"}}>
+              
             <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
              handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          

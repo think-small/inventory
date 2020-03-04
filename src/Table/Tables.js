@@ -9,20 +9,20 @@ const Tables = (props)=> {
 
     return (
    
-<div style={{padding: "10px"}} >
-        <Table striped bordered hover size="lg" >
+<div >
+        <Table striped bordered hover size="sm" >
         <thead>
           <tr>  
             <th>Lot #</th>
             <th>Name</th>
           
             <th>Expiration Date</th>
-            <th>Days Left To Expiration</th>
+            <th>Days Left </th>
              <th>Warning</th>
              <th>Quantity</th>
-           
+          
             <th>Lot Created On</th>
-            <th>Delete</th>
+  <th>Delete</th>
           </tr>
         </thead> 
          <tbody>
@@ -30,7 +30,7 @@ const Tables = (props)=> {
           <tr>
             <td>{items.Lot} </td>
             <td>{items.Name}</td>
-            <td><div>{items.Expiration_Date.substring(0,10) }
+            <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}><div>{items.Expiration_Date.substring(0,10) }
             
             <form
                          onSubmit={
@@ -72,7 +72,8 @@ const Tables = (props)=> {
         
           <td>{items.Warning}</td>
          
-            <td><div>
+          <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}>
+              <div>
                    {" "}
                    {items.Quantity <= 100 ? (
                      <div style={{ color: "red" }}>
@@ -116,7 +117,12 @@ const Tables = (props)=> {
                 
              
              <td>{items.Date.substring(0,10)} {items.Date.substring(11,16)}</td>
-            <td> <button onClick={props.handleDelete}  value={items.id} > Delete Lot </button>                    </td>
+         
+
+           <td> <button onClick={props.handleDelete}  value={items.id} > Delete </button>    
+                          </td>
+
+
             </tr>
           ))}
         </tbody> 
