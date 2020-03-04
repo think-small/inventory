@@ -15,6 +15,10 @@ class Cobas8100 extends React.Component {
     Lot: "",
     Quantity: "",
     Expiration: "",
+    isCurrentLot: false,
+    isNewLot: false, 
+    par: "", 
+    countPerBox: "",
 
 
 
@@ -63,16 +67,27 @@ class Cobas8100 extends React.Component {
   }
   handleChangeQuantity(event) {
     this.setState({ Quantity: event.target.value });
-  
   }
 
+  handleChangepar(event) {
+    this.setState({par: event.target.value});
+
+  }
+  handleChangecountPerBox(event) {
+    this.setState({countPerBox: event.target.value})
+  }
   handleChangeLot(event) {
     this.setState({ Lot: event.target.value });
   }
   handleChangeExpiration(event) {
     this.setState({ Expiration: event.target.value });
   }
-
+handleChangeisCurrentLot(event) {
+  this.setState({isCurrentLot: true})
+}
+handleChangeisNewLot(event) {
+  this.setState({isNewLot:true})
+}
 
 
   handleSubmit(event) {
@@ -83,6 +98,10 @@ class Cobas8100 extends React.Component {
       Id: 0,
       Name: this.state.Name,
       Quantity: this.state.Quantity,
+      isCurrentLot: this.state.isCurrentLot,
+      isNewLot: this.state.isNewLot, 
+      par: this.state.par, 
+      countPerBox: this.state.countPerBox,
       Lot: this.state.Lot,
       Expiration: this.state.Expiration,
 
@@ -282,7 +301,7 @@ class Cobas8100 extends React.Component {
    
    <div style={{ display: "inline-block", float:"right", padding: "10px"}} >      
         <Card style={{ width: '13rem',padding: '5px' }}>
-  <Card.Header>Make a New Lot </Card.Header>
+  <Card.Header>Make New Lot </Card.Header>
   <ListGroup variant="flush" >
       
       
@@ -317,7 +336,43 @@ class Cobas8100 extends React.Component {
             />
         </div>
 
-            <div style={{padding: "5px"}}>
+        <div style={{padding: "5px"}}>
+          <label>
+            <input  type="radio" value="isCurrentLot" onChange={()=>this.handleChangeisCurrentLot(event)} />
+            Is Current Lot
+          </label>
+        </div>
+       
+        <div style={{padding: "5px"}}>
+          <label>
+            <input type="radio" value="isNewLot" onChange={()=>this.handleChangeisNewLot(event)} />
+            New Lot?
+          </label>
+        </div>
+        <div style={{padding: "5px"}}>            
+      
+       <input
+          
+              type="text"
+              name="par"
+              value={this.state.value}
+              onChange={() => this.handleChangepar(event)}
+              placeholder="Par"
+            />
+        </div>
+
+        <div style={{padding: "5px"}}>            
+       <input
+          
+              type="text"
+              name="countPerBox"
+              value={this.state.value}
+              onChange={() => this.handleChangecountPerBox(event)}
+              placeholder="Count Per Box"
+            />
+        </div>
+
+      <div style={{padding: "5px"}} >
             Expiration: 
             <input
          

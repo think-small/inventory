@@ -21,16 +21,20 @@ CREATE TABLE Cobas_8100 (
 id INT(6) AUTO_INCREMENT PRIMARY KEY,
 Name VARCHAR(45) NOT NULL,
 Lot VARCHAR(45) NOT NULL,
-Quantity VARCHAR(45) NOT NULL, 
+Quantity VARCHAR(45) NOT NULL,
+isCurrentLot BOOLEAN, 
+isNewLot BOOLEAN, 
+par VARCHAR(45) NOT NULL, 
+countPerBox VARCHAR (45) NOT NULL,  
 Expiration_Date DATE NOT NULL,
 Time_Left INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `Expiration_Date`)),
 Warning VARCHAR(45) NOT NULL,
 Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )ENGINE=MyISAM;
 
+INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `isCurrentLot`, `isNewLot`, `par`, `countPerBox`, `Expiration_Date`, `Warning`) VALUES
+('2', 'Blue Caps', 'F6', '30', true, false, '8', '32', '2020-04-27', 'okay');
 
-INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `Expiration_Date`, `Warning`) VALUES
-('2', 'Blue Caps', 'F6', '30', '2020-04-27', 'okay');
 
 CREATE TABLE Cobas_8100_Transactions (
 Lot VARCHAR(45) NOT NULL, 
