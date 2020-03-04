@@ -1,0 +1,25 @@
+.chart-controls {
+  font-size: small;
+
+  form {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    padding: 0 1rem;
+
+    .chart-label {
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .chart-type-selectors {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Options in time range selector */
+    .form-control {
+      font-size: small;
+    }
+  }
+}

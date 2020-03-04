@@ -21,6 +21,7 @@ const ChartContainer = props => {
         />
       </div>
       <div
+        className="chart-controls"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -30,9 +31,9 @@ const ChartContainer = props => {
         }}
       >
         <Form>
-          <Form.Group>
+          <Form.Group className="chart-type-selectors">
+            <Form.Label className="chart-label">Chart Type</Form.Label>
             <Form.Check
-              inline
               custom
               defaultChecked
               type="radio"
@@ -41,9 +42,9 @@ const ChartContainer = props => {
               id="usage-chart"
               value="usage"
               onChange={() => setChartType("usage")}
+              className="chart-type-selector"
             />
             <Form.Check
-              inline
               custom
               type="radio"
               label="in stock chart"
@@ -51,9 +52,9 @@ const ChartContainer = props => {
               id="in-stock-chart"
               value="inStock"
               onChange={() => setChartType("inStock")}
+              className="chart-type-selector"
             />
             <Form.Check
-              inline
               custom
               type="radio"
               label="received data"
@@ -61,10 +62,11 @@ const ChartContainer = props => {
               id="received-chart"
               value="received"
               onChange={() => setChartType("received")}
+              className="chart-type-selector"
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Time Range</Form.Label>
+            <Form.Label className="chart-label">Time Range</Form.Label>
             <Form.Control as="select" defaultValue="7" onChange={handleSelect}>
               <option name="day" value="1">
                 Day

@@ -7,30 +7,14 @@
 
 .item-summary-and-stats {
   display: flex;
+
+  .item-summary {
+    padding: 0 3rem;
+  }
+
   .item-summary:first-child {
-    border-right: 3rem solid transparent;
+    padding-left: 0;
   }
-  .item-summary:nth-child(2) {
-    border-left: 3rem solid transparent;
-  }
-}
-
-.item-summary {
-  box-sizing: border-box;
-  position: relative;
-  width: 35%;
-}
-
-.item-summary::before {
-  content: "";
-  border: 1px solid red;
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
 }
 
 .list-header {
