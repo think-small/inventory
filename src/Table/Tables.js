@@ -39,8 +39,9 @@ const Tables = (props)=> {
                          method="POST"
                        >
                          <label>
-                           Update Expiration Date: 
+                           Update Date: 
                            <input
+                            style={{width: "120px"}}
                              type="text"
                              name="Expiration"
                              placeholder="YYYY-MM-DD"
@@ -61,7 +62,7 @@ const Tables = (props)=> {
                        props.handleUpdate
                      }
                    >
-                     Update Date
+                     Update
                    </button>
              
              
@@ -88,6 +89,7 @@ const Tables = (props)=> {
                          <label>
                            Update Quantity:
                            <input
+                            style={{width: "130px"}}
                              type="text"
                              name="Quantity"
                              value={items.value}
@@ -106,7 +108,7 @@ const Tables = (props)=> {
                            props.handleUpdate
                          }
                        >
-                         Update Quantity
+                         Update 
                        </button>
                      </div>
                    ) : (

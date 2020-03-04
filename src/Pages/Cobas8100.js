@@ -280,7 +280,7 @@ class Cobas8100 extends React.Component {
 
         <Jumbotron1 Title="Cobas 8100" />
    
-   <div style={{ display: "inline-block", float:"right"}} >      
+   <div style={{ display: "inline-block", float:"right", padding: "10px"}} >      
         <Card style={{ width: '13rem',padding: '5px' }}>
   <Card.Header>Make a New Lot </Card.Header>
   <ListGroup variant="flush" >

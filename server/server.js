@@ -136,7 +136,7 @@ app.post('/api/post/8100', (req,res)=> {
     //SELECT Expiration_Date, TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left FROM Cobas_8100
 
    connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date, Warning) VALUES (?,?,?,?,?,?)' , 
-    [id, Name, Lot, Quantity, Expiration_Date, 'Not expired-yet...'],(error, result)=> {
+    [id, Name, Lot, Quantity, Expiration_Date, 'Not Expired'],(error, result)=> {
      if (error) {
        res.send(error);
        console.log(error); 
@@ -150,7 +150,7 @@ app.post('/api/post/8100', (req,res)=> {
 
 // updates all columns based on this condition
      connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 7' , 
-     ['Better order soon! About to expire'],(error, result)=> {
+     ['Expires Soon!'],(error, result)=> {
       if (error) {
         res.send(error);
         console.log(error); 
@@ -163,7 +163,7 @@ app.post('/api/post/8100', (req,res)=> {
       })
 
       connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left < 0' , 
-      ['it already expired bro'],(error, result)=> {
+      ['Expired!'],(error, result)=> {
        if (error) {
          res.send(error);
          console.log(error); 
