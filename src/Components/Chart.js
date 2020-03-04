@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Modal, Button, Table } from "react-bootstrap";
 import moment from "moment";
 import { CSVLink } from "react-csv";
+import uuid from "uuid";
 import Chart from "chart.js";
 import { getRawData, getData } from "../UtilityFunctions/DataCleaning";
 
@@ -246,7 +247,7 @@ const ItemChart = props => {
                 <tbody>
                   {transactionHistory.map((transaction, index) => (
                     <tr
-                      key={transaction.timestamp}
+                      key={uuid()}
                       ref={ref => (tableRef.current[index] = ref)}
                     >
                       <td>
@@ -272,10 +273,11 @@ const ItemChart = props => {
           <CSVLink
             className="transaction-download-button"
             data={transactionHistory.map(transaction => {
-              transaction.timestamp = moment(transaction.timestamp).format(
-                "YYYY-MM-DD h:mm A"
-              );
-              return transaction;
+              const transactionCopy = { ...transaction };
+              transactionCopy.timestamp = moment(
+                transactionCopy.timestamp
+              ).format("YYYY-MM-DD h:mm A");
+              return transactionCopy;
             })}
             headers={[
               { label: "Transaction Type", key: "type" },
