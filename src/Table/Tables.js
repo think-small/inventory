@@ -120,7 +120,7 @@ const Tables = (props)=> {
                  </div></td>
              
                 <td>{items.isCurrentLot=='1'? 'true': 'false'}</td>
-                 <td>{items.NewLot=='1'? 'true': 'false'}</td> 
+                 <td>{items.isNewLot=='1'? 'true': 'false'}</td> 
                  <td>{items.par}</td>
                  <td>{items.countPerBox}</td>  
              <td>{items.Date.substring(0,10)} {items.Date.substring(11,16)}</td>

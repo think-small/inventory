@@ -337,8 +337,8 @@ handleChangeisNewLot(event) {
         </div>
 
         <div style={{padding: "5px"}}>
-          <label>
-            <input  type="radio" value="isCurrentLot" onChange={()=>this.handleChangeisCurrentLot(event)} />
+          <label >
+            <input style={{pading: "10px"}} type="radio" value="isCurrentLot" onChange={()=>this.handleChangeisCurrentLot(event)} />
             Is Current Lot
           </label>
         </div>
