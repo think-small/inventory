@@ -250,7 +250,45 @@ if (req.body.Expiration ==="") {
   } )
   }
 
+// Also, update the Warning column(based on the below conditions), when u hit the Update Expiration Date on the Client side
+connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left > 7' , 
+['Good!'],(error, result)=> {
+ if (error) {
+   res.send(error);
+   console.log(error); 
+ }
+ else {
+   console.log('Post worked!!');
+   console.log(result);
+ }
+ 
+ })
 
+  connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 7' , 
+  ['Expires Soon!'],(error, result)=> {
+   if (error) {
+     res.send(error);
+     console.log(error); 
+   }
+   else {
+     console.log('Post worked!!');
+     console.log(result);
+   }
+   
+   })
+
+   connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 0' , 
+   ['Expired!'],(error, result)=> {
+    if (error) {
+      res.send(error);
+      console.log(error); 
+    }
+    else {
+      console.log('Post worked!!');
+      console.log(result);
+    }
+    
+    })
 
 
 
