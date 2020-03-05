@@ -76,7 +76,7 @@ app.get('/api/8100_all',(req, res) => {
 
 app.get('/api/8100',(req, res) => {
   //TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left
-  connection.query('SELECT id, Name, Lot, Quantity, Expiration_Date, Warning, Time_Left, Date from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
+  connection.query('SELECT id, Name, Lot, Quantity, isCurrentLot, isNewLot, par, countPerBox, Expiration_Date, Warning, Time_Left, Date from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
     if (error) {
       res.send(error); 
     }
@@ -134,9 +134,9 @@ app.post('/api/post/8100', (req,res)=> {
       const Expiration_Date = req.body.Expiration;
      // const Time_Left = req.body.Time_Left; 
     //SELECT Expiration_Date, TIMESTAMPDIFF(DAY, NOW(), Expiration_Date) Time_Left FROM Cobas_8100
-
-   connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, Expiration_Date, Warning) VALUES (?,?,?,?,?,?)' , 
-    [id, Name, Lot, Quantity, Expiration_Date, 'Not expired-yet...'],(error, result)=> {
+        console.log('the par is' + req.body.par)
+   connection.query('INSERT INTO Cobas_8100 (id, Name, Lot,  Quantity, isCurrentLot, isNewLot, par, countPerBox, Expiration_Date, Warning) VALUES (?,?,?,?,?,?,?,?,?,?)' , 
+    [id, Name, Lot, Quantity, req.body.isCurrentLot, req.body.isNewLot, req.body.par, req.body.countPerBox,  Expiration_Date, 'Not Expired'],(error, result)=> {
      if (error) {
        res.send(error);
        console.log(error); 
@@ -150,7 +150,7 @@ app.post('/api/post/8100', (req,res)=> {
 
 // updates all columns based on this condition
      connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 7' , 
-     ['Better order soon! About to expire'],(error, result)=> {
+     ['Expires Soon!'],(error, result)=> {
       if (error) {
         res.send(error);
         console.log(error); 
@@ -163,7 +163,7 @@ app.post('/api/post/8100', (req,res)=> {
       })
 
       connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left < 0' , 
-      ['it already expired bro'],(error, result)=> {
+      ['Expired!'],(error, result)=> {
        if (error) {
          res.send(error);
          console.log(error); 
@@ -250,7 +250,45 @@ if (req.body.Expiration ==="") {
   } )
   }
 
+// Also, update the Warning column(based on the below conditions), when u hit the Update Expiration Date on the Client side
+connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left > 7' , 
+['Good!'],(error, result)=> {
+ if (error) {
+   res.send(error);
+   console.log(error); 
+ }
+ else {
+   console.log('Post worked!!');
+   console.log(result);
+ }
+ 
+ })
 
+  connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 7' , 
+  ['Expires Soon!'],(error, result)=> {
+   if (error) {
+     res.send(error);
+     console.log(error); 
+   }
+   else {
+     console.log('Post worked!!');
+     console.log(result);
+   }
+   
+   })
+
+   connection.query('UPDATE Cobas_8100 set Warning = ?  WHERE Time_Left <= 0' , 
+   ['Expired!'],(error, result)=> {
+    if (error) {
+      res.send(error);
+      console.log(error); 
+    }
+    else {
+      console.log('Post worked!!');
+      console.log(result);
+    }
+    
+    })
 
 
 

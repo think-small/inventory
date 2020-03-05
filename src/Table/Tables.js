@@ -9,20 +9,23 @@ const Tables = (props)=> {
 
     return (
    
-<div style={{padding: "10px"}} >
-        <Table striped bordered hover size="lg" >
+<div >
+        <Table striped bordered hover size="sm" >
         <thead>
           <tr>  
             <th>Lot #</th>
             <th>Name</th>
           
             <th>Expiration Date</th>
-            <th>Days Left To Expiration</th>
+            <th>Days Left </th>
              <th>Warning</th>
              <th>Quantity</th>
-           
+             <th>isCurrentLot</th>
+              <th>isNewLot</th>
+              <th>par</th>
+              <th>CountBox</th>
             <th>Lot Created On</th>
-            <th>Delete</th>
+  <th>Delete</th>
           </tr>
         </thead> 
          <tbody>
@@ -30,7 +33,7 @@ const Tables = (props)=> {
           <tr>
             <td>{items.Lot} </td>
             <td>{items.Name}</td>
-            <td><div>{items.Expiration_Date.substring(0,10) }
+            <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}><div>{items.Expiration_Date.substring(0,10) }
             
             <form
                          onSubmit={
@@ -39,8 +42,9 @@ const Tables = (props)=> {
                          method="POST"
                        >
                          <label>
-                           Update Expiration Date: 
+                           Update Date: 
                            <input
+                            style={{width: "120px"}}
                              type="text"
                              name="Expiration"
                              placeholder="YYYY-MM-DD"
@@ -61,7 +65,7 @@ const Tables = (props)=> {
                        props.handleUpdate
                      }
                    >
-                     Update Date
+                     Update
                    </button>
              
              
@@ -72,7 +76,8 @@ const Tables = (props)=> {
         
           <td>{items.Warning}</td>
          
-            <td><div>
+          <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}>
+              <div>
                    {" "}
                    {items.Quantity <= 100 ? (
                      <div style={{ color: "red" }}>
@@ -87,6 +92,7 @@ const Tables = (props)=> {
                          <label>
                            Update Quantity:
                            <input
+                            style={{width: "130px"}}
                              type="text"
                              name="Quantity"
                              value={items.value}
@@ -105,7 +111,7 @@ const Tables = (props)=> {
                            props.handleUpdate
                          }
                        >
-                         Update Quantity
+                         Update 
                        </button>
                      </div>
                    ) : (
@@ -113,10 +119,17 @@ const Tables = (props)=> {
                    )}{" "}
                  </div></td>
              
-                
-             
+                <td>{items.isCurrentLot=='1'? 'true': 'false'}</td>
+                 <td>{items.isNewLot=='1'? 'true': 'false'}</td> 
+                 <td>{items.par}</td>
+                 <td>{items.countPerBox}</td>  
              <td>{items.Date.substring(0,10)} {items.Date.substring(11,16)}</td>
-            <td> <button onClick={props.handleDelete}  value={items.id} > Delete Lot </button>                    </td>
+         
+
+           <td> <button onClick={props.handleDelete}  value={items.id} > Delete </button>    
+                          </td>
+
+
             </tr>
           ))}
         </tbody> 
