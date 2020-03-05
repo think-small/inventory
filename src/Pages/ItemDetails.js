@@ -37,7 +37,7 @@ const ItemDetails = props => {
           <Nav variant="tabs" active={key} onSelect={k => setKey(k)}>
             <LinkContainer exact to={`/Architect/${props.match.params.id}`}>
               <Nav.Link>
-                <Nav.Item eventKey={"currentLot"}>Current Lot</Nav.Item>
+                <Nav.Item>Current Lot</Nav.Item>
               </Nav.Link>
             </LinkContainer>
             <LinkContainer
@@ -49,7 +49,7 @@ const ItemDetails = props => {
               }
             >
               <Nav.Link disabled={!newLotItem}>
-                <Nav.Item eventKey={"newLot"}>New Lot</Nav.Item>
+                <Nav.Item>New Lot</Nav.Item>
               </Nav.Link>
             </LinkContainer>
           </Nav>
