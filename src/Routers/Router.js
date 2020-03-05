@@ -17,11 +17,9 @@ const Router = () => {
   return (
     <BrowserRouter>
       <div className="app-container">
-     <Sidebar />
+        <Sidebar />
         <section className="content-container">
-            
           <Switch>
-            
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/ABL/" component={ABL} />
             <Route
@@ -33,6 +31,13 @@ const Router = () => {
             <Route
               exact
               path="/Architect/:id"
+              render={props => (
+                <ItemDetails {...props} items={architectItems} />
+              )}
+            />
+            <Route
+              exact
+              path="/Architect/:id/:lotNum"
               render={props => (
                 <ItemDetails {...props} items={architectItems} />
               )}

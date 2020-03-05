@@ -27,11 +27,6 @@
   transition: all 200ms ease-in-out;
 }
 
-.transaction-history-modal-footer {
-  display: flex;
-  justify-content: space-between;
-}
-
 .transaction-download-button {
   background-color: $primary-color;
   color: $white-color;

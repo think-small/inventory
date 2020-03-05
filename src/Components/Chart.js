@@ -213,7 +213,7 @@ const ItemChart = props => {
       props.dateRange,
       props.currentLotItem.countPerBox
     );
-  }, [props.chartType, props.dateRange]);
+  }, [props.chartType, props.dateRange, props.currentLotItem]);
 
   return (
     <>
