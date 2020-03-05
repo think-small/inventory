@@ -1,32 +1,102 @@
-.sidebar {
-  background-color: $primary-color;
-  color: $text-color;
-  width: 10rem;
-  height: 100vh;
-  text-align: center;
-  padding-top: 5rem;
-  position: fixed;
+@media screen and (min-width: 600px) {
+  .sidebar {
+    background-color: $primary-color;
+    color: $text-color;
+    width: 10rem;
+    height: 100vh;
+    text-align: center;
+    padding-top: 5rem;
+    position: fixed;
 
-  .nav-item {
-    display: flex;
-    padding: 10px; 
-    justify-content: left;
-    align-items: center;
-    height: 3rem;
-    width: 100%;
-    box-sizing: border-box;
+    .nav-item {
+      display: flex;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nav-item:hover {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+      cursor: pointer;
+    }
+
+    .activeLink {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+    }
   }
+}
 
-  .nav-item:hover {
-    background-color: $secondary-color;
-    color: $white-color;
-    border-right: 5px solid $accent-color;
-    cursor: pointer;
+@media screen and (min-width: 350px) and (max-width: 600px) {
+  .sidebar {
+    background-color: $primary-color;
+    color: $text-color;
+    width: 100vw;
+    height: 65vh;
+    text-align: center;
+    padding-top: 5rem;
+
+    .nav-item {
+      display: flex;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nav-item:hover {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+      cursor: pointer;
+    }
+
+    .activeLink {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+    }
   }
+}
 
-  .activeLink {
-    background-color: $secondary-color;
-    color: $white-color;
-    border-right: 5px solid $accent-color;
+@media screen and (max-width: 350px) {
+  .sidebar {
+    background-color: $primary-color;
+    color: $text-color;
+    width: 100vw;
+    height: 65vh;
+    text-align: center;
+    padding-top: 5rem;
+
+    .nav-item {
+      display: flex;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nav-item:hover {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+      cursor: pointer;
+    }
+
+    .activeLink {
+      background-color: $secondary-color;
+      color: $white-color;
+      border-right: 5px solid $accent-color;
+    }
   }
 }

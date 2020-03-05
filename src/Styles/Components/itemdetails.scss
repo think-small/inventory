@@ -1,34 +1,112 @@
-.item-title {
-  font-size: x-large;
-  text-transform: uppercase;
-  word-spacing: 0.3rem;
-  margin: 0.5rem 0 2rem 0;
-}
+@media screen and (min-width: 600px) {
+  .item-title {
+    font-size: x-large;
+    text-transform: uppercase;
+    word-spacing: 0.3rem;
+    margin: 0.5rem 0 2rem 0;
+  }
 
-.item-summary-and-stats {
-  display: flex;
+  .item-summary-and-stats {
+    display: flex;
 
-  .item-summary {
-    padding: 0 3rem 0 0;
-    width: 35%;
+    .item-summary {
+      padding: 0 3rem 0 0;
+      width: 35%;
+    }
+  }
+
+  .list-header {
+    background-color: $gray-color;
+    color: $primary-color;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    font-size: smaller;
+  }
+
+  .list-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+
+    span:first-child {
+      font-weight: 500;
+    }
   }
 }
 
-.list-header {
-  background-color: $gray-color;
-  color: $primary-color;
-  font-weight: 700;
-  letter-spacing: 0.15rem;
-  text-transform: uppercase;
-  font-size: smaller;
+@media screen and (min-width: 350px) and (max-width: 600px) {
+  .item-title {
+    font-size: x-large;
+    text-transform: uppercase;
+    word-spacing: 0.3rem;
+    margin: 0.5rem 0 2rem 0;
+  }
+
+  .item-summary-and-stats {
+    display: flex;
+    flex-direction: column;
+
+    .item-summary {
+      padding: 0 0 3rem 0;
+      width: 100%;
+    }
+  }
+
+  .list-header {
+    background-color: $gray-color;
+    color: $primary-color;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    font-size: smaller;
+  }
+
+  .list-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+
+    span:first-child {
+      font-weight: 500;
+    }
+  }
 }
 
-.list-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: small;
+@media screen and (max-width: 350px) {
+  .item-title {
+    font-size: x-large;
+    text-transform: uppercase;
+    word-spacing: 0.3rem;
+    margin: 0.5rem 0 2rem 0;
+  }
 
-  span:first-child {
-    font-weight: 500;
+  .item-summary-and-stats {
+    display: flex;
+    flex-direction: column;
+
+    .item-summary {
+      padding: 0 0 3rem 0;
+      width: 100%;
+    }
+  }
+
+  .list-header {
+    background-color: $gray-color;
+    color: $primary-color;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    font-size: smaller;
+  }
+
+  .list-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+
+    span:first-child {
+      font-weight: 500;
+    }
   }
 }

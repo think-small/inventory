@@ -13,14 +13,16 @@ a:hover {
   text-decoration: none;
 }
 
-//  App Container
-.app-container {
-  display: flex;
-  font-family: "Poppins";
-}
+@media screen and (min-width: 600px) {
+  //  App Container
+  .app-container {
+    display: flex;
+    font-family: "Poppins";
+  }
 
-//  Content Container
-.content-container {
-  margin-left: 10rem;
-  width: 100%;
+  //  Content Container
+  .content-container {
+    margin-left: 10rem;
+    width: 100%;
+  }
 }

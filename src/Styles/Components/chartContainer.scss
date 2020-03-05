@@ -1,25 +1,115 @@
-.chart-controls {
-  font-size: small;
-
-  form {
+@media screen and (min-width: 600px) {
+  .chart-container {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 60% 40%;
+  }
+
+  .chart-controls {
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: 0 1rem;
 
-    .chart-label {
-      font-weight: 500;
-      text-decoration: underline;
+    form {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      width: 100%;
+      padding: 0 1rem;
+
+      .chart-label {
+        font-weight: 500;
+        text-decoration: underline;
+      }
+
+      .chart-type-selectors {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Options in time range selector */
+      .form-control {
+        font-size: small;
+      }
     }
+  }
+}
 
-    .chart-type-selectors {
-      display: flex;
-      flex-direction: column;
+@media screen and (min-width: 350px) and (max-width: 600px) {
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-controls {
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 3rem;
+
+    form {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      width: 100%;
+      padding: 0 1rem;
+
+      .chart-label {
+        font-weight: 500;
+        text-decoration: underline;
+      }
+
+      .chart-type-selectors {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Options in time range selector */
+      .form-control {
+        font-size: small;
+      }
     }
+  }
+}
 
-    /* Options in time range selector */
-    .form-control {
-      font-size: small;
+@media screen and (max-width: 350px) {
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-controls {
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 3rem;
+
+    form {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      width: 100%;
+      padding: 0 1rem;
+
+      .chart-label {
+        font-weight: 500;
+        text-decoration: underline;
+      }
+
+      .chart-type-selectors {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Options in time range selector */
+      .form-control {
+        font-size: small;
+      }
     }
   }
 }
