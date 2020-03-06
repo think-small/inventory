@@ -33,14 +33,13 @@
   }
 }
 
-@media screen and (min-width: 350px) and (max-width: 600px) {
+@media screen and (min-width: 350px) and (max-width: 599px) {
   .sidebar {
     background-color: $primary-color;
     color: $text-color;
     width: 100vw;
-    height: 65vh;
+    height: 50vh;
     text-align: center;
-    padding-top: 5rem;
 
     .nav-item {
       display: flex;
@@ -72,9 +71,8 @@
     background-color: $primary-color;
     color: $text-color;
     width: 100vw;
-    height: 65vh;
+    height: 50vh;
     text-align: center;
-    padding-top: 5rem;
 
     .nav-item {
       display: flex;
