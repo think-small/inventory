@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('./server.js')
+var connection = require('./server.js');
 
-//dummy route to see if this file works
-router.get('/api/cool', function(req, res) {
-    res.json({ message: 'hooray! welcome to our rest video api!' });  
-  });
+
+
+
+  
+
+
+
+
+ 
+
 
 // get the values from the mysql database and then serve the values as a json object 
   router.get('/api/8100_all',(req, res) => {
