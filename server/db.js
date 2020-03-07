@@ -1,8 +1,6 @@
-//this file dosen't work yet....
-
 const mysql = require('mysql');
 
-
+//make the connection to the database
 
 const connection = mysql.createConnection({
     host:	'localhost',

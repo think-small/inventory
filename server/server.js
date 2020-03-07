@@ -11,7 +11,7 @@ const compiler = webpack(config);
 
 
 const app = express();
-//const db = require('./db');
+
 
 app.use(
   webpackDevMiddleware(compiler, {
@@ -33,24 +33,6 @@ app.use(
   })
 );
 
-
-
-const connection = mysql.createConnection({
-host:	'localhost',
-port:	'8889',
-user:	'root',
-password:	'root', 
-database: 'Inventory'
-});
-
-connection.connect(err => {
-  if (err) {
-    return err; 
-  }
-});
-
-module.exports = connection;
-
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
@@ -59,8 +41,8 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../public')));
 
 
-app.use(require('./Cobas_8100')); 
-app.use(require('./Cobas_8100_Tables'));
+app.use(require('./Cobas_8100/Cobas_8100')); 
+app.use(require('./Cobas_8100/Cobas_8100_Tables'));
 
 
 

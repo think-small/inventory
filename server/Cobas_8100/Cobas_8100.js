@@ -1,16 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('./server.js');
-
-
-
-
-  
-
-
-
-
- 
+var connection = require('../db.js');
 
 
 // get the values from the mysql database and then serve the values as a json object 

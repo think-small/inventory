@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('./server.js');
+var connection = require('../db.js');
 
 //make all the (3) tables here, and also fire the "events" table
 
@@ -38,7 +38,7 @@ connection.query(drop, function (err, result) {
     console.log("event is dropped!");
   });
 
-var Event = "CREATE EVENT IF NOT EXISTS test_event_01 ON SCHEDULE EVERY 1 SECOND DO INSERT INTO Cobas_8100_Daily_Records (id, Lot, Quantity, Date, Expiration_Date)  SELECT id, Lot, Quantity, Date, Expiration_Date From Cobas_8100"; 
+var Event = "CREATE EVENT IF NOT EXISTS test_event_01 ON SCHEDULE EVERY 1 MINUTE DO INSERT INTO Cobas_8100_Daily_Records (id, Lot, Quantity, Date, Expiration_Date)  SELECT id, Lot, Quantity, Date, Expiration_Date From Cobas_8100"; 
 connection.query(Event, function (err, result) {
     if (err) throw err;
     console.log("Event fired!");
