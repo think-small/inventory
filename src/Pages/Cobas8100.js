@@ -56,34 +56,19 @@ class Cobas8100 extends React.Component {
 
   }
 
+  handleInputChange(event){
+    const value = event.target.value;
+    
+    //the form must have a name that matches the name in the state
+    const name = event.target.name;
+    console.log(name);
+    this.setState({
+        [name]: value
+    });
+}
 
-  
-
-
-  handleChangeName(event) {
-    // console.log((event.target.value));
-    // console.log(event.target.name);
-    this.setState({ Name: event.target.value });
-  }
-  handleChangeQuantity(event) {
-    this.setState({ Quantity: event.target.value });
-  }
-
-  handleChangepar(event) {
-    this.setState({par: event.target.value});
-
-  }
-  handleChangecountPerBox(event) {
-    this.setState({countPerBox: event.target.value})
-  }
-  handleChangeLot(event) {
-    this.setState({ Lot: event.target.value });
-  }
-  handleChangeExpiration(event) {
-    this.setState({ Expiration: event.target.value });
-  }
 handleChangeisCurrentLot(event) {
-  this.setState({isCurrentLot: true})
+  this.setState({isCurrentLot:true})
 }
 handleChangeisNewLot(event) {
   this.setState({isNewLot:true})
@@ -308,13 +293,13 @@ handleChangeisNewLot(event) {
   <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
     <div style={{padding: "5px"}}>
         
-    <input type="text"   name="Lot"  value={this.state.value} onChange={() => this.handleChangeLot(event) }  placeholder= "Lot Number"   />
+    <input type="text"   name="Lot"  value={this.state.value} onChange={() => this.handleInputChange(event) }  placeholder= "Lot Number"   />
 
     </div>
     <div style={{padding: "5px"}}>    <select
                 value={this.state.value}
                 onChange={() => {
-                  this.handleChangeName(event);
+                  this.handleInputChange(event);
                 }}
               >
                 <option name="Name" value="Blue Caps">
@@ -331,7 +316,7 @@ handleChangeisNewLot(event) {
               type="text"
               name="Quantity"
               value={this.state.value}
-              onChange={() => this.handleChangeQuantity(event)}
+              onChange={() => this.handleInputChange(event)}
               placeholder="Quantity"
             />
         </div>
@@ -356,7 +341,7 @@ handleChangeisNewLot(event) {
               type="text"
               name="par"
               value={this.state.value}
-              onChange={() => this.handleChangepar(event)}
+              onChange={() => this.handleInputChange(event)}
               placeholder="Par"
             />
         </div>
@@ -367,7 +352,7 @@ handleChangeisNewLot(event) {
               type="text"
               name="countPerBox"
               value={this.state.value}
-              onChange={() => this.handleChangecountPerBox(event)}
+              onChange={() => this.handleInputChange(event)}
               placeholder="Count Per Box"
             />
         </div>
@@ -380,7 +365,7 @@ handleChangeisNewLot(event) {
               placeholder="YYYY-MM-DD"
               name="Expiration"
               value={this.state.value}
-              onChange={() => this.handleChangeExpiration(event)}
+              onChange={() => this.handleInputChange(event)}
             />
 
 
