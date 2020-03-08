@@ -393,79 +393,15 @@ handleChangeisNewLot(event) {
 
 </Card>
 </div>
-      {/** 
-        <div style= {{marginRight: "20px"}} >Make a New Lot:  
-        <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
-           
-            <input style={{margin: "10px", borderRadius: "1px"} }
-              type="text"
-              name="Lot"
-              value={this.state.value}
-              onChange={() => this.handleChangeLot(event)}
-              placeholder= "Lot Number"
-            />
-
-          
-        
-              <select
-                value={this.state.value}
-                onChange={() => {
-                  this.handleChangeName(event);
-                }}
-              >
-                <option name="Name" value="Blue Caps">
-                  Blue Caps
-                </option>
-                <option name="Name" value="Pipette Tips">
-                  Pipette Tips
-                </option>
-              </select>
-
-
- 
-            <input
-            style={{margin: "10px", borderRadius: "1px"} }
-              type="text"
-              name="Quantity"
-              value={this.state.value}
-              onChange={() => this.handleChangeQuantity(event)}
-              placeholder="Quantity"
-            />
-     
-           Expiration: 
-            <input
-            style={{margin: "10px", borderRadius: "1px"} }
-              type="text"
-              placeholder="YYYY-MM-DD"
-              name="Expiration"
-              value={this.state.value}
-              onChange={() => this.handleChangeExpiration(event)}
-            />
-
-
-          <input type="submit" value="Update" style={{ borderRadius: "1px" }} />
-        </form>
-
-       </div>
-    */}   
-
- 
-
-
-        <div style={{ display: "inline-block", paddingLeft: "10px"}}>
+         <div style={{ display: "inline-block", paddingLeft: "10px"}}>
               
             <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
              handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
             handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
-
-
-
-
-
-     
-         <hr></hr>
+         
+             <hr></hr>
 
          <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
 <Table striped bordered hover size="sm" >
@@ -481,9 +417,9 @@ handleChangeisNewLot(event) {
       <th>Last Updated On:</th>
     </tr>
   </thead>
-  <tbody>
+
 {this.state.Transcations.length > 0 ? this.state.Transcations.map(items=> (
-  <tr>
+  <tr key={items.id}>
       <td>{items.Lot}</td>
       <td>{items.Name}</td>
     {/* <td>{items.Quantity}</td> */}
@@ -495,9 +431,9 @@ handleChangeisNewLot(event) {
       <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>
     </tr>
 ))
-: <div>nothing yet</div>
+: <td>nothing yet</td>
 }
-  </tbody>
+
 </Table>
       </div> 
        

@@ -28,9 +28,9 @@ const Tables = (props)=> {
   <th>Delete</th>
           </tr>
         </thead> 
-         <tbody>
+    
         {Database.map(items=> (  
-          <tr>
+          <tr key={items.id}>
             <td>{items.Lot} </td>
             <td>{items.Name}</td>
             <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}><div>{items.Expiration_Date.substring(0,10) }
@@ -132,7 +132,7 @@ const Tables = (props)=> {
 
             </tr>
           ))}
-        </tbody> 
+
       </Table>
 
 

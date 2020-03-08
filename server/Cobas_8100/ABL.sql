@@ -40,6 +40,7 @@ INSERT INTO `Cobas_8100` (`id`, `Name`, `Lot`, `Quantity`, `isCurrentLot`, `isNe
 
 
 CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (
+id INT(6) AUTO_INCREMENT PRIMARY KEY,
 Lot VARCHAR(45) NOT NULL, 
 Expiration_Date VARCHAR(45) NOT NUll, 
 Amount VARCHAR(45) NOT NULL, 

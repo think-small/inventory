@@ -41,7 +41,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../public')));
 
 
-app.use(require('./Cobas_8100/Cobas_8100')); 
+app.use(require('./Cobas_8100/Cobas_8100_Routes')); 
 app.use(require('./Cobas_8100/Cobas_8100_Tables'));
 
 

@@ -5,7 +5,7 @@ var connection = require('../db.js');
 
 // get the values from the mysql database and then serve the values as a json object 
   router.get('/api/8100_all',(req, res) => {
-     var sql = 'SELECT Cobas_8100.Lot, Cobas_8100_Transactions.Expiration_Date,  Cobas_8100.Quantity,  Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
+     var sql = 'SELECT Cobas_8100_Transactions.id,  Cobas_8100.Lot, Cobas_8100_Transactions.Expiration_Date,  Cobas_8100.Quantity,  Cobas_8100.Name, Cobas_8100_Transactions.Amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.Lot = Cobas_8100_Transactions.Lot';
   
        connection.query(sql, (error, result)=> {
          if (error) {

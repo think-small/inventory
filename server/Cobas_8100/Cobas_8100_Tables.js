@@ -11,7 +11,7 @@ connection.query(Cobas_8100, function (err, result) {
     console.log("Cobas_8100 table created");
   });
 
-var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions ( Lot VARCHAR(45) NOT NULL, Expiration_Date VARCHAR(45) NOT NUll, Amount VARCHAR(45) NOT NULL, Quantity_In_Stock VARCHAR(45) NOT NULL, Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (id INT(6) AUTO_INCREMENT PRIMARY KEY, Lot VARCHAR(45) NOT NULL, Expiration_Date VARCHAR(45) NOT NUll, Amount VARCHAR(45) NOT NULL, Quantity_In_Stock VARCHAR(45) NOT NULL, Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 connection.query(Cobas_8100_Transactions, function (err, result) {
     if (err) throw err;
     console.log("Cobas_8100_Transactions created");
