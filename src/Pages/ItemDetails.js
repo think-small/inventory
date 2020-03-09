@@ -1,44 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Card, Nav } from "react-bootstrap";
 import { withRouter, useHistory } from "react-router-dom";
 import ChartContainer from "../Components/ChartContainer";
 import ItemSummaryInfo from "../Components/ItemSummaryInfo";
 import ItemBasicStats from "../Components/ItemBasicStats";
+import queryStringParser from "query-string";
 
 const ItemDetails = props => {
-  const [key, setKey] = useState("currentLot");
-  const history = useHistory();
-  console.log(key);
-
-  //  GET ALL DATA FOR A SPECIFIC ANALYZER
-  //  SEPARATE ITEMS INTO CURRENT LOT AND NEW LOT - STORE EACH IN SEPARATE ARRAYS
-
   const { param, items } = props.location.state;
-  const queryString = new URLSearchParams(props.location.search).get('lotNum');
-  const isNewLot = items.find(entry => entry.lotNum === queryString && entry.isNewLot);
 
-  const newLotItem = items.filter(
-    item => item.isCurrentLot === false && item.isNewLot === true
-  )[0];
+  const history = useHistory();
+  const [key, setKey] = useState("currentLot");
+  const currentLotItem = useRef(items.filter(item => item.isCurrentLot === true && item.isNewLot == false));
+  const newLotItem = useRef(items.filter(item => item.isCurrentLot == false && item.isNewLot == true));  
 
-  const currentLotItem = isNewLot
-    ? items.filter(
-        item => item.isCurrentLot === false && item.isNewLot === true
-      )[0]
-    : items.filter(
-        item => item.isCurrentLot === true && item.isNewLot === false
-      )[0];
+  const queryString = queryStringParser.parse(props.location.search);
+  const isNewLot = items.find(entry => entry.lotNum === queryString.lotNum && entry.isNewLot);
+  const itemToDisplay = isNewLot ? newLotItem.current[0] : currentLotItem.current[0];
 
-const handleSelect = (e) => {
-  const queryString = e === "currentLot" ? currentLotItem.lotNum : newLotItem.lotNum;
-  history.push({
-    pathname: `/Architect/${param}?lotNum=${queryString}`,
-    state: {
-      param,
-      items
-    }
-  })
-}
+  const handleSelect = (e) => {
+    const queryString = e === "currentLot" ? currentLotItem.current[0].lotNum : newLotItem.current[0].lotNum;
+    history.push({
+      pathname: `/Architect/${param}`,
+      search: `lotNum=${queryString}`,
+      state: {
+        param,
+        items
+      }
+    })
+  }
 
   return (
     <section>
@@ -48,25 +38,25 @@ const handleSelect = (e) => {
               <Nav.Link eventKey={"currentLot"} onSelect={handleSelect}>
                 <Nav.Item>Current Lot</Nav.Item>
               </Nav.Link>
-              <Nav.Link eventKey={"newLot"} disabled={!newLotItem} onSelect={handleSelect}>
+              <Nav.Link eventKey={"newLot"} disabled={!newLotItem.current[0]} onSelect={handleSelect}>
                 <Nav.Item>New Lot</Nav.Item>
               </Nav.Link>
           </Nav>
         </Card.Header>
         <Card.Body>
           <Card.Title className="item-title">
-            {currentLotItem.displayName}
+            {itemToDisplay.displayName}
           </Card.Title>
           <section className="item-summary-and-stats">
             <div className="item-summary">
-              <ItemSummaryInfo currentLotItem={currentLotItem} />
+              <ItemSummaryInfo itemToDisplay={itemToDisplay} />
             </div>
             <div className="item-summary">
-              <ItemBasicStats currentLotItem={currentLotItem} />
+              <ItemBasicStats itemToDisplay={itemToDisplay} />
             </div>
           </section>
         </Card.Body>
-        <ChartContainer currentLotItem={currentLotItem} />
+        <ChartContainer itemToDisplay={itemToDisplay} />
       </Card>
     </section>
   );

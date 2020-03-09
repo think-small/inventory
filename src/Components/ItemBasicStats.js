@@ -5,7 +5,7 @@ import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
 import { calcAverage } from "../UtilityFunctions/Statistics";
 
 const ItemBasicStats = ({
-  currentLotItem: { transactions, countPerBox, warnings }
+  itemToDisplay: { transactions, countPerBox, warnings }
 }) => {
   //  ACQUIRE DATA
   const usageData = getRawData(transactions, "usage");

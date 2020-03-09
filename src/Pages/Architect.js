@@ -35,7 +35,8 @@ const Architect = () => {
       return entry[1][0].displayName === clickedDisplayName
     })
     history.push({
-      pathname: `/Architect/${clickedItem[0]}?lotNum=${clickedItem[1][0].lotNum}`,
+      pathname: `/Architect/${clickedItem[0]}`,
+      search: `lotNum=${clickedItem[1][0].lotNum}`,
       state: {
         param: clickedItem[0],
         items: clickedItem[1]
