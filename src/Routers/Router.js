@@ -25,7 +25,7 @@ const Router = () => {
             <Route
               exact
               path="/ABL/:id"
-              render={props => <ItemDetails {...props} items={ablItems} />}
+              component={ItemDetails}
             />
             <Route exact path="/Architect/" component={Architect} />
             <Route

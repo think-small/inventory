@@ -14,14 +14,16 @@ const ItemDetails = props => {
   const currentLotItem = useRef(items.filter(item => item.isCurrentLot === true && item.isNewLot == false));
   const newLotItem = useRef(items.filter(item => item.isCurrentLot == false && item.isNewLot == true));  
 
+  const instrumentName = history.location.pathname.split("/")[1]  //  index = 1 grabs string after '/' in pathname
   const queryString = queryStringParser.parse(props.location.search);
   const isNewLot = items.find(entry => entry.lotNum === queryString.lotNum && entry.isNewLot);
-  const itemToDisplay = isNewLot ? newLotItem.current[0] : currentLotItem.current[0];
+  const itemToDisplay = isNewLot ? newLotItem.current[0] : currentLotItem.current[0];  
+
 
   const handleSelect = (e) => {
     const queryString = e === "currentLot" ? currentLotItem.current[0].lotNum : newLotItem.current[0].lotNum;
     history.push({
-      pathname: `/Architect/${param}`,
+      pathname: `/${instrumentName}/${param}`,
       search: `lotNum=${queryString}`,
       state: {
         param,
