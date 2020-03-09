@@ -11,22 +11,23 @@ const ItemDetails = props => {
 
   //  GET ALL DATA FOR A SPECIFIC ANALYZER
   //  SEPARATE ITEMS INTO CURRENT LOT AND NEW LOT - STORE EACH IN SEPARATE ARRAYS
-  const { items } = props;
-  const item = items[props.match.params.id];
-  const isNewLot = props.match.params.lotNum;
+  // const { items } = props;
+  // const item = items[props.match.params.id];
+  // const isNewLot = props.match.params.lotNum;
+  const { items } = props.location.state;
+  const queryString = new URLSearchParams(props.location.search).get('lotNum');
+  const isNewLot = items.find(entry => entry.lotNum === queryString && entry.isNewLot);
+  console.log(isNewLot);
 
-  // const currentLotItem = item.filter(
-  //   item => item.isCurrentLot === true && item.isNewLot === false
-  // )[0];
-  const newLotItem = item.filter(
+  const newLotItem = items.filter(
     item => item.isCurrentLot === false && item.isNewLot === true
   )[0];
 
   const currentLotItem = isNewLot
-    ? item.filter(
+    ? items.filter(
         item => item.isCurrentLot === false && item.isNewLot === true
       )[0]
-    : item.filter(
+    : items.filter(
         item => item.isCurrentLot === true && item.isNewLot === false
       )[0];
 
