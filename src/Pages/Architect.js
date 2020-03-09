@@ -37,6 +37,7 @@ const Architect = () => {
     history.push({
       pathname: `/Architect/${clickedItem[0]}?lotNum=${clickedItem[1][0].lotNum}`,
       state: {
+        param: clickedItem[0],
         items: clickedItem[1]
       }
     })
@@ -56,8 +57,7 @@ const Architect = () => {
           </tr>
         </thead>
         <tbody>
-          {currentLotItems.map(item => {
-            console.log(architectItems[item.name]);
+          {currentLotItems.map(item => {            
             return (
               <tr key={item.orderID} style={{ cursor: "pointer" }} onClick={handleClick}>
                 <td>{item.displayName}</td>

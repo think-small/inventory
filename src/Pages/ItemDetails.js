@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import { Card, Nav } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import ChartContainer from "../Components/ChartContainer";
 import ItemSummaryInfo from "../Components/ItemSummaryInfo";
 import ItemBasicStats from "../Components/ItemBasicStats";
 
 const ItemDetails = props => {
   const [key, setKey] = useState("currentLot");
+  const history = useHistory();
+  console.log(key);
 
   //  GET ALL DATA FOR A SPECIFIC ANALYZER
   //  SEPARATE ITEMS INTO CURRENT LOT AND NEW LOT - STORE EACH IN SEPARATE ARRAYS
-  // const { items } = props;
-  // const item = items[props.match.params.id];
-  // const isNewLot = props.match.params.lotNum;
-  const { items } = props.location.state;
+
+  const { param, items } = props.location.state;
   const queryString = new URLSearchParams(props.location.search).get('lotNum');
   const isNewLot = items.find(entry => entry.lotNum === queryString && entry.isNewLot);
-  console.log(isNewLot);
 
   const newLotItem = items.filter(
     item => item.isCurrentLot === false && item.isNewLot === true
@@ -31,28 +29,28 @@ const ItemDetails = props => {
         item => item.isCurrentLot === true && item.isNewLot === false
       )[0];
 
+const handleSelect = (e) => {
+  const queryString = e === "currentLot" ? currentLotItem.lotNum : newLotItem.lotNum;
+  history.push({
+    pathname: `/Architect/${param}?lotNum=${queryString}`,
+    state: {
+      param,
+      items
+    }
+  })
+}
+
   return (
     <section>
       <Card>
         <Card.Header>
-          <Nav variant="tabs" active={key} onSelect={k => setKey(k)}>
-            <LinkContainer exact to={`/Architect/${props.match.params.id}`}>
-              <Nav.Link>
+          <Nav variant="tabs" activeKey={key} onSelect={k => setKey(k)}>
+              <Nav.Link eventKey={"currentLot"} onSelect={handleSelect}>
                 <Nav.Item>Current Lot</Nav.Item>
               </Nav.Link>
-            </LinkContainer>
-            <LinkContainer
-              exact
-              to={
-                newLotItem
-                  ? `/Architect/${props.match.params.id}/${newLotItem.lotNum}`
-                  : "#"
-              }
-            >
-              <Nav.Link disabled={!newLotItem}>
+              <Nav.Link eventKey={"newLot"} disabled={!newLotItem} onSelect={handleSelect}>
                 <Nav.Item>New Lot</Nav.Item>
               </Nav.Link>
-            </LinkContainer>
           </Nav>
         </Card.Header>
         <Card.Body>
