@@ -381,8 +381,7 @@ handleChangeisNewLot(event) {
          <div style={{ display: "inline-block", paddingLeft: "10px"}}>
               
             <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
-             handleChangeQuantity= {() => this.handleChangeQuantity(event)} handleChangeExpiration = {()=>this.handleChangeExpiration(event)}
-            handleDelete= {()=>this.handleDelete(event)}  />          
+             handleInputChange= {() => this.handleInputChange(event)} handleDelete= {()=>this.handleDelete(event)}  />          
         <div>
          
          

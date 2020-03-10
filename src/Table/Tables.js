@@ -51,7 +51,7 @@ const Tables = (props)=> {
                              value={items.value}
                        
                              onChange={
-                             props.handleChangeExpiration}
+                             props.handleInputChange}
                              
                            />
                          </label>
@@ -98,7 +98,7 @@ const Tables = (props)=> {
                              value={items.value}
                        
                              onChange={
-                             props.handleChangeQuantity}
+                             props.handleInputChange}
                              
                            />
                          </label>
