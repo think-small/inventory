@@ -7,7 +7,7 @@ import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card"; 
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
-
+import Card_Input from "../Card_Input/Card_Input";
 
 class Cobas8100 extends React.Component {
   state = {
@@ -91,6 +91,7 @@ handleChangeisNewLot(event) {
       Expiration: this.state.Expiration,
 
     };
+    alert(data); 
     console.log(data);
     fetch("/api/post/8100", {
       method: "POST",
@@ -280,114 +281,26 @@ handleChangeisNewLot(event) {
     
     return (
       <div>
-        <Navbar />
-
-        <Jumbotron1 Title="Cobas 8100" />
-   
-   <div style={{ display: "inline-block", float:"right", padding: "10px"}} >      
-        <Card style={{ width: '13rem',padding: '5px' }}>
-  <Card.Header>Make New Lot </Card.Header>
-  <ListGroup variant="flush" >
-      
-      
-  <form onSubmit={() => { this.handleSubmit(event);  }} method="POST" >
-    <div style={{padding: "5px"}}>
         
-    <input type="text"   name="Lot"  value={this.state.value} onChange={() => this.handleInputChange(event) }  placeholder= "Lot Number"   />
+<Navbar />
+<Jumbotron1 Title="Cobas 8100" />
 
-    </div>
-    <div style={{padding: "5px"}}>    <select
-                value={this.state.value}
-                onChange={() => {
-                  this.handleInputChange(event);
-                }}
-              >
-                <option name="Name" value="Blue Caps">
-                  Blue Caps
-                </option>
-                <option name="Name" value="Pipette Tips">
-                  Pipette Tips
-                </option>
-              </select>
-    </div>
-    <div style={{padding: "5px"}}>            
-       <input
-          
-              type="text"
-              name="Quantity"
-              value={this.state.value}
-              onChange={() => this.handleInputChange(event)}
-              placeholder="Quantity"
-            />
-        </div>
-
-        <div style={{padding: "5px"}}>
-          <label >
-            <input style={{pading: "10px"}} type="radio" value="isCurrentLot" onChange={()=>this.handleChangeisCurrentLot(event)} />
-            Is Current Lot
-          </label>
-        </div>
+    <Card_Input handleSubmit={()=>this.handleSubmit(event)} handleInputChange={()=> {this.handleInputChange(event)}} handleChangeisNewLot={()=>{this.handleChangeisNewLot(event)}} handleChangeisCurrentLot={()=>this.handleChangeisCurrentLot(event)}  />      
        
-        <div style={{padding: "5px"}}>
-          <label>
-            <input type="radio" value="isNewLot" onChange={()=>this.handleChangeisNewLot(event)} />
-            New Lot?
-          </label>
-        </div>
-        <div style={{padding: "5px"}}>            
-      
-       <input
-          
-              type="text"
-              name="par"
-              value={this.state.value}
-              onChange={() => this.handleInputChange(event)}
-              placeholder="Par"
-            />
-        </div>
+  
+  
+  <div style={{ display: "inline-block", paddingLeft: "10px"}}>
 
-        <div style={{padding: "5px"}}>            
-       <input
-          
-              type="text"
-              name="countPerBox"
-              value={this.state.value}
-              onChange={() => this.handleInputChange(event)}
-              placeholder="Count Per Box"
-            />
-        </div>
+<Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
+handleInputChange= {() => this.handleInputChange(event)} handleDelete= {()=>this.handleDelete(event)}  />          
 
-      <div style={{padding: "5px"}} >
-            Expiration: 
-            <input
-         
-              type="text"
-              placeholder="YYYY-MM-DD"
-              name="Expiration"
-              value={this.state.value}
-              onChange={() => this.handleInputChange(event)}
-            />
-
-
-            </div>
-    <div style={{padding:"5px"}}>  <input type="submit" value="Update" style={{ borderRadius: "1px" }} /> </div>
- 
- </form>
-
-  </ListGroup>
-
-</Card>
-</div>
-         <div style={{ display: "inline-block", paddingLeft: "10px"}}>
-              
-            <Tables From_Database={this.state.Database} handleUpdate={() => {this.handleUpdate(event) }} 
-             handleInputChange= {() => this.handleInputChange(event)} handleDelete= {()=>this.handleDelete(event)}  />          
-        <div>
+  <div>
          
          
-             <hr></hr>
 
-         <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
+
+
+<div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
 <Table striped bordered hover size="sm" >
   <thead>
     <tr>
