@@ -20,6 +20,7 @@ const Cobas8000 = () => {
 const [Cobas_8100, setdatabase] = useState([]);
 const [Cobas_8100_Transactions, setdatabase1] = useState([]);
 
+/** 
 const fetchData = ()=> {
   fetch("api/8100")
       .then(response => {
@@ -39,11 +40,33 @@ const fetchData1 = async ()=> {
     res.json().then(res => setdatabase1(res))
     .catch(err => console.log(err));
   }
-
+*/
 useEffect(()=> {
-fetchData(); 
-fetchData1();
+  fetch("api/8100")
+      .then(response => {
+        return response.json();
+      })
+      .then(myJson => {
+        console.log(myJson);
+
+       setdatabase(myJson);
+      }).catch(err => console.log(err));
+}, [],
+
+()=> {
+fetch("api/8100_all")
+.then(response => {
+  return response.json();
 })
+.then(myJson => {
+  console.log(myJson);
+
+ setdatabase1(myJson);
+}).catch(err => console.log(err))
+}, [],
+
+
+)
 
 //const values = Cobas_8100.map(items=><div key={items.id}>{items.Lot}</div>)
 
