@@ -5,16 +5,8 @@ import Card_Input_main from "../Card_Input/Card_Input_main";
 
 
 
-//when i use the fetch functions they keep on calling themselves repeatdly why?????? is this a react bug? 
+
 const Cobas8000 = () => {
-
-
-  //should not call itself more than once, but it is why????
-  const sayHI = ()=> {
-    console.log('should not call itselft more than once')
-  }
-  sayHI();
-
 
 
 const [Cobas_8100, setdatabase] = useState([]);
@@ -42,50 +34,39 @@ const fetchData1 = async ()=> {
   }
 */
 useEffect(()=> {
-  fetch("api/8100")
+  fetch("api/8100_all")
       .then(response => {
         return response.json();
       })
       .then(myJson => {
         console.log(myJson);
 
-       setdatabase(myJson);
+       setdatabase1(myJson);
       }).catch(err => console.log(err));
-}, [],
-
-()=> {
-fetch("api/8100_all")
-.then(response => {
-  return response.json();
-})
-.then(myJson => {
-  console.log(myJson);
-
- setdatabase1(myJson);
-}).catch(err => console.log(err))
 }, [],
 
 
 )
 
-//const values = Cobas_8100.map(items=><div key={items.id}>{items.Lot}</div>)
+const values = Cobas_8100.map(items=><div key={items.id}>{items.Lot}</div>)
 
 return (
 
     <div>
         <Navbar />
         <div>Convert the Cobas8100 page into functional hooks.....use this page as a code "playground" for now</div>
-
+        <div>{values}</div>
         
   <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
 <Table striped bordered hover size="sm" >
   <thead>
     <tr>
       <th>Lot #</th>
-      <th>Current Quantity(from Cobas8100 table)</th>    
+    
        <th>Name</th>
+           
       <th>Expiration Date</th>     
-     
+
       <th>Amount Left</th>
       <th>Quantity</th>
       <th>Last Updated On:</th>
@@ -98,7 +79,7 @@ return (
   <tr key={items.id}>
       <td>{items.Lot}</td>
       <td>{items.Name}</td>
-     <td>{items.Quantity}</td> 
+
        <td>{items.Expiration_Date.substring(0,10)}</td>
    
       <td>{items.Amount}</td>
