@@ -9,10 +9,7 @@ import ListGroupItem from "react-bootstrap/ListGroupItem";
 const Card_Input = (props) => {
 
 
-function sayhi ()
- {
-     alert('hello');
- }
+
 return (
 
  <div style={{ display: "inline-block", float:"right", padding: "10px"}} >      
@@ -55,14 +52,14 @@ return (
 
  <div style={{padding: "5px"}}>
    <label >
-     <input style={{pading: "10px"}} type="radio" value="isCurrentLot" onChange={props.handleChangeisCurrentLot} />
+     <input style={{pading: "10px"}} type="radio" name="isCurrentLot" value="isCurrentLot" onChange={props.handleChangeisCurrentLot} />
      Is Current Lot
    </label>
  </div>
 
  <div style={{padding: "5px"}}>
    <label>
-     <input type="radio" value="isNewLot" onChange={props.handleChangeisNewLot} />
+     <input type="radio" name="isNewLot" value="isNewLot" onChange={props.handleChangeisNewLot} />
      New Lot?
    </label>
  </div>
@@ -103,7 +100,7 @@ return (
 
      </div>
 <div style={{padding:"5px"}}> 
-<button>Cool!</button>
+<button>Submit</button>
   </div>
 
 </form>

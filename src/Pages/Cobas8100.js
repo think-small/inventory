@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import Card_Input from "../Card_Input/Card_Input";
+import Cobas8000 from "./Cobas8000"; 
 
 class Cobas8100 extends React.Component {
   state = {
@@ -56,6 +57,7 @@ class Cobas8100 extends React.Component {
 
   }
 
+  //for the input tags
   handleInputChange(event){
     const value = event.target.value;
     
@@ -67,6 +69,7 @@ class Cobas8100 extends React.Component {
     });
 }
 
+// for the input radio tags
 handleChangeisCurrentLot(event) {
   this.setState({isCurrentLot:true})
 }
@@ -75,9 +78,10 @@ handleChangeisNewLot(event) {
 }
 
 
-  handleSubmit(event) {
-    //alert('A name was submitted: ' + this.state.Current_Name);
-    //make a post into the database here
+
+
+// when you press the submit button in the (card) form
+handleSubmit(event) {
 
     var data = {
       Id: 0,
@@ -122,11 +126,10 @@ handleChangeisNewLot(event) {
 
 
 
-  handleUpdate(event) {
-    event.preventDefault();
 
-    //alert(typeof parseInt(event.target.value));
-   //   alert(event.target.value);
+// when you change (update) the expiration or quantity in the table
+handleUpdate(event) {
+    event.preventDefault();
 
    for(var x = 0; x<this.state.Database.length; x++) {
         //  console.log(parseInt(event.target.value));
@@ -216,11 +219,10 @@ handleChangeisNewLot(event) {
   
   }
 
-  handleDelete(event) {
-    event.preventDefault();
-    //alert(event.target.value);
-   // alert(event.target.value);
 
+//  when you press the delete button. should delete the lot from (both) tables
+handleDelete(event) {
+    event.preventDefault();
     // get the lot# from the db
 
     var Lot;
@@ -270,11 +272,7 @@ handleChangeisNewLot(event) {
         .catch(function(err) {
           console.log(err);
         });
-    
-  
-  
-  
-    }
+         }
 
   render() {
     
@@ -297,9 +295,6 @@ handleInputChange= {() => this.handleInputChange(event)} handleDelete= {()=>this
   <div>
          
          
-
-
-
 <div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
 <Table striped bordered hover size="sm" >
   <thead>
