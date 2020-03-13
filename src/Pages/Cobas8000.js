@@ -33,20 +33,30 @@ const fetchData1 = async ()=> {
     .catch(err => console.log(err));
   }
 */
-useEffect(()=> {
-  fetch("api/8100_all")
+useEffect(
+  
+  ()=> {
+  fetch("api/8100")
       .then(response => {
         return response.json();
       })
       .then(myJson => {
         console.log(myJson);
 
-       setdatabase1(myJson);
+       setdatabase(myJson);
       }).catch(err => console.log(err));
-}, [],
 
-
-)
+      const fetchData1 = async ()=> {
+        const res = await fetch("api/8100_all");
+        res.json().then(res => setdatabase1(res))
+        .catch(err => console.log(err));
+      }
+          fetchData1(); 
+   
+   
+   
+        }, [],
+        )
 
 const values = Cobas_8100.map(items=><div key={items.id}>{items.Lot}</div>)
 
