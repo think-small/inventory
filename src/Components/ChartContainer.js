@@ -15,7 +15,7 @@ const ChartContainer = props => {
     <div className="chart-container">
       <div>
         <Chart
-          currentLotItem={props.currentLotItem}
+          itemToDisplay={props.itemToDisplay}
           chartType={chartType}
           dateRange={dateRange}
         />

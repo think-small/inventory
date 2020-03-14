@@ -152,7 +152,7 @@ const ItemChart = props => {
             const momentObj = moment(dateObj);
 
             const rawData = getRawData(
-              props.currentLotItem.transactions,
+              props.itemToDisplay.transactions,
               props.chartType,
               true
             );
@@ -207,13 +207,13 @@ const ItemChart = props => {
 
   useEffect(() => {
     buildChart(
-      props.currentLotItem.transactions,
-      props.currentLotItem.displayName,
+      props.itemToDisplay.transactions,
+      props.itemToDisplay.displayName,
       props.chartType,
       props.dateRange,
-      props.currentLotItem.countPerBox
+      props.itemToDisplay.countPerBox
     );
-  }, [props.chartType, props.dateRange, props.currentLotItem]);
+  }, [props.chartType, props.dateRange, props.itemToDisplay]);
 
   return (
     <>
@@ -260,7 +260,7 @@ const ItemChart = props => {
                         {transaction.type === "used"
                           ? transaction.amount
                           : transaction.numBoxesReceived *
-                            props.currentLotItem.countPerBox}
+                            props.itemToDisplay.countPerBox}
                       </td>
                     </tr>
                   ))}
@@ -290,7 +290,7 @@ const ItemChart = props => {
               { label: "Number of Boxes Received", key: "numBoxesReceived" }
             ]}
             target="_blank"
-            filename={`${props.currentLotItem.displayName} transactions.csv`}
+            filename={`${props.itemToDisplay.displayName} transactions.csv`}
           >
             Download
           </CSVLink>

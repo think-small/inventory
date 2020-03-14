@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { Table } from "react-bootstrap";
 import { ArchitectContext } from "../Contexts/ArchitectContext";
-import { LinkContainer } from "react-router-bootstrap";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
 
 const Architect = () => {
   const { architectItems } = useContext(ArchitectContext);
+  const history = useHistory();
 
   //  Get an array of only current lot items.
   //  entry[1] in the map function gives an array of objects, so it is necessary to return entry[1][0]
@@ -21,6 +22,28 @@ const Architect = () => {
       return { ...entry[1][0], name: entry[0] };
     }
   });
+
+  /**
+    Handle click events for each table row.
+    Get matching item from architectItems.
+    Route to ItemDetails component (query string containing lotNum), and pass array of
+    current lot and new lot items.
+   */
+  const handleClick = (e) => {
+    const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
+    const clickedItem = Object.entries(architectItems).find(entry => {      
+      return entry[1][0].displayName === clickedDisplayName
+    })
+    history.push({
+      pathname: `/Architect/${clickedItem[0]}`,
+      search: `lotNum=${clickedItem[1][0].lotNum}`,
+      state: {
+        param: clickedItem[0],
+        items: clickedItem[1]
+      }
+    })
+  }
+
   return (
     <div>
     <Navbar />
@@ -35,13 +58,9 @@ const Architect = () => {
           </tr>
         </thead>
         <tbody>
-          {currentLotItems.map(item => (
-            <LinkContainer
-              to={`/Architect/${item.name}`}
-              key={item.orderID}
-              style={{ curosr: "pointer" }}
-            >
-              <tr>
+          {currentLotItems.map(item => {            
+            return (
+              <tr key={item.orderID} style={{ cursor: "pointer" }} onClick={handleClick}>
                 <td>{item.displayName}</td>
                 <td>{item.lotNum}</td>
                 <td>
@@ -51,8 +70,8 @@ const Architect = () => {
                 </td>
                 <td>{item.quantity}</td>
               </tr>
-            </LinkContainer>
-          ))}
+          )}
+          )}
         </tbody>
       </Table>
     </section>

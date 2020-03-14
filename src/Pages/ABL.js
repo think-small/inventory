@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Table } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { useHistory } from "react-router-dom";
 import { ABLContext } from "../Contexts/ABLContext";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar"; 
@@ -14,6 +14,7 @@ const ABL = () => {
 
 
   const { ablItems } = useContext(ABLContext);
+  const history = useHistory();
 
   const currentLotItems = Object.entries(ablItems).map(entry => {
     if (entry[1].length > 1) {
@@ -26,7 +27,20 @@ const ABL = () => {
     }
   });
 
-
+  const handleClick = (e) => {
+    const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
+    const clickedItem = Object.entries(ablItems).find(entry => {      
+      return entry[1][0].displayName === clickedDisplayName
+    })
+    history.push({
+      pathname: `/ABL/${clickedItem[0]}`,
+      search: `lotNum=${clickedItem[1][0].lotNum}`,
+      state: {
+        param: clickedItem[0],
+        items: clickedItem[1]
+      }
+    })
+  }
 
  
    return (
@@ -43,13 +57,8 @@ const ABL = () => {
           </tr>
         </thead>
         <tbody>
-          {currentLotItems.map(item => (
-            <LinkContainer
-              to={`/ABL/${item.name}`}
-              key={item.orderID}
-              style={{ curosr: "pointer" }}
-            >
-              <tr>
+          {currentLotItems.map(item => (            
+              <tr key={item.orderID} style={{ cursor: "pointer" }} onClick={handleClick}>
                 <td>{item.displayName}</td>
                 <td>{item.lotNum}</td>
                 <td>
@@ -59,7 +68,6 @@ const ABL = () => {
                 </td>
                 <td>{item.quantity}</td>
               </tr>
-            </LinkContainer>
           ))}
         </tbody>
       </Table>

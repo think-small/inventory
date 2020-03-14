@@ -3,7 +3,7 @@ import moment from "moment";
 import { ListGroup } from "react-bootstrap";
 
 const ItemSummaryInfo = ({
-  currentLotItem: { lotNum, expirationDate, quantity, lastUsed }
+  itemToDisplay: { lotNum, expirationDate, quantity, lastUsed }
 }) => {
   const dateFormat = "YYYY-MM-DD";
   const dateTimeFormat = "YYYY-MM-DD, h:mm A";

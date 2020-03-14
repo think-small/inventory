@@ -25,22 +25,13 @@ const Router = () => {
             <Route
               exact
               path="/ABL/:id"
-              render={props => <ItemDetails {...props} items={ablItems} />}
+              component={ItemDetails}
             />
             <Route exact path="/Architect/" component={Architect} />
             <Route
               exact
               path="/Architect/:id"
-              render={props => (
-                <ItemDetails {...props} items={architectItems} />
-              )}
-            />
-            <Route
-              exact
-              path="/Architect/:id/:lotNum"
-              render={props => (
-                <ItemDetails {...props} items={architectItems} />
-              )}
+              component={ItemDetails}
             />
             <Route exact path="/Cobas8000/" component={Cobas8000} />
             <Route exact path="/Cobas8100/" component={Cobas8100} />
