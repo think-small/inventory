@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Card, Nav } from "react-bootstrap";
-import { withRouter, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ChartContainer from "../Components/ChartContainer";
 import ItemSummaryInfo from "../Components/ItemSummaryInfo";
 import ItemBasicStats from "../Components/ItemBasicStats";
@@ -11,17 +11,27 @@ const ItemDetails = props => {
 
   const history = useHistory();
   const [key, setKey] = useState("currentLot");
-  const currentLotItem = useRef(items.filter(item => item.isCurrentLot === true && item.isNewLot == false));
-  const newLotItem = useRef(items.filter(item => item.isCurrentLot == false && item.isNewLot == true));  
+  const currentLotItem = useRef(
+    items.filter(item => item.isCurrentLot === true && item.isNewLot == false)
+  );
+  const newLotItem = useRef(
+    items.filter(item => item.isCurrentLot == false && item.isNewLot == true)
+  );
 
-  const instrumentName = history.location.pathname.split("/")[1]  //  index = 1 grabs string after '/' in pathname
+  const instrumentName = history.location.pathname.split("/")[1]; //  index = 1 grabs string after '/' in pathname
   const queryString = queryStringParser.parse(props.location.search);
-  const isNewLot = items.find(entry => entry.lotNum === queryString.lotNum && entry.isNewLot);
-  const itemToDisplay = isNewLot ? newLotItem.current[0] : currentLotItem.current[0];  
+  const isNewLot = items.find(
+    entry => entry.lotNum === queryString.lotNum && entry.isNewLot
+  );
+  const itemToDisplay = isNewLot
+    ? newLotItem.current[0]
+    : currentLotItem.current[0];
 
-
-  const handleSelect = (e) => {
-    const queryString = e === "currentLot" ? currentLotItem.current[0].lotNum : newLotItem.current[0].lotNum;
+  const handleSelect = e => {
+    const queryString =
+      e === "currentLot"
+        ? currentLotItem.current[0].lotNum
+        : newLotItem.current[0].lotNum;
     history.push({
       pathname: `/${instrumentName}/${param}`,
       search: `lotNum=${queryString}`,
@@ -29,20 +39,24 @@ const ItemDetails = props => {
         param,
         items
       }
-    })
-  }
+    });
+  };
 
   return (
     <section>
       <Card>
         <Card.Header>
           <Nav variant="tabs" activeKey={key} onSelect={k => setKey(k)}>
-              <Nav.Link eventKey={"currentLot"} onSelect={handleSelect}>
-                <Nav.Item>Current Lot</Nav.Item>
-              </Nav.Link>
-              <Nav.Link eventKey={"newLot"} disabled={!newLotItem.current[0]} onSelect={handleSelect}>
-                <Nav.Item>New Lot</Nav.Item>
-              </Nav.Link>
+            <Nav.Link eventKey={"currentLot"} onSelect={handleSelect}>
+              <Nav.Item>Current Lot</Nav.Item>
+            </Nav.Link>
+            <Nav.Link
+              eventKey={"newLot"}
+              disabled={!newLotItem.current[0]}
+              onSelect={handleSelect}
+            >
+              <Nav.Item>New Lot</Nav.Item>
+            </Nav.Link>
           </Nav>
         </Card.Header>
         <Card.Body>
@@ -64,4 +78,4 @@ const ItemDetails = props => {
   );
 };
 
-export default withRouter(ItemDetails);
+export default ItemDetails;
