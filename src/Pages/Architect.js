@@ -19,8 +19,6 @@ const Architect = () => {
       setCurrentLotItems(currentLot);
     };
     fetchData();
-    console.log(architectItems);
-    console.log(currentLotItems);
   }, []);
 
   /**
@@ -31,18 +29,15 @@ const Architect = () => {
    */
   const handleClick = e => {
     const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
-    // const clickedItem = Object.entries(architectItems).find(entry => {
-    //   return entry[1][0].displayName === clickedDisplayName;
-    // });
-    const clickedItem = architectItems.find(
+    const clickedItem = architectItems.filter(
       item => item.displayName === clickedDisplayName
     );
     history.push({
-      pathname: `/Architect/${clickedItem[0]}`,
-      search: `lotNum=${clickedItem[1][0].lotNum}`,
+      pathname: `/Architect/${clickedItem[0].reagentName}`,
+      search: `lotNum=${clickedItem[0].lotNum}`,
       state: {
-        param: clickedItem[0],
-        items: clickedItem[1]
+        param: clickedItem[0].reagentName,
+        items: clickedItem
       }
     });
   };

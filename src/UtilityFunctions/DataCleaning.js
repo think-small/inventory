@@ -27,7 +27,7 @@ export const getRawData = (
     case "usage":
       if (!getAllData) {
         return transactionsArr
-          .filter(item => item.type === "used")
+          .filter(item => item.transactionType === "used")
           .reduce((acc, curr) => {
             acc.push({
               timestamp: curr.timestamp,
@@ -36,12 +36,12 @@ export const getRawData = (
             return acc;
           }, []);
       } else {
-        return transactionsArr.filter(item => item.type === "used");
+        return transactionsArr.filter(item => item.transactionType === "used");
       }
     case "received":
       if (!getAllData) {
         return transactionsArr
-          .filter(item => item.type === "received")
+          .filter(item => item.transactionType === "received")
           .reduce((acc, curr) => {
             acc.push({
               timestamp: curr.timestamp,
@@ -50,7 +50,9 @@ export const getRawData = (
             return acc;
           }, []);
       } else {
-        return transactionsArr.filter(item => item.type === "received");
+        return transactionsArr.filter(
+          item => item.transactionType === "received"
+        );
       }
     case "inStock":
       if (!getAllData) {
@@ -129,7 +131,7 @@ export const filterByNumberOfDays = (numOfDays, arr) => {
 
 export const filterByType = (transactions, transactionType) => {
   return transactions.filter(
-    transaction => transaction.type === transactionType
+    transaction => transaction.transactionType === transactionType
   );
 };
 

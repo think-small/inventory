@@ -12,10 +12,10 @@ const ItemDetails = props => {
   const history = useHistory();
   const [key, setKey] = useState("currentLot");
   const currentLotItem = useRef(
-    items.filter(item => item.isCurrentLot === true && item.isNewLot == false)
+    items.filter(item => item.isCurrentLot && !item.isNewLot)
   );
   const newLotItem = useRef(
-    items.filter(item => item.isCurrentLot == false && item.isNewLot == true)
+    items.filter(item => !item.isCurrentLot && item.isNewLot)
   );
 
   const instrumentName = history.location.pathname.split("/")[1]; //  index = 1 grabs string after '/' in pathname

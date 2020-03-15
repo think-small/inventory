@@ -57,7 +57,7 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
             quantityInStock: null,
             timestamp: moment()
               .subtract({ hours: Math.floor(Math.random() * 8760) })
-              .format("YYYY-MM-DD HH:mm:ss")
+              .valueOf()
           };
           if (newTransaction.transactionType === "used") {
             newTransaction.amount = Math.floor(Math.random() * 4.5 + 1);
@@ -74,9 +74,7 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
 
       //  SORT TRANSACTIONS BY TIMESTAMP
       transactions.forEach(item =>
-        item.transactions.sort((a, b) =>
-          moment(a.timestamp).valueOf() < moment(b.timestamp).valueOf() ? -1 : 1
-        )
+        item.transactions.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
       );
 
       //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ARCHITECT ITEM
