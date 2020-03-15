@@ -1,27 +1,27 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { ArchitectContext } from "../Contexts/ArchitectContext";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
 
 const Architect = () => {
-  const { architectItems } = useContext(ArchitectContext);
+  const [architectItems, setArchitectItems] = useState();
+  const [currentLotItems, setCurrentLotItems] = useState();
   const history = useHistory();
 
-  //  Get an array of only current lot items.
-  //  entry[1] in the map function gives an array of objects, so it is necessary to return entry[1][0]
-  //  to only get the object back.
-  const currentLotItems = Object.entries(architectItems).map(entry => {
-    if (entry[1].length > 1) {
-      return {
-        ...entry[1].filter(item => item.isCurrentLot)[0],
-        name: entry[0]
-      };
-    } else {
-      return { ...entry[1][0], name: entry[0] };
-    }
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      const json = await fetch("/api/Architect/all-items");
+      const data = await json.json();
+      setArchitectItems(data);
+
+      const currentLot = data.filter(item => item.isCurrentLot);
+      setCurrentLotItems(currentLot);
+    };
+    fetchData();
+    console.log(architectItems);
+    console.log(currentLotItems);
+  }, []);
 
   /**
     Handle click events for each table row.
@@ -29,11 +29,14 @@ const Architect = () => {
     Route to ItemDetails component (query string containing lotNum), and pass array of
     current lot and new lot items.
    */
-  const handleClick = (e) => {
+  const handleClick = e => {
     const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
-    const clickedItem = Object.entries(architectItems).find(entry => {      
-      return entry[1][0].displayName === clickedDisplayName
-    })
+    // const clickedItem = Object.entries(architectItems).find(entry => {
+    //   return entry[1][0].displayName === clickedDisplayName;
+    // });
+    const clickedItem = architectItems.find(
+      item => item.displayName === clickedDisplayName
+    );
     history.push({
       pathname: `/Architect/${clickedItem[0]}`,
       search: `lotNum=${clickedItem[1][0].lotNum}`,
@@ -41,40 +44,52 @@ const Architect = () => {
         param: clickedItem[0],
         items: clickedItem[1]
       }
-    })
-  }
+    });
+  };
 
   return (
     <div>
-    <Navbar />
-    <section>
-      <Table hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Current Lot</th>
-            <th>Expiration Date</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentLotItems.map(item => {            
-            return (
-              <tr key={item.orderID} style={{ cursor: "pointer" }} onClick={handleClick}>
-                <td>{item.displayName}</td>
-                <td>{item.lotNum}</td>
-                <td>
-                  {item.expirationDate
-                    ? moment(item.expirationDate).format("MM/DD/YY")
-                    : "---"}
-                </td>
-                <td>{item.quantity}</td>
-              </tr>
-          )}
-          )}
-        </tbody>
-      </Table>
-    </section>
+      {architectItems ? (
+        <>
+          <Navbar />
+          <section>
+            <Table hover>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Current Lot</th>
+                  <th>Expiration Date</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentLotItems
+                  ? currentLotItems.map(item => {
+                      return (
+                        <tr
+                          key={item.orderID}
+                          style={{ cursor: "pointer" }}
+                          onClick={handleClick}
+                        >
+                          <td>{item.displayName}</td>
+                          <td>{item.lotNum}</td>
+                          <td>
+                            {item.expirationDate
+                              ? moment(item.expirationDate).format("MM/DD/YY")
+                              : "---"}
+                          </td>
+                          <td>{item.quantity}</td>
+                        </tr>
+                      );
+                    })
+                  : "Loading..."}
+              </tbody>
+            </Table>
+          </section>
+        </>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 };

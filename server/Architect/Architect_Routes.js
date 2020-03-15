@@ -2,8 +2,29 @@ const db = require("../db.js");
 const router = require("express").Router();
 const moment = require("moment");
 
-router.get("/api/Architect/all-items", (req, res) => {
-  res.send("Fetching all architect items");
+router.get("/api/Architect/all-items", async (req, res) => {
+  db.query("SELECT * FROM architect", (err, architectItems) => {
+    if (err) {
+      console.log(err);
+    } else {
+      db.query(
+        "SELECT * FROM architect_transactions",
+        (err, architectTransactions) => {
+          if (err) {
+            console.log(err);
+          } else {
+            architectItems.forEach(item => {
+              const transactions = architectTransactions.filter(
+                transaction => transaction.lotNum === item.lotNum
+              );
+              item.transactions = transactions;
+            });
+            res.send(architectItems);
+          }
+        }
+      );
+    }
+  });
 });
 
 router.get("/api/Architect/all-transactions", (req, res) => {
@@ -28,28 +49,27 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
     } else {
       const transactions = result.map(archItem => {
         const arr = [];
-        let count = 0; //  Create 200 transactions for each unique lot number
-        while (count < 200) {
+        const numTransactions = 500;
+        let count = 0; //  Create numTransactions for each unique lot number
+        while (count < numTransactions) {
           const newTransaction = {
-            transaction_type: newTransactionType[Math.floor(Math.random() * 2)],
-            quantity_in_stock: null,
+            transactionType: newTransactionType[Math.floor(Math.random() * 2)],
+            quantityInStock: null,
             timestamp: moment()
               .subtract({ hours: Math.floor(Math.random() * 8760) })
               .format("YYYY-MM-DD HH:mm:ss")
           };
-          if (newTransaction.transaction_type === "used") {
+          if (newTransaction.transactionType === "used") {
             newTransaction.amount = Math.floor(Math.random() * 4.5 + 1);
-            newTransaction.num_boxes_received = null;
+            newTransaction.numBoxesReceived = null;
           } else {
-            newTransaction.num_boxes_received = Math.floor(
-              Math.random() * 2 + 1
-            );
+            newTransaction.numBoxesReceived = Math.floor(Math.random() * 2 + 1);
             newTransaction.amount = null;
           }
-          arr.push({ lot_num: archItem.lot_num, ...newTransaction });
+          arr.push({ lotNum: archItem.lotNum, ...newTransaction });
           count++;
         }
-        return { lot_num: archItem.lot_num, transactions: arr };
+        return { lotNum: archItem.lotNum, transactions: arr };
       });
 
       //  SORT TRANSACTIONS BY TIMESTAMP
@@ -59,19 +79,18 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
         )
       );
 
-      //  SET QUANTITY_IN_STOCK PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ARCHITECT ITEM
+      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ARCHITECT ITEM
       transactions.forEach(itemTransactions => {
         const item = result.find(
-          item => item.lot_num === itemTransactions.lot_num
+          item => item.lotNum === itemTransactions.lotNum
         );
         itemTransactions.transactions.forEach(transaction => {
-          if (transaction.transaction_type === "used") {
+          if (transaction.transactionType === "used") {
             item.quantity -= transaction.amount;
-            transaction.quantity_in_stock = item.quantity;
+            transaction.quantityInStock = item.quantity;
           } else {
-            item.quantity +=
-              transaction.num_boxes_received * item.count_per_box;
-            transaction.quantity_in_stock = item.quantity;
+            item.quantity += transaction.numBoxesReceived * item.countPerBox;
+            transaction.quantityInStock = item.quantity;
           }
         });
       });
@@ -79,23 +98,23 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
       transactions.forEach(item => {
         item.transactions.forEach(
           ({
-            lot_num,
-            transaction_type,
+            lotNum,
+            transactionType,
             amount,
-            num_boxes_received,
-            quantity_in_stock,
+            numBoxesReceived,
+            quantityInStock,
             timestamp
           }) => {
             const sql =
-              "INSERT INTO architect_transactions (lot_num, transaction_type, amount, num_boxes_received, quantity_in_stock, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+              "INSERT INTO architect_transactions (lotNum, transactionType, amount, numBoxesReceived, quantityInStock, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
             db.query(
               sql,
               [
-                lot_num,
-                transaction_type,
+                lotNum,
+                transactionType,
                 amount,
-                num_boxes_received,
-                quantity_in_stock,
+                numBoxesReceived,
+                quantityInStock,
                 timestamp
               ],
               (err, results) => {
@@ -112,13 +131,13 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
         );
       });
 
-      result.forEach(({ quantity, lot_num }) => {
-        const sql = "UPDATE Architect SET quantity = ? WHERE lot_num = ?";
-        db.query(sql, [quantity, lot_num], (err, result) => {
+      result.forEach(({ quantity, lotNum }) => {
+        const sql = "UPDATE Architect SET quantity = ? WHERE lotNum = ?";
+        db.query(sql, [quantity, lotNum], (err, result) => {
           if (err) {
             res.send(err);
           } else {
-            console.log(`Updated ${lot_num} quantity to: ${quantity}`);
+            console.log(`Updated ${lotNum} quantity to: ${quantity}`);
           }
         });
       });
@@ -135,7 +154,7 @@ router.get("/api/Architect/generate-random-transactions", (req, res) => {
 router.get("/api/Architect/:name", (req, res) => {
   console.log(req.params.name);
   console.log(req.query.lotNum);
-  const sql = `SELECT * FROM architect_transactions WHERE lot_num = ?`;
+  const sql = `SELECT * FROM architect_transactions WHERE lotNum = ?`;
   db.query(sql, [req.query.lotNum], (err, result) => {
     if (err) {
       res.send(err);

@@ -3,17 +3,17 @@ CREATE TABLE
 IF NOT EXISTS Architect
 (
 	id int AUTO_INCREMENT,
-	display_name VARCHAR
+	displayName VARCHAR
 (100) NOT NULL,
-    lot_num VARCHAR
+    lotNum VARCHAR
 (100) NOT NULL,
     quantity INT NOT NULL,
-    is_current_lot BOOLEAN NOT NULL,
-    is_new_lot BOOLEAN NOT NULL,
+    isCurrentLot BOOLEAN NOT NULL,
+    isNewLot BOOLEAN NOT NULL,
     par INT NOT NULL,
-    count_per_box INT NOT NULL,
-    expiration_date DATETIME NOT NULL,
-    order_id VARCHAR
+    countPerBox INT NOT NULL,
+    expirationDate DATETIME NOT NULL,
+    orderID VARCHAR
 (100) NOT NULL,
     PRIMARY KEY
 (id)
@@ -21,7 +21,7 @@ IF NOT EXISTS Architect
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -30,7 +30,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -39,7 +39,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -48,7 +48,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -57,7 +57,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -66,7 +66,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -75,7 +75,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -84,7 +84,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -93,7 +93,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -102,7 +102,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -111,7 +111,7 @@ VALUES
 
 INSERT INTO Architect
     (
-    display_name, lot_num, quantity, is_current_lot, is_new_lot, par, count_per_box, expiration_date, order_id
+    displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
     )
 VALUES
     (
@@ -120,15 +120,19 @@ VALUES
 
 -- ARCHITECT TRANSACTIONS
 CREATE TABLE
-IF NOT EXISTS architect_transactions (
+IF NOT EXISTS architect_transactions
+(
 	id INT AUTO_INCREMENT,
-    lot_num VARCHAR(100) NOT NULL,
-    transaction_type VARCHAR(10) NOT NULL,
+    lotNum VARCHAR
+(100) NOT NULL,
+    transaction_type VARCHAR
+(10) NOT NULL,
     amount int NULL,
-    num_boxes_received INT NULL,
-    quantity_in_stock int NULL,
+    numBoxesReceived INT NULL,
+    quantityInStock int NULL,
     timestamp TIMESTAMP,
-    PRIMARY KEY(id)
+    PRIMARY KEY
+(id)
 );
 
 SELECT *
