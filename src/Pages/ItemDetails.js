@@ -8,7 +8,6 @@ import queryStringParser from "query-string";
 
 const ItemDetails = props => {
   const { param, items } = props.location.state;
-
   const history = useHistory();
   const [key, setKey] = useState("currentLot");
   const currentLotItem = useRef(

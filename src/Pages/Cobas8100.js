@@ -216,7 +216,8 @@ handleUpdate(event) {
         console.error("Error:", error);
       });
 
-  
+      window.location.reload();
+
   }
 
 
