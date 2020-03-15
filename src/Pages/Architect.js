@@ -83,7 +83,10 @@ const Architect = () => {
           </section>
         </>
       ) : (
-        "Loading..."
+        <>
+          <Navbar />
+          <section></section>
+        </>
       )}
     </div>
   );

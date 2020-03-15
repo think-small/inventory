@@ -3,12 +3,17 @@ import moment from "moment";
 import { ListGroup } from "react-bootstrap";
 
 const ItemSummaryInfo = ({
-  itemToDisplay: { lotNum, expirationDate, quantity, lastUsed }
+  itemToDisplay: { lotNum, expirationDate, quantity, transactions }
 }) => {
   const dateFormat = "YYYY-MM-DD";
   const dateTimeFormat = "YYYY-MM-DD, h:mm A";
   const formattedExpirationDate = moment(expirationDate).format(dateFormat);
-  const formattedLastUsedDate = moment(lastUsed).format(dateTimeFormat);
+  const sortedTransactions = transactions.sort((a, b) =>
+    a.timestamp < b.timestamp ? 1 : -1
+  );
+  const formattedLastUsedDate = moment(sortedTransactions[0].timestamp).format(
+    dateTimeFormat
+  );
 
   return (
     <ListGroup>
