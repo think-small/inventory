@@ -31,7 +31,7 @@ const ItemBasicStats = ({
         <span>Monthly Units Received</span>
         <span>{monthlyReceived * countPerBox}</span>
       </ListGroup.Item>
-      <ListGroup.Item className="list-row">
+      {/* <ListGroup.Item className="list-row">
         <span>Last Warning</span>
         <span>
           {warnings.length > 0
@@ -41,7 +41,7 @@ const ItemBasicStats = ({
             : "None"}{" "}
           || {warnings.length}
         </span>
-      </ListGroup.Item>
+      </ListGroup.Item> */}
     </ListGroup>
   );
 };
