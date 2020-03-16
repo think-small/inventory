@@ -255,9 +255,9 @@ const ItemChart = props => {
                           "YYYY-MM-DD, h:mm A"
                         )}
                       </td>
-                      <td>{transaction.type}</td>
+                      <td>{transaction.transactionType}</td>
                       <td>
-                        {transaction.type === "used"
+                        {transaction.transactionType === "used"
                           ? transaction.amount
                           : transaction.numBoxesReceived *
                             props.itemToDisplay.countPerBox}
@@ -280,7 +280,7 @@ const ItemChart = props => {
               return transactionCopy;
             })}
             headers={[
-              { label: "Transaction Type", key: "type" },
+              { label: "Transaction Type", key: "transactionType" },
               {
                 label: "Quantity in Stock After Transaction",
                 key: "quantityInStock"
@@ -290,7 +290,7 @@ const ItemChart = props => {
               { label: "Number of Boxes Received", key: "numBoxesReceived" }
             ]}
             target="_blank"
-            filename={`${props.itemToDisplay.displayName} transactions.csv`}
+            filename={`${props.itemToDisplay.displayName} Transactions.csv`}
           >
             Download
           </CSVLink>
