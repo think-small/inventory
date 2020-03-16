@@ -2,7 +2,7 @@ import React,  {useState, useEffect} from 'react';
 import Table from "react-bootstrap/Table";
 
 
-const Tables2 = (props) => {
+const Tables2 = () => {
 
 
     const [Cobas_8100_Transactions, setdatabase1] = useState([]);
