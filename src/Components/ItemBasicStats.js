@@ -1,12 +1,11 @@
 import React from "react";
 import { ListGroup } from "react-bootstrap";
 import moment from "moment";
+import StatisticTooltip from "./StatisticTooltip";
 import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
 import { calcAverage } from "../UtilityFunctions/Statistics";
 
-const ItemBasicStats = ({
-  itemToDisplay: { transactions, countPerBox, warnings }
-}) => {
+const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  ACQUIRE DATA
   const usageData = getRawData(transactions, "usage");
   const receivedData = getRawData(transactions, "received");
@@ -19,7 +18,9 @@ const ItemBasicStats = ({
   //  @todo figure out how to change filterByNumberOfDays to accurately grab 12 months of data
   const monthlyUsage = calcAverage(aggregatedUsageData, 2);
   const monthlyReceived = calcAverage(aggregatedReceivedData, 2);
-
+  const stockOutStat = transactions.filter(
+    transaction => transaction.quantityInStock < 1
+  );
   return (
     <ListGroup>
       <ListGroup.Item className="list-header">Statistics</ListGroup.Item>
@@ -31,17 +32,16 @@ const ItemBasicStats = ({
         <span>Monthly Units Received</span>
         <span>{monthlyReceived * countPerBox}</span>
       </ListGroup.Item>
-      {/* <ListGroup.Item className="list-row">
-        <span>Last Warning</span>
-        <span>
-          {warnings.length > 0
-            ? moment(warnings[warnings.length - 1].timestamp).format(
-                "YYYY-MM-DD, h:mm A"
-              )
-            : "None"}{" "}
-          || {warnings.length}
-        </span>
-      </ListGroup.Item> */}
+      <ListGroup.Item className="list-row">
+        <StatisticTooltip
+          title="Stock Out"
+          content="The average number of times inventory ran out in a given time period"
+          direction="right"
+        >
+          <span>Monthly Stock Out</span>
+        </StatisticTooltip>
+        <span>{stockOutStat.length}</span>
+      </ListGroup.Item>
     </ListGroup>
   );
 };
