@@ -3,7 +3,7 @@ import { ListGroup } from "react-bootstrap";
 import moment from "moment";
 import StatisticTooltip from "./StatisticTooltip";
 import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
-import { calcAverage } from "../UtilityFunctions/Statistics";
+import { calcAverage, stockOut } from "../UtilityFunctions/Statistics";
 
 const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  ACQUIRE DATA
@@ -18,9 +18,7 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  @todo figure out how to change filterByNumberOfDays to accurately grab 12 months of data
   const monthlyUsage = calcAverage(aggregatedUsageData, 2);
   const monthlyReceived = calcAverage(aggregatedReceivedData, 2);
-  const stockOutStat = transactions.filter(
-    transaction => transaction.quantityInStock < 1
-  );
+  const stockOutStat = stockOut(transactions, 2);
   return (
     <ListGroup>
       <ListGroup.Item className="list-header">Statistics</ListGroup.Item>
@@ -40,7 +38,7 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
         >
           <span>Monthly Stock Out</span>
         </StatisticTooltip>
-        <span>{stockOutStat.length}</span>
+        <span>{stockOutStat}</span>
       </ListGroup.Item>
     </ListGroup>
   );
