@@ -11,7 +11,10 @@ const ItemSummaryInfo = ({
   const sortedTransactions = transactions.sort((a, b) =>
     a.timestamp < b.timestamp ? 1 : -1
   );
-  const formattedLastUsedDate = moment(sortedTransactions[0].timestamp).format(
+  const lastUsed = sortedTransactions.find(
+    transaction => transaction.transactionType === "used"
+  );
+  const formattedLastUsedDate = moment(lastUsed.timestamp).format(
     dateTimeFormat
   );
 
