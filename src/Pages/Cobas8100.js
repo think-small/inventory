@@ -18,7 +18,7 @@ return (
 
 
 <Navbar />
-<Jumbotron1 Title="Cobas 8100"  />
+
 
 
 <Card_Input_main route="whatever-route-in-the-future" />
