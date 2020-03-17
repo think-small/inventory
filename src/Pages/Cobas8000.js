@@ -1,9 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 
-import Card_Input_main from "../Card_Input/Card_Input_main"; 
-import Tables_main from "../Table/Tables_main";
-import Tables2 from "../Table/Tables2"; 
 
 
 const Cobas8000 = () => {
@@ -16,11 +13,7 @@ return (
 
 <Navbar />
 
-<Card_Input_main route="whatever-change-in-the-future" />
-  
-<Tables_main />       
-
-<Tables2 />
+<input type="text" placeholder="Search" style={{   backgroundColor: "lightgrey" , padding: "0 16px 0 40px",  height: "50px", width: "45%", align: "center", margin: "0 auto", borderRadius: "5px", border: "1px solid white"}} />
       
 
 </div>
