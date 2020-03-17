@@ -6,8 +6,8 @@ const Navbar = () =>  {
 
         return (
           <div>
-    <nav className="navbar navbar-light"style={{ marginLeft: "-10em", backgroundColor: "white", padding: "5px", height: "80px",  display: "flex" ,zIndex: "10", boxShadow: "0 2px 2px -2px rgba(0,0,0,.6)" }} >
-      <div style={{padding: "5px", marginLeft: "10px", fontSize: "19px"}}>Inventory Mangement</div>
+    <nav className="navbar navbar-light"style={{ marginLeft: "-15em", backgroundColor: "white", padding: "5px", height: "80px",  display: "flex" ,zIndex: "10", boxShadow: "0 2px 2px -2px rgba(0,0,0,.6)" }} >
+      <div style={{padding: "5px", marginLeft: "10px", fontSize: "20px"}}>INVENTORY MANGEMENT</div>
 
 
      <div style={{}}>
@@ -18,11 +18,12 @@ const Navbar = () =>  {
       style={{
         padding: "7px",
         display: "inline-block", 
+        marginRight: "20px", 
+        color: "black",
 
 
-        marginRight: "7px",
 
-        borderRadius: "4px", 
+        borderRadius: "5px", 
 
       
       }}
@@ -39,8 +40,9 @@ const Navbar = () =>  {
       style={{
         padding: "7px",
         display: "inline-block",
-        marginRight: "1rem",
-        borderRadius: "4px", 
+        marginRight: "10px",
+        borderRadius: "5px", 
+        color: "black"
 
 
         

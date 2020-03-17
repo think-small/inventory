@@ -6,6 +6,7 @@ import NavLink from "./SidebarNavItem";
 const Sidebar = () => {
   return (
     <Nav className="flex-column sidebar">
+      <input type="text" placeholder="Search" style={{ padding: "20px",  height: "10px", width: "80%", margin: "20px 10px 10px 10px", borderRadius: "1px", border: "1px solid white"}} />
       <IndexLinkContainer to="/" activeClassName="activeLink">
         <NavItem>{"Dashboard"}</NavItem>
       </IndexLinkContainer>
