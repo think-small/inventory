@@ -60,7 +60,7 @@ return (
 </div>
 
 <div className="containment" >
-   <label >
+   <label  >
      <input type="radio" name="isCurrentLot" value="isCurrentLot" onChange={props.handleChangeisCurrentLot} />
      Current Lot
    </label>
@@ -78,9 +78,9 @@ return (
 
 <br></br>
 
-
+<div style={{paddingBottom: "100px", margin: "20px" }}>
   <button className="submit_button" >Submit</button>
-
+</div>
 
 
 </form>

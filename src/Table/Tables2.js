@@ -34,8 +34,8 @@ return (
 
 
 
-<div style={{padding: "10px"}}> <p>History of Expiration Date and Quantity(from join table)</p>
-<Table striped bordered hover size="sm" >
+<div> <p>History of Expiration Date and Quantity(from join table)</p>
+<Table striped bordered hover >
   <thead>
     <tr>
       <th>Lot #</th>

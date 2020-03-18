@@ -2,9 +2,9 @@
  
     height: 100%;
 
-    padding: 40px;
+    padding: 60px 40px;
     overflow: hidden; 
-
+  border-bottom-style: ridge;
 }
 
 .containment {
@@ -12,10 +12,12 @@
    float: left; 
    padding: 10px;
    position: relative; 
+ 
 }
 
 .top_label {
     display: block;
+    margin-bottom: 0px;
 }
 
 

@@ -228,12 +228,13 @@ const Tables_main = ()=> {
 
 
 return (
-    <div style={{ display: "inline-block", paddingLeft: "10px"}}>
 
+<div style={{paddingTop: "100px", paddingBottom: "100px",  borderBottomStyle: "ridge"}} >
+  <div>your input table</div>
     <Tables From_Database={Cobas_8100} handleUpdate={() => {handleUpdate(event) }} 
     handleInputChange= {() => handleInputChange(event)} handleDelete= {()=>handleDelete(event)}  />          
-           
-    </div>
+</div>           
+
     
 )
 

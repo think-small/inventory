@@ -10,7 +10,7 @@ const Tables = (props)=> {
     return (
    
 <div >
-        <Table striped bordered hover size="sm" >
+        <Table striped bordered hover   responsive >
         <thead>
           <tr>  
             <th>Lot #</th>
