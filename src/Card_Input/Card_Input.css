@@ -1,0 +1,31 @@
+.outside_container {
+ 
+    height: 100%;
+
+    padding: 40px;
+    overflow: hidden; 
+
+}
+
+.containment {
+   display: block;
+   float: left; 
+   padding: 10px;
+   position: relative; 
+}
+
+.top_label {
+    display: block;
+}
+
+
+.submit_button {
+    float: right;
+    padding: 5px; 
+     clear: both;
+
+}
+
+
+
+
