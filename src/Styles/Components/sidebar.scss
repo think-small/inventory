@@ -50,25 +50,29 @@
 
     .nav-item {
       display: flex;
+      position: relative;
       padding: 10px;
       justify-content: left;
       align-items: center;
       height: 3rem;
       width: 100%;
       box-sizing: border-box;
+      transition: 200ms ease-in-out;
     }
 
-    .nav-item:hover {
-      background-color: $secondary-color;
-      color: $white-color;
-      border-right: 5px solid $accent-color;
+    .nav-item:hover:not(.activeLink) {
+      color: $accent-color;
+      font-weight: bold;
       cursor: pointer;
     }
 
     .activeLink {
-      background-color: $secondary-color;
-      color: $white-color;
-      border-right: 5px solid $accent-color;
+      color: $accent-color;
+      font-weight: bold;
+    }
+
+    .activeLink:hover {
+      cursor: pointer;
     }
   }
 }
@@ -83,25 +87,29 @@
 
     .nav-item {
       display: flex;
+      position: relative;
       padding: 10px;
       justify-content: left;
       align-items: center;
       height: 3rem;
       width: 100%;
       box-sizing: border-box;
+      transition: 200ms ease-in-out;
     }
 
-    .nav-item:hover {
-      background-color: $secondary-color;
-      color: $white-color;
-      border-right: 5px solid $accent-color;
+    .nav-item:hover:not(.activeLink) {
+      color: $accent-color;
+      font-weight: bold;
       cursor: pointer;
     }
 
     .activeLink {
-      background-color: $secondary-color;
-      color: $white-color;
-      border-right: 5px solid $accent-color;
+      color: $accent-color;
+      font-weight: bold;
+    }
+
+    .activeLink:hover {
+      cursor: pointer;
     }
   }
 }
