@@ -14,7 +14,7 @@ const Architect = () => {
       const json = await fetch("/api/Architect/all-items");
       const data = await json.json();
       setArchitectItems(data);
-
+      console.log(data);
       const currentLot = data.filter(item => item.isCurrentLot);
       setCurrentLotItems(currentLot);
     };

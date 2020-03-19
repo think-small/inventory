@@ -1,57 +1,101 @@
 import moment from "moment";
-import uuid from "uuid";
 
 const dummyData = [
   {
-    name: "Calibration Solution 1",
-    lotNum: "A293-B2380S",
-    expirationDate: moment()
-      .add(700, "days")
-      .fromNow(),
-    countPerBox: 4,
-    numBoxesReceived: null,
-    quantityInStock: 16,
-    lastScan: moment()
-      .subtract(3, "days")
-      .fromNow(),
-    orderID: uuid(),
-    isCurrentLot: true,
-    isNewLot: false,
-    id: 1
+    id: 1,
+    displayName: "Hepatitis B Surface Antigen",
+    reagentName: "hepBsAg",
+    lotNum: "ABC-123",
+    quantity: 1,
+    isCurrentLot: 1,
+    isNewLot: 0,
+    par: 4,
+    countPerBox: 2,
+    expirationDate: moment().add({ years: 1 }),
+    orderID: "123ABC",
+    transactions: [
+      {
+        id: 1,
+        lotNum: "ABC-123",
+        transactionType: "received",
+        amount: undefined,
+        numBoxesReceived: 1,
+        quantityInStock: 3,
+        timestamp: moment().valueOf()
+      },
+      {
+        id: 2,
+        lotNum: "ABC-123",
+        transactionType: "used",
+        amount: 2,
+        numBoxesReceived: undefined,
+        quantityInStock: 1,
+        timestamp: moment()
+          .add({ days: 1 })
+          .valueOf()
+      }
+    ]
   },
   {
-    name: "Calibration Solution 2",
-    lotNum: "T238SSK-298SKDS1",
-    expirationDate: moment()
-      .add(365, "days")
-      .fromNow(),
-    countPerBox: 4,
-    numBoxesReceived: null,
-    quantityInStock: 11,
-    lastScan: moment()
-      .subtract(10, "days")
-      .fromNow(),
-    orderID: uuid(),
-    isCurrentLot: true,
-    isNewLot: false,
-    id: 2
+    id: 2,
+    displayName: "Hepatitis B Surface Antigen",
+    reagentName: "hepBsAg",
+    lotNum: "CBA-321",
+    quantity: 2,
+    isCurrentLot: 0,
+    isNewLot: 1,
+    par: 4,
+    countPerBox: 2,
+    expirationDate: moment().add({ years: 2 }),
+    orderID: "CBA321",
+    transactions: [
+      {
+        id: 1,
+        lotNum: "CBA-321",
+        transactionType: "received",
+        amount: undefined,
+        numBoxesReceived: 1,
+        quantityInStock: 2,
+        timestamp: moment().valueOf()
+      }
+    ]
   },
   {
-    name: "AutoCheck Level 1",
-    lotNum: "3982IZ3829",
-    expirationDate: moment()
-      .add(180, "days")
-      .fromNow(),
-    countPerBox: 8,
-    numBoxesReceived: null,
-    quantityInStock: 60,
-    lastScan: moment()
-      .subtract(7, "days")
-      .fromNow(),
-    orderID: uuid(),
-    isCurrentLot: false,
-    isNewLot: true,
-    id: 3
+    id: 3,
+    displayName: "Reaction Vessels",
+    reagentName: "rv",
+    lotNum: "rv123",
+    quantity: 10,
+    isCurrentLot: 1,
+    isNewLot: 0,
+    par: 6,
+    countPerBox: 4,
+    expirationDate: moment().add({ years: 3 }),
+    orderID: "rv-123",
+    transactions: [
+      {
+        id: 1,
+        lotNum: "rv123",
+        transactionType: "received",
+        amount: undefined,
+        numBoxesReceived: 3,
+        quantityInStock: 12,
+        timestamp: moment()
+          .subtract({ days: 2 })
+          .valueOf()
+      },
+      {
+        id: 2,
+        lotNum: "rv123",
+        transactionType: "used",
+        amount: 2,
+        numBoxesReceived: undefined,
+        quantityInStock: 10,
+        timestamp: moment()
+          .subtract({ days: 1 })
+          .valueOf()
+      }
+    ]
   }
 ];
 

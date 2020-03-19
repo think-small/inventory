@@ -36,8 +36,8 @@ const ItemChart = props => {
     canvas.height = 270;
 
     const layoutSettings = {
-      barColors: data.data.map(val => (val >= 0 ? "#3d547d" : "#991a11")),
-      hoverBarColors: data.data.map(val => (val >= 0 ? "#6994e0" : "#d12115")),
+      barColors: data.data.map(val => (val >= 0 ? "#24292e" : "#991a11")),
+      hoverBarColors: data.data.map(val => (val >= 0 ? "#4b555e" : "#d12115")),
       padding: 20
     };
     if (type === "usage") {
