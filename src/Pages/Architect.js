@@ -11,12 +11,15 @@ const Architect = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const json = await fetch("/api/Architect/all-items");
-      const data = await json.json();
-      setArchitectItems(data);
-      console.log(data);
-      const currentLot = data.filter(item => item.isCurrentLot);
-      setCurrentLotItems(currentLot);
+      try {
+        const res = await fetch("/api/Architect/all-items");
+        const data = await res.json();
+        const findCurrentLotItems = data.filter(item => item.isCurrentLot);
+        setArchitectItems(data);
+        setCurrentLotItems(findCurrentLotItems);
+      } catch (err) {
+        throw new Error("Unable to fetch Architect items");
+      }
     };
     fetchData();
   }, []);

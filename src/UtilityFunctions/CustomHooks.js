@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 
+/**
+ *
+ * @todo UNABLE TO GET USEFETCH TO WORK CORRECTLY - RETURNS UNDEFINED SPORADICALLY
+ */
 export const useFetch = url => {
   const [data, setData] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
         setData(data);
         setError(null);
-      } catch (err) {
-        setError(`Error occurred when fetching from ${url}: ${err}`);
-      }
-    };
-    fetchData();
+      })
+      .catch(err => {
+        setData(null);
+        setError(err);
+      });
   }, [url]);
 
   return {
