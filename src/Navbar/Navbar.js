@@ -47,7 +47,7 @@ const Navbar = () =>  {
         padding: "7px",
         display: "inline-block",
         marginRight: "10px",
-
+        backgroundColor:  "#1a73e8",
         color: "black"
 
 
