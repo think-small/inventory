@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
+import { sortTable } from "../UtilityFunctions/TableUtils";
 
 const Architect = () => {
   const [architectItems, setArchitectItems] = useState();
@@ -31,58 +32,42 @@ const Architect = () => {
 
   const handleTableHeaderClick = e => {
     const clickedHeader = e.target.innerText.trim();
-    const currentLotSortedItems = [...currentLotItems];
+    let currentLotSortedItems = [...currentLotItems];
     switch (clickedHeader) {
       case "Name":
-        if (!isNameSorted) {
-          setisNameSorted(true);
-          currentLotSortedItems.sort((a, b) =>
-            a.displayName < b.displayName ? -1 : 1
-          );
-        } else {
-          setisNameSorted(false);
-          currentLotSortedItems.sort((a, b) =>
-            a.displayName > b.displayName ? -1 : 1
-          );
-        }
+        currentLotSortedItems = sortTable(
+          currentLotSortedItems,
+          "displayName",
+          isNameSorted,
+          setisNameSorted
+        );
         setCurrentLotItems(currentLotSortedItems);
         break;
       case "Current Lot":
-        if (!isLotNumSorted) {
-          setisLotNumSorted(true);
-          currentLotSortedItems.sort((a, b) => (a.lotNum < b.lotNum ? -1 : 1));
-        } else {
-          setisLotNumSorted(false);
-          currentLotSortedItems.sort((a, b) => (a.lotNum > b.lotNum ? -1 : 1));
-        }
+        currentLotSortedItems = sortTable(
+          currentLotSortedItems,
+          "lotNum",
+          isLotNumSorted,
+          setisLotNumSorted
+        );
         setCurrentLotItems(currentLotSortedItems);
         break;
       case "Expiration Date":
-        if (!isExpDateSorted) {
-          setisExpDateSorted(true);
-          currentLotSortedItems.sort((a, b) =>
-            a.expirationDate < b.expirationDate ? -1 : 1
-          );
-        } else {
-          setisExpDateSorted(false);
-          currentLotSortedItems.sort((a, b) =>
-            a.expirationDate > b.expirationDate ? -1 : 1
-          );
-        }
+        currentLotSortedItems = sortTable(
+          currentLotSortedItems,
+          "expirationDate",
+          isExpDateSorted,
+          setisExpDateSorted
+        );
         setCurrentLotItems(currentLotSortedItems);
         break;
       case "Quantity":
-        if (!isQuantitySorted) {
-          setisQuantitySorted(true);
-          currentLotSortedItems.sort((a, b) =>
-            a.quantity < b.quantity ? -1 : 1
-          );
-        } else {
-          setisQuantitySorted(false);
-          currentLotSortedItems.sort((a, b) =>
-            a.quantity > b.quantity ? -1 : 1
-          );
-        }
+        currentLotSortedItems = sortTable(
+          currentLotSortedItems,
+          "quantity",
+          isQuantitySorted,
+          setisQuantitySorted
+        );
         setCurrentLotItems(currentLotSortedItems);
         break;
       default:
