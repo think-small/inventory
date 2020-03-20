@@ -120,7 +120,6 @@ VALUES
         "preTriggerSoln", "Pre Trigger Solution", "RELK23M", 10, TRUE, FALSE, 4, 2, "2020-12-30 00:00:00", "383289ZSJ23JKOcobas_8100_transactions"
 );
 
--- ARCHITECT TRANSACTIONS
 CREATE TABLE
 IF NOT EXISTS architect_transactions
 (
