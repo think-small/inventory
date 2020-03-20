@@ -8,10 +8,10 @@ import { sortTable } from "../UtilityFunctions/TableUtils";
 const Architect = () => {
   const [architectItems, setArchitectItems] = useState();
   const [currentLotItems, setCurrentLotItems] = useState();
-  const [isNameSorted, setisNameSorted] = useState(false);
-  const [isLotNumSorted, setisLotNumSorted] = useState(false);
-  const [isExpDateSorted, setisExpDateSorted] = useState(false);
-  const [isQuantitySorted, setisQuantitySorted] = useState(false);
+  const [isNameSorted, setIsNameSorted] = useState(false);
+  const [isLotNumSorted, setIsLotNumSorted] = useState(false);
+  const [isExpDateSorted, setIsExpDateSorted] = useState(false);
+  const [isQuantitySorted, setIsQuantitySorted] = useState(false);
 
   const history = useHistory();
 
@@ -39,7 +39,7 @@ const Architect = () => {
           currentLotSortedItems,
           "displayName",
           isNameSorted,
-          setisNameSorted
+          setIsNameSorted
         );
         setCurrentLotItems(currentLotSortedItems);
         break;
@@ -48,7 +48,7 @@ const Architect = () => {
           currentLotSortedItems,
           "lotNum",
           isLotNumSorted,
-          setisLotNumSorted
+          setIsLotNumSorted
         );
         setCurrentLotItems(currentLotSortedItems);
         break;
@@ -57,7 +57,7 @@ const Architect = () => {
           currentLotSortedItems,
           "expirationDate",
           isExpDateSorted,
-          setisExpDateSorted
+          setIsExpDateSorted
         );
         setCurrentLotItems(currentLotSortedItems);
         break;
@@ -66,7 +66,7 @@ const Architect = () => {
           currentLotSortedItems,
           "quantity",
           isQuantitySorted,
-          setisQuantitySorted
+          setIsQuantitySorted
         );
         setCurrentLotItems(currentLotSortedItems);
         break;
