@@ -1,0 +1,96 @@
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+  .btn-primary.disabled, .btn-primary:disabled{
+    background-color: #23b6cd;
+    border-color: black;
+  }
+  .form-control{
+    border-color: #23b6cd 
+  }
+  p{
+    color: black;
+    font-size: 14px;
+    
+  }
+  a{
+    color: #23b6cd;
+    margin: 1px;
+    border-color: black;
+  }
+  label{
+    color: black;
+    
+  }
+  .btn-primary{
+    background-color: #23b6cd;
+    border-color: black;
+
+  }
+  .form-control:focus{
+    border-color: black;
+  }
+  .btn-primary:hover {
+    background-color: #0a9ab0;
+  }
+
+.login form{
+  height: 200px;
+}
+a:hover{
+  color: #057a8c;
+}
+.main-wrap {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:1000;
+	overflow: auto;
+	background:white;
+}
+.main-register-holder {
+	max-width:480px;
+	margin:100px auto 50px;
+	position:relative;
+	z-index:5;
+}
+.main-register h3 {
+	float:left;
+	width:100%;
+	text-align:left;
+	font-size:20px;
+	padding:20px 30px;
+	margin-bottom:20px;
+ 	font-weight:600;
+	color:#666;
+	border-bottom:1px solid #eee;
+}
+.main-register h3 span {
+	font-weight: 800;
+    font-size: 18px;
+    color: #566985;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+}
+.main-register {
+	float:left;
+	width:100%;
+	position:relative;
+	padding:0 0 30px;
+	margin-bottom:50px;
+	background:#fff;
+	border-radius:6px;
+	box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.12);
+}
+.main-register .filter-tags{
+	float:left;
+}
+}

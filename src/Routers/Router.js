@@ -10,6 +10,8 @@ import ItemDetails from "../Pages/ItemDetails";
 import Sidebar from "../Components/Sidebar";
 import { ArchitectContext } from "../Contexts/ArchitectContext";
 import { ABLContext } from "../Contexts/ABLContext";
+import Login from "../Login";
+import SignUp from "../SignUp";
 
 const Router = () => {
   const { architectItems } = useContext(ArchitectContext);
@@ -20,6 +22,8 @@ const Router = () => {
         <Sidebar />
         <section className="content-container">
           <Switch>
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/ABL/" component={ABL} />
             <Route

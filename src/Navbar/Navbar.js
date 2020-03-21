@@ -1,6 +1,8 @@
 
 import React from "react";
 import moment from "moment";
+
+
 const Navbar = () =>  {
 
   const current_time = moment().format("LT");
@@ -17,23 +19,14 @@ const Navbar = () =>  {
      <div style={{float: "right", display: "inline-block", position: "relative"}}>
      <a
       className="my-lg-0 border border-dark"
-      href="#"
+      href="/signup"
       style={{
         padding: "7px",
         display: "inline-block", 
         marginRight: "20px", 
-    
-
-
-        color: "black"
-
-
-
-
-
-      
+        color: "black"      
       }}
-      onClick={() => alert("nothing yet!")}
+
     >
       Sign Up
     </a>
@@ -42,7 +35,7 @@ const Navbar = () =>  {
     <div style={{display: "inline-block", float: "right", position: "relative"}}>
     <a
       className="my-lg-0 border border-dark"
-      href="#"
+      href="/login"
       style={{
         padding: "7px",
         display: "inline-block",
@@ -53,7 +46,7 @@ const Navbar = () =>  {
 
         
       }}
-      onClick={() => alert("nothing here yet!")}
+     
     >
       Sign In
     </a>

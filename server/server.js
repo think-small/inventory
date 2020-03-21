@@ -42,6 +42,7 @@ app.use(require("./Cobas_8100/Cobas_8100_Routes"));
 app.use(require("./Cobas_8100/Cobas_8100_Tables"));
 app.use(require("./Architect/Architect_Routes"));
 app.use(require("./ABL/ABL_Routes"));
+app.use(require("./SignUp/SignUp_Routes"));
 
 // a dummy route to see if this file will work
 app.get("/api/hello", (req, res) => {
