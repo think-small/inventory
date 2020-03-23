@@ -10,6 +10,7 @@ const Login = () =>  {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [database_username, setDatabase_username] = useState([]);
+  const  [array_count, setarray_count] = useState([]);
 
 useEffect(  ()=> {
 
@@ -85,46 +86,44 @@ fetch("/api/SignUp", {
   var x = 0;
   var counter = 0;
   var counter2 = 1;   
+
   while (x<database_username.length) {
         x++;
       
-       // console.log(database_username[x].Username)
         if (username===database_username[x].Username) {
               counter++; 
-              if (counter===1) {
-                alert('not unique-Please try again')
+           
+               if (counter===1) {
+                 //'push' into the array 
+                 setarray_count(prevArray => [...prevArray, counter])
+               //  alert('array count shold be 1 or greator b/c the state does not reset to 0,counter does reset ' + array_count.length)
+                //  alert('not unique-Please try again')
                 break; 
               }
          }
+
+         // the case when the username is unique
          if (username!==database_username[x].Username) {
           counter2++; 
        
           console.log(counter2);
           console.log(database_username.length); 
           if (counter2===database_username.length) {
-            alert('unique password!')
+         //   alert('unique password!')
             window.location.href = '/';
             break; 
           }
      }
 }
 
-
-
-
-  event.preventDefault();
+event.preventDefault();
 event.target.reset(); //this will clear the form after you submit
-
-
-
-
 // when the post is complete clear the form and possibly redirect the user to the main page??
 setUsername("");
 setPassword("");
-
-
 }
 
+  
  //const Users = database_username.map((items) => {console.log(items.Username)}); 
  
     return (
@@ -132,8 +131,8 @@ setPassword("");
       <div className="main-wrap">
       <div className="main-register-holder">
       <div className="main-register fl-wrap">
-      <h3>Sign Up </h3>
-     
+      <h3>Sign Up</h3>
+       
       <div className="Login">
         <form onSubmit={handleSubmit}>         
           <FormGroup controlId="username" >
@@ -145,8 +144,9 @@ setPassword("");
              type="username"
              
             />
+            {array_count.length >= 1 ? <div style={{color: "red"}}>Username already taken! Try another one </div> : <div></div>}
           </FormGroup>
-          
+
           
           
           
