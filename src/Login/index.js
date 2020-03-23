@@ -88,33 +88,47 @@ setPassword("");
 
 
     return (
-
-
-<form  onSubmit={handleSubmit } >
-<div className="containment" >
-<label className="top_label">username </label>          
-  <input type="username" name="username" id="username" onChange={handleChange}  />
-</div>
-
-
-<div className="containment" > 
-<label >password</label>               
-  <input type="password"name="password" id="password" onChange={handleChange} />
-</div>
+      <div className="main-wrap">
+      <div className="main-register-holder">
+      <div className="main-register fl-wrap">
+     
 <div></div>
+    <div className="Login">
+      <form onSubmit={handleSubmit}>
+        <FormGroup controlId="username" >
+          <FormLabel>Email/Username</FormLabel>
+          <FormControl
+            autoFocus
+            type="username"
+            value={username}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup controlId="password" >
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            value={password}
+            onChange={handleChange}
+            type="password"
+          />
+        </FormGroup>
+        <Button
+          block
+          
+          disabled={!validateForm()}
+          type="submit"
+        >
+          Login
+        </Button>
 
-  <button className="submit_button" >Submit</button>
-
-
-
-
-
-</form>
-
-
-
-        
-  
-    )
-    }
+        <p className="mt-3">Click <a href="/signup">HERE </a> to Register!</p>
+        <p className="mt-1">Click <a href="/"> HERE </a> to Return home</p>
+      </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+  );
+}
 export default Login; 
