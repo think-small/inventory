@@ -8,18 +8,14 @@ import "./index.css";
 
 const Login = ()=>  {
 
-
-
-
-
-
-
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [database, setDatabase] = useState([]);
-  
+
+
+
+
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return username.length > 0 && password.length > 0;
   }
 
   const handleChange = event => {
@@ -31,8 +27,8 @@ const Login = ()=>  {
   
 console.log(value);
 console.log(target);
-if (target==="email") {
-  setEmail(value);
+if (target==="text") {
+  setUsername(value);
 }
 if (target==="password") {
   setPassword(value);
@@ -41,104 +37,84 @@ if (target==="password") {
 
 }
 
-
-
 const handleSubmit = event => {
     event.preventDefault();
 
-alert(email );
-alert(password);
+const data = 
+{username:username, 
+  password:password};
 
-// save the information to the database HERE:
-fetch.post('/api/login', {
-  //username: this.state.username,
-  email: email,
-  password: password
-
+fetch("/api/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
 })
-.then(function (data) {
-// console.log(response);
-console.log(data);
-//console.log('i thinked it worked login.js');
- window.location.replace(data.data);   
+  .then(function(response) {
+ 
+    //alert(response.status)
+    
+    if (response.status >= 400) {
+    // throw new Error("Bad response from server");
+    //if there is a bad response from the server it means that the Passport.js file has found something wrong
+    //with either the username or the password
+     window.location.href = '/Login';
 
-// window.location.replace("https://www.w3schools.com") this works
- // how can you make data into a route? 
- })
-.catch(function (error) {
-  console.log(error);
-});
+    }
+    if (response.status==200) {
+    //if the username and password is sucessful from the backend then go to the homepage
+       window.location.href = '/';
+  }
+  
+  })
+  
+  .then(function(data) {
+    //any data that is returned from the backend 
+    //  alert('the data ' + data);
+    //  console.log(data);
+    })
+  .catch(function(err) {
+    console.log(err);
+    alert(err); 
+  });
 
-// when the post is complete clear the form and possibly redirect the user to the main page??
-setEmail("");
+
+
+//clear form
+setUsername("");
 setPassword("");
 }
 
-useEffect(
-  
-  ()=> {
 
-
-      const fetchData = async ()=> {
-        const res = await fetch("/api/Login")
-       res.json().then(res => setDatabase(res))
-      
-        .catch(err => console.log(err));
-      }
-          fetchData(); 
-   
-   
-   
-        }, [],
-        )
-
-  const size = database.length; 
 
 
     return (
-      <div className="main-wrap">
-        <div className="main-register-holder">
-        <div className="main-register fl-wrap">
-          <div>the size of the signin database is {size}</div>
+
+
+<form  onSubmit={handleSubmit } >
+<div className="containment" >
+<label className="top_label">username </label>          
+  <input type="username" name="username" id="username" onChange={handleChange}  />
+</div>
+
+
+<div className="containment" > 
+<label >password</label>               
+  <input type="password"name="password" id="password" onChange={handleChange} />
+</div>
 <div></div>
-      <div className="Login">
-        <form onSubmit={handleSubmit}>
-          <FormGroup controlId="email" >
-            <FormLabel>Email/Username</FormLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={email}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" >
-            <FormLabel>Password</FormLabel>
-            <FormControl
-              value={password}
-              onChange={handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <Button
-            block
-            
-            disabled={!validateForm()}
-            type="submit"
-          >
-            Login
-          </Button>
 
-          <p className="mt-3">Click <a href="/signup">HERE </a> to Register!</p>
-          <p className="mt-1">Click <a href="/"> HERE </a> to Return home</p>
-        </form>
-      </div>
-      </div>
-      </div>
-      </div>
-      
-    );
+  <button className="submit_button" >Submit</button>
+
+
+
+
+
+</form>
+
+
+
+        
   
-}
-
+    )
+    }
 export default Login; 

@@ -9,7 +9,18 @@ const webpack = require("webpack");
 const config = require("../webpack.config");
 const compiler = webpack(config);
 
+
+
 const app = express();
+const passport = require("./SignUp/Passport.js");
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+
 
 app.use(
   webpackDevMiddleware(compiler, {
@@ -32,6 +43,17 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: false }));
+//var session = require('express-session');
+//app.set('trust proxy', 1) // trust first proxy
+//app.use(session({
+//  secret: 'keyboard cat',
+ // resave: false,
+ // saveUninitialized: true,
+ // cookie: { secure: true }
+//}))
+
+
+
 
 // parse application/json
 app.use(bodyParser.json());
@@ -55,6 +77,18 @@ app.get("/api/hello", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
+
+
+
+  app.post('/api/login', 
+  passport.authenticate('local'), function(req, res) {
+   // if everything has been authenticated from the Passport.js console.log(req.user), then send json...
+   
+   //just put something here for now , so that the client side is able to process requests from Passport.js file....
+   res.json("/Cobas8100")
+  
+
+ });
 
 const port = process.env.PORT || 8080;
 app.listen(port);
