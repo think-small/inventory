@@ -21,12 +21,12 @@ passwordField: 'password'} ,
     // console.log('username is ' + user[0].Username)  //just do a normal for loop now 
  **/    
      //  console.log(password);
-    console.log('in the passportjs file' + user[0].Username);
+ //   console.log('in the passportjs file' + user[0].Username);
     
     //   console.log(user[0].Password); will cause failure to fetch and shutdown server...
 
        if (err) { 
-          console.log(err);
+          console.log('Passport.js file' + err);
           return done(err);
      }
      

@@ -31,7 +31,7 @@ router.post("/api/SignUp", (req,res) => {
 
   router.get('/api/Cobas9', isAuthenticated,
   function(req, res) {
-    console.log('need req.user to be defined!!! ' + req.user )
+    console.log('this has to be defined if the authentication worked: ' + req.user )
   //console.log(req.user[0].Username)  //safer to send just the username back
     res.json(req.user);
   });

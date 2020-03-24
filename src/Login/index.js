@@ -78,7 +78,8 @@ fetch("/api/login", {
     })
   .catch(function(err) {
     console.log(err);
-    alert(err); 
+    alert(err + " the app may crash "); 
+ 
   });
 
 

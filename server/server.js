@@ -83,16 +83,16 @@ app.get("*", (req, res) => {
   app.post('/api/login', passport.authenticate('local'), function(req, res) {
 
 //if passport did authenticate you will get the latest user    
-    console.log('the user is ' + req.user);
-    console.log(req.user[0])
+   // console.log('the user is ' + req.user);
+    //console.log(req.user[0])
     //console.log(req.user[0].Username);
   
      //makes a different id everytime u succesfully login
-    console.log('the session is ' + req.session.id);
+   // console.log('the session is ' + req.session.id);
     
-    for (const property in req.session.cookie.data) {
-      console.log(`${property}: ${req.session.cookie.data[property]}`);
-   }
+    //for (const property in req.session.cookie.data) {
+    //  console.log(`${property}: ${req.session.cookie.data[property]}`);
+  // }
    //just put something here for now , so that the client side is able to process requests from Passport.js file....
    //res.json(req.user[0])
   
