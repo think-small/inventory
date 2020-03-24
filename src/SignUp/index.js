@@ -110,7 +110,8 @@ fetch("/api/SignUp", {
           console.log(database_username.length); 
           if (counter2===database_username.length) {
          //   alert('unique password!')
-            window.location.href = '/';
+         //if unique then go to this route for now 
+            window.location.href = '/login';
             break; 
           }
      }

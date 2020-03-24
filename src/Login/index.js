@@ -10,7 +10,7 @@ const Login = ()=>  {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [namefrom,setnamefrom]  = useState("");
+
 
 
 
@@ -61,10 +61,10 @@ fetch("/api/login", {
      window.location.href = '/login';
 
     }
- //   if (response.status==200) {
-    //if the username and password is sucessful from the backend then go to the homepage
-   //    window.location.href = '/';
- // }
+    if (response.status==200) {
+    //go to login after you have signed up
+      window.location.href = '/Cobas8000';
+  }
       return response.json();
   })
   
@@ -72,7 +72,7 @@ fetch("/api/login", {
     //any data that is returned from the backend 
 //    alert('the data ' + data);
 //    alert(data.username);
-    setnamefrom(data.username);
+  
     // getting data back, but not maintaing session
    // window.location.replace(data);
     })
@@ -100,7 +100,7 @@ setPassword("");
     <div className="Login">
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="username" >
-          <FormLabel>Email/Username {namefrom}</FormLabel>
+          <FormLabel>Email/Username </FormLabel>
           <FormControl
             autoFocus
             type="username"
