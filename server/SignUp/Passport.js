@@ -20,8 +20,8 @@ passwordField: 'password'} ,
        }
     // console.log('username is ' + user[0].Username)  //just do a normal for loop now 
  **/    
-       console.log(password);
-    
+     //  console.log(password);
+    console.log('in the passportjs file' + user[0].Username);
     
     //   console.log(user[0].Password); will cause failure to fetch and shutdown server...
 
@@ -44,21 +44,12 @@ passwordField: 'password'} ,
     });
   }
 
+));
 
-
-
-
-
-  ));
-
-function validPassword(password) {
+//function validPassword(password) {
 //compare the entered password with what is in the database
 // in the future SignIn page make sure that the username is unique 
-  
-
-
-
-}
+//  }
 
 
   

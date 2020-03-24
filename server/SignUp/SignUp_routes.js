@@ -5,6 +5,7 @@ var connection = require('../db.js');
 
 const passport = require("./Passport.js");
 
+var isAuthenticated = require("./isAuthenticated");
 
 router.post("/api/SignUp", (req,res) => {
   connection.query(`INSERT SignIn (Username, Password) VALUES (?,?)`, [req.body.Username,req.body.Password],  (error, results)=> {
@@ -28,6 +29,12 @@ router.post("/api/SignUp", (req,res) => {
     })
   })
 
+  router.get('/api/Cobas9', isAuthenticated,
+  function(req, res) {
+    console.log('need req.user to be defined!!! ' + req.user )
+  //console.log(req.user[0].Username)  //safer to send just the username back
+    res.json(req.user);
+  });
 
 
 /** 

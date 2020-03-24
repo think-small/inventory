@@ -10,6 +10,7 @@ const Login = ()=>  {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [namefrom,setnamefrom]  = useState("");
 
 
 
@@ -46,7 +47,7 @@ const data =
 
 fetch("/api/login", {
   method: "POST",
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "application/json"  ,credentials: "include" },
   body: JSON.stringify(data)
 })
   .then(function(response) {
@@ -57,20 +58,23 @@ fetch("/api/login", {
     // throw new Error("Bad response from server");
     //if there is a bad response from the server it means that the Passport.js file has found something wrong
     //with either the username or the password
-     window.location.href = '/Login';
+     window.location.href = '/login';
 
     }
-    if (response.status==200) {
+ //   if (response.status==200) {
     //if the username and password is sucessful from the backend then go to the homepage
-       window.location.href = '/';
-  }
-  
+   //    window.location.href = '/';
+ // }
+      return response.json();
   })
   
   .then(function(data) {
     //any data that is returned from the backend 
-    //  alert('the data ' + data);
-    //  console.log(data);
+//    alert('the data ' + data);
+//    alert(data.username);
+    setnamefrom(data.username);
+    // getting data back, but not maintaing session
+   // window.location.replace(data);
     })
   .catch(function(err) {
     console.log(err);
@@ -96,7 +100,7 @@ setPassword("");
     <div className="Login">
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="username" >
-          <FormLabel>Email/Username</FormLabel>
+          <FormLabel>Email/Username {namefrom}</FormLabel>
           <FormControl
             autoFocus
             type="username"
