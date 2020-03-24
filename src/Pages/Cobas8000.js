@@ -19,7 +19,18 @@ const [database, setdatabase] = useState([]);
               )
 
 
-             
+function logout () {
+
+
+  fetch("/logout")
+  .then(response => {
+    return response.status; 
+  })
+  .catch(err => console.log(err));
+
+
+
+}
 
                      
          
@@ -30,7 +41,10 @@ return (
 <Navbar />
 <div>Use this page temporarily to see if username and login works</div>
 
-{database.length === 1 ? <h1>Hello, {   database.map(item=> <h1>{item.Username}</h1>)} </h1> : <h1>Noone is logged in yet</h1>}
+{database.length === 1 ? <h1>Hello, {   database.map(item=> <h1>{item.Username}
+
+<button onClick={logout}>Logout</button>
+</h1>)} </h1> : <h1>Noone is logged in yet</h1>}
 
 
 
