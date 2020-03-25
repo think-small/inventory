@@ -14,6 +14,7 @@ const Login = ()=>  {
 
 
 
+
   function validateForm() {
     return username.length > 0 && password.length > 0;
   }
@@ -46,7 +47,7 @@ const data =
 
 fetch("/api/login", {
   method: "POST",
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "application/json"  ,credentials: "include" },
   body: JSON.stringify(data)
 })
   .then(function(response) {
@@ -57,24 +58,28 @@ fetch("/api/login", {
     // throw new Error("Bad response from server");
     //if there is a bad response from the server it means that the Passport.js file has found something wrong
     //with either the username or the password
-     window.location.href = '/Login';
+     window.location.href = '/login';
 
     }
     if (response.status==200) {
-    //if the username and password is sucessful from the backend then go to the homepage
-       window.location.href = '/';
+    //go to login after you have signed up
+      window.location.href = '/Cobas8000';
   }
-  
+      return response.json();
   })
   
   .then(function(data) {
     //any data that is returned from the backend 
-    //  alert('the data ' + data);
-    //  console.log(data);
+//    alert('the data ' + data);
+//    alert(data.username);
+  
+    // getting data back, but not maintaing session
+   // window.location.replace(data);
     })
   .catch(function(err) {
     console.log(err);
-    alert(err); 
+    alert(err + " the app may crash "); 
+ 
   });
 
 
@@ -88,33 +93,47 @@ setPassword("");
 
 
     return (
-
-
-<form  onSubmit={handleSubmit } >
-<div className="containment" >
-<label className="top_label">username </label>          
-  <input type="username" name="username" id="username" onChange={handleChange}  />
-</div>
-
-
-<div className="containment" > 
-<label >password</label>               
-  <input type="password"name="password" id="password" onChange={handleChange} />
-</div>
+      <div className="main-wrap">
+      <div className="main-register-holder">
+      <div className="main-register fl-wrap">
+     
 <div></div>
+    <div className="Login">
+      <form onSubmit={handleSubmit}>
+        <FormGroup controlId="username" >
+          <FormLabel>Email/Username </FormLabel>
+          <FormControl
+            autoFocus
+            type="username"
+            value={username}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <FormGroup controlId="password" >
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            value={password}
+            onChange={handleChange}
+            type="password"
+          />
+        </FormGroup>
+        <Button
+          block
+          
+          disabled={!validateForm()}
+          type="submit"
+        >
+          Login
+        </Button>
 
-  <button className="submit_button" >Submit</button>
-
-
-
-
-
-</form>
-
-
-
-        
-  
-    )
-    }
+        <p className="mt-3">Click <a href="/signup">HERE </a> to Register!</p>
+        <p className="mt-1">Click <a href="/"> HERE </a> to Return home</p>
+      </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+  );
+}
 export default Login; 

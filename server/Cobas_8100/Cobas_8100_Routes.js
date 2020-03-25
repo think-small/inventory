@@ -31,6 +31,7 @@ router.get('/api/8100',(req, res) => {
   })
   
   router.get('/api/81001',(req, res) => {
+  
     connection.query('SELECT * from Cobas_8100 ORDER BY Name ASC', (error, result)=> {
       if (error) {
         res.send(error); 
@@ -155,6 +156,7 @@ router.get('/api/8100',(req, res) => {
       let Id = req.body.Id; 
       let Lot = req.body.Lot; 
     console.log('the Expriation Date is ' + req.body.Expiration);
+
   /** 
       connection.query(`INSERT Cobas_8100  ( Quantity, Id, Name, Lot,Expiration_Date) VALUES (?,?,?,?,?)`, [Quantity, Id, req.body.Name,req.body.Lot, req.body.Expiration],  (error, results)=> {
         if (error) 
