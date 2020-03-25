@@ -3,7 +3,11 @@ import { ListGroup } from "react-bootstrap";
 import moment from "moment";
 import StatisticTooltip from "./StatisticTooltip";
 import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
-import { calcAverage, stockOut } from "../UtilityFunctions/Statistics";
+import {
+  calcAverage,
+  stockOut,
+  turnover
+} from "../UtilityFunctions/Statistics";
 
 const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  ACQUIRE DATA
@@ -19,6 +23,12 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   const monthlyUsage = calcAverage(aggregatedUsageData, 2);
   const monthlyReceived = calcAverage(aggregatedReceivedData, 2);
   const stockOutStat = stockOut(transactions, 2);
+  const turnoverStat = turnover(transactions, 2);
+  const avgTurnover = (
+    Object.values(turnoverStat).reduce((acc, curr) => acc + Number(curr), 0) /
+    Object.values(turnoverStat).length
+  ).toFixed(2);
+
   return (
     <ListGroup>
       <ListGroup.Item className="list-header">Statistics</ListGroup.Item>
@@ -39,6 +49,16 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
           <span>Monthly Stock Out</span>
         </StatisticTooltip>
         <span>{stockOutStat}</span>
+      </ListGroup.Item>
+      <ListGroup.Item className="list-row">
+        <StatisticTooltip
+          title="Turnover"
+          content="A ratio indicating how many times the entire inventory for this item has been used and replaced every month"
+          direction="right"
+        >
+          <span>Monthly Turnover</span>
+        </StatisticTooltip>
+        <span>{avgTurnover}</span>
       </ListGroup.Item>
     </ListGroup>
   );

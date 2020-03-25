@@ -53,3 +53,47 @@ export const stockOut = (transactionsArr, precision) => {
   const numOfMonths = Object.keys(aggregatedTransactions).length;
   return (sum / numOfMonths).toFixed(precision);
 };
+
+export const turnover = (transactionsArr, precision) => {
+  const upperLimit = moment()
+    .startOf("month")
+    .valueOf();
+  const aggregatedTransactions = transactionsArr
+    .filter(transaction => transaction.timestamp < upperLimit)
+    .reduce((acc, curr) => {
+      const property = moment(curr.timestamp)
+        .startOf("month")
+        .valueOf();
+      if (acc[property]) {
+        acc[property].push(curr);
+      } else {
+        acc[property] = [curr];
+      }
+      return acc;
+    }, {});
+
+  Object.values(aggregatedTransactions).forEach(month => {
+    month.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
+  });
+
+  const monthlyTurnover = Object.entries(aggregatedTransactions).reduce(
+    (acc, curr) => {
+      const property = curr[0];
+      const arr = curr[1];
+      const avgInventory =
+        (arr[0].quantityInStock + arr[arr.length - 1].quantityInStock) / 2;
+      const usage = arr.reduce((accum, current) => {
+        if (current.transactionType === "used") {
+          accum += current.amount;
+        }
+        return accum;
+      }, 0);
+      const turnover = (usage / avgInventory).toFixed(precision);
+      acc[property] = turnover;
+      return acc;
+    },
+    {}
+  );
+
+  return monthlyTurnover;
+};
