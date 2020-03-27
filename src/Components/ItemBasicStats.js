@@ -34,32 +34,32 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
       <ListGroup.Item className="list-header">Statistics</ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Monthly Usage</span>
-        <span>{monthlyUsage}</span>
+        <span className="stat-value">{monthlyUsage}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Monthly Units Received</span>
-        <span>{monthlyReceived * countPerBox}</span>
+        <span className="stat-value">{monthlyReceived * countPerBox}</span>
       </ListGroup.Item>
-      <ListGroup.Item className="list-row">
-        <StatisticTooltip
-          title="Stock Out"
-          content="The average number of times inventory ran out in a given time period"
-          direction="right"
-        >
+      <StatisticTooltip
+        title="Stock Out"
+        content="The average number of times inventory ran out in a given time period"
+        direction="right"
+      >
+        <ListGroup.Item className="list-row">
           <span>Monthly Stock Out</span>
-        </StatisticTooltip>
-        <span>{stockOutStat}</span>
-      </ListGroup.Item>
-      <ListGroup.Item className="list-row">
-        <StatisticTooltip
-          title="Turnover"
-          content="A ratio indicating how many times the entire inventory for this item has been used and replaced every month"
-          direction="right"
-        >
+          <span className="stat-value">{stockOutStat}</span>
+        </ListGroup.Item>
+      </StatisticTooltip>
+      <StatisticTooltip
+        title="Turnover"
+        content="A ratio indicating how many times the entire inventory for this item has been used and replaced every month"
+        direction="right"
+      >
+        <ListGroup.Item className="list-row">
           <span>Monthly Turnover</span>
-        </StatisticTooltip>
-        <span>{avgTurnover}</span>
-      </ListGroup.Item>
+          <span className="stat-value">{avgTurnover}</span>
+        </ListGroup.Item>
+      </StatisticTooltip>
     </ListGroup>
   );
 };

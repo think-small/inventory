@@ -23,19 +23,19 @@ const ItemSummaryInfo = ({
       <ListGroup.Item className="list-header">Item Details</ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Lot Number</span>
-        <span>{lotNum}</span>
+        <span className="summary-value">{lotNum}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Expiration Date</span>
-        <span>{formattedExpirationDate}</span>
+        <span className="summary-value">{formattedExpirationDate}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Quantity In Stock</span>
-        <span>{quantity}</span>
+        <span className="summary-value">{quantity}</span>
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Last Used</span>
-        <span>{formattedLastUsedDate}</span>
+        <span className="summary-value">{formattedLastUsedDate}</span>
       </ListGroup.Item>
     </ListGroup>
   );
