@@ -47,6 +47,7 @@ passwordField: 'password'} ,
 ));
 
 //function validPassword(password) {
+  // if password === 
 //compare the entered password with what is in the database
 // in the future SignIn page make sure that the username is unique 
 //  }
