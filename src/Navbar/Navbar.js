@@ -5,14 +5,7 @@ import React from "react";
 
 const Navbar = () =>  {
 
-
-  
-  
-  
-  
-  
-  
-  function logout () {
+function logout () {
     fetch("/logout")
     .then(response => {
       return response.status; 
@@ -31,6 +24,14 @@ return (
       
 
 <div style={{}}>
+
+<div style={{display: "inline-block", float: "right", position: "relative"}}>
+ <button style={{  padding: "7px",display: "inline-block",marginRight: "10px",  color: "black"  }}
+ 
+ onClick={logout}>Logout</button>
+ </div> 
+
+
 
 <div style={{float: "right", display: "inline-block", position: "relative"}}>
      <a
@@ -61,11 +62,7 @@ return (
     </a>
  </div>
 
-<div style={{display: "inline-block", float: "right", position: "relative"}}>
- <button style={{  padding: "7px",display: "inline-block",marginRight: "10px",  color: "black"  }}
- 
- onClick={logout}>Logout</button>
- </div> 
+
 
 
 
