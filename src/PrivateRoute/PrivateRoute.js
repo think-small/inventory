@@ -24,11 +24,11 @@ useEffect(
      )
 
 
-alert( 'length is ' + database.length);
+//alert( 'length is ' + database.length);
 // the length is initially zero, but when you do the useeffect if you are logged in then length will be
 //update to 1
 //if you are not logged in the database.length will be undefined 
-
+// below code might work but there has to be a better solution!
 
 
 
@@ -40,7 +40,7 @@ return (
 
 <Route    
 {...rest}
-render={ routeprops =>  isAuthenticated ? (children): ( <Redirect to="/login"  /> )}
+render={ routeprops =>  database.length==0 || database.length==1 ? (children): ( <Redirect to="/login"  /> )}
 />
 )
 }
