@@ -22,16 +22,11 @@ const [database, setdatabase] = useState([]);
 
 
 function logout () {
-
-
   fetch("/logout")
   .then(response => {
     return response.status; 
   })
   .catch(err => console.log(err));
-
-
-
 }
 
        
