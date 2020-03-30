@@ -27,6 +27,16 @@ router.get("/api/Architect/all-items", async (req, res) => {
   });
 });
 
+router.get("/api/Architect/all-items-no-transactions", async (req, res) => {
+  db.query("SELECT * FROM architect", (err, architectItems) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(architectItems);
+    }
+  });
+});
+
 router.get("/api/Architect/all-transactions", (req, res) => {
   db.query("SELECT * FROM architect_transactions", (err, result) => {
     if (err) {
