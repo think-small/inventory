@@ -1,22 +1,39 @@
 
 import React from "react";
-import moment from "moment";
+
 
 
 const Navbar = () =>  {
 
-  const current_time = moment().format("LT");
-  const current_date = moment().format("LL");
+function logout () {
+    fetch("/logout")
+    .then(response => {
+      return response.status; 
+    })
+    .catch(err => console.log(err));
+    // when the user logs out direct them to the dashboard page
+    window.location.href = '/';
+  }
 
+return (
 
-        return (
-          <div>
-    <nav className="navbar navbar-light"style={{ marginLeft: "-13em", backgroundColor: "white", padding: "5px", height: "60px",  display: "flex" ,zIndex: "10", boxShadow: "0 2px 2px -2px rgba(0,0,0,.6)" }} >
+<div>
+
+<nav className="navbar navbar-light"style={{ marginLeft: "-13em", backgroundColor: "#e6e6e6", padding: "5px", height: "60px",  display: "flex" ,zIndex: "10", boxShadow: "0 2px 2px -2px rgba(0,0,0,.6)" }} >
       <div style={{padding: "5px", marginLeft: "10px", fontSize: "20px"}}>Inventory  </div>
       
 
-     <div style={{}}>
-     <div style={{float: "right", display: "inline-block", position: "relative"}}>
+<div style={{}}>
+
+<div style={{display: "inline-block", float: "right", position: "relative"}}>
+ <button style={{  padding: "7px",display: "inline-block",marginRight: "10px",  color: "black"  }}
+ 
+ onClick={logout}>Logout</button>
+ </div> 
+
+
+
+<div style={{float: "right", display: "inline-block", position: "relative"}}>
      <a
       className="my-lg-0 border border-dark"
       href="/signup"
@@ -30,27 +47,24 @@ const Navbar = () =>  {
     >
       Sign Up
     </a>
-    </div>
+</div>
 
-    <div style={{display: "inline-block", float: "right", position: "relative"}}>
-    <a
-      className="my-lg-0 border border-dark"
+<div style={{display: "inline-block", float: "right", position: "relative"}}>
+    <a className="my-lg-0 border border-dark"
       href="/login"
       style={{
         padding: "7px",
         display: "inline-block",
         marginRight: "10px",
-        backgroundColor:  "#1a73e8",
-        color: "black"
-
-
-        
-      }}
-     
-    >
+        color: "black"}}
+     >
       Sign In
     </a>
-        </div>
+ </div>
+
+
+
+
 
 </div>
 

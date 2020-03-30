@@ -9,8 +9,9 @@ const Login = () =>  {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [password_verify, setVerify] = useState("");
   const [database_username, setDatabase_username] = useState([]);
-  const  [array_count, setarray_count] = useState([]);
+  const [array_count, setarray_count] = useState([]);
 
 useEffect(  ()=> {
 
@@ -26,40 +27,33 @@ useEffect(  ()=> {
     }, [],
   )
 
-
-  
-
 function validateForm() {
-    return username.length > 0 && password.length > 0;
-
+     
+// verify the inputs, before posting into database
+return username.length > 0 && password.length > 0 && password_verify.length> 0  && password.trim()===password_verify.trim() ;
+                                  
   }
-
-  
 
 function handleChange (event) {
-    //this.setState({
-    //  [event.target.id]: event.target.value
-   // });
-
 const value = event.target.value;
-//console.log(value);
-const type = event.target.type; 
-//console.log(type);
-if (type==="text"){
+console.log(value);
+
+const id = event.target.id; 
+// get the id from the form and set and new value for them 
+if (id==="username"){
   setUsername(value);
 }
-if (type==="password") {
+if (id==="password") {
   setPassword(value);
 }
-
-  }
+if (id=="verify_password") {
+  setVerify(value)
+}
+}
 
 
 const handleSubmit = event => {
     event.preventDefault();
-
-
-
 
 const data = {Username: username, 
               Password: password
@@ -136,13 +130,13 @@ setPassword("");
        
       <div className="Login">
         <form onSubmit={handleSubmit}>         
-          <FormGroup controlId="username" >
-            <FormLabel>Email/UserName</FormLabel>
+          <FormGroup >
+            <FormLabel>Username or Email</FormLabel>
             <FormControl
              
              value={username}
              onChange={handleChange}
-             type="username"
+             id="username"
              
             />
             {array_count.length >= 1 ? <div style={{color: "red"}}>Username already taken! Try another one </div> : <div></div>}
@@ -152,19 +146,23 @@ setPassword("");
           
           
           
-          <FormGroup controlId="password" >
+          <FormGroup  >
             <FormLabel>Password</FormLabel>
             <FormControl
               value={password}
               onChange={handleChange}
-              type="password"
+
+              id="password"
             />
           </FormGroup>
-          <FormGroup controlId="password1" >
-            <FormLabel>Re-enter Password</FormLabel>
+          <FormGroup  >
+            <FormLabel>Confirm Password</FormLabel>
             <FormControl
-              type="password"
-              placeholder="does nothing yet"
+              value={password_verify}
+              onChange={handleChange}
+              
+              id="verify_password"
+  
             />
           </FormGroup>
           <Button

@@ -54,7 +54,7 @@ a:hover{
 	height:100%;
 	z-index:1000;
 	overflow: auto;
-	background:white;
+	background: #e6e6e6;
 }
 .main-register-holder {
 	max-width:480px;

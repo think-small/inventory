@@ -63,7 +63,7 @@ fetch("/api/login", {
     }
     if (response.status==200) {
     //go to login after you have signed up
-      window.location.href = '/Cobas8000';
+      window.location.href = '/';
   }
       return response.json();
   })

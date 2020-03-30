@@ -3,8 +3,6 @@ var router = express.Router();
 var connection = require('../db.js');
 
 
-const passport = require("./Passport.js");
-
 var isAuthenticated = require("./isAuthenticated");
 
 router.post("/api/SignUp", (req,res) => {
@@ -17,34 +15,29 @@ router.post("/api/SignUp", (req,res) => {
   }
   )
   
-  router.get('/api/Username',(req, res) => {
+router.get('/api/Username',(req, res) => {
     connection.query('SELECT Username from SignIn', (error, result)=> {
       if (error) {
         res.send(error); 
       }
       else {
-  
       res.json(result) 
       }
     })
   })
 
-  router.get('/api/Cobas9', isAuthenticated,
-  function(req, res) {
-    console.log('this has to be defined if the authentication worked: ' + req.user )
+
+router.get('/api/Cobas9', isAuthenticated, function(req, res) {
+    console.log('if authentication worked you will get req.user back(serilized by passport.js): ' + req.user )
   //console.log(req.user[0].Username)  //safer to send just the username back
     res.json(req.user);
   });
 
-  router.get("/logout", function(req, res) {
-   
+
+router.get("/logout", function(req, res) {
     console.log('loggin out ' + req.user[0].Username);
-    
     req.logout();
     res.json({message:"it worked!"})
-
-
-//    res.redirect("/");
   });
 
 

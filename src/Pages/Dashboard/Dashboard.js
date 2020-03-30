@@ -1,97 +1,114 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Card from "react-bootstrap/Card";
 import "./styles.css";
+import Navbar from "../../Navbar/Navbar"
+import moment from "moment";
 
 const Dashboard = () => {
+  
+  const [database, setdatabase] = useState([]);
+  const [database1, setdatabase1] = useState([]);
+ 
+  const current_time = moment().format("LT");
+  const current_date = moment().format("LL");
+
+
+    useEffect(
+             ()=> {
+           
+           
+            fetch("api/8100")
+            .then(response => {
+              return response.json();
+            })
+            .then(myJson => {
+              console.log(myJson);
+      
+             setdatabase1(myJson);
+            }).catch(err => console.log(err));
+           
+           
+            const fetchData = async ()=> {
+              const res = await fetch("/api/Cobas9", {credentials: 'include'});
+              res.json().then(res => setdatabase(res))
+              .catch(err => console.log(err));
+            }
+              
+         fetchData();  
+              },  [],
+              )
+
+              
+const low_quantity =   database1.filter(items=>items.Quantity<100);  
+const days_left =  database1.filter(items=>items.Time_Left<100);
+
   return (
     <div>
-      <nav
-        className="navbar navbar-light"
-        style={{ backgroundColor: "#e6e6e6", padding: "20px", display: "flex" }}
-      >
-        <a
-          className="my-lg-0 border border-dark"
-          href="#"
-          style={{
-            padding: "8px",
-            display: "inline-block",
-            marginLeft: "auto",
-            marginRight: "1rem",
-            color: "#20314a"
-          }}
-          onClick={() => alert("nothing yet!")}
-        >
-          Sign In
-        </a>
-      </nav>
+     
+<Navbar/>
 
-      <Jumbotron className="jumbotron">
-        <div className="alignment">
-          <h1 style={{ fontSize: "50px" }}>
-            <b>Inventory Management</b>
-          </h1>
-          <p className="lead">
-            An app to help us keep track of Inventory in the lab!
-          </p>
+   
+{database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
-          <div className="searchMenu">
-            <div className="fas">
-              <i
-                className="fas fa-search"
-                style={{ position: "absolute", marginBottom: "30px" }}
-                onClick={() => alert("hello")}
-              ></i>
-            </div>
-            <input
-              className="searchBar"
-              type="text"
-              placeholder="Search for Items"
-            />
-          </div>
-        </div>
-      </Jumbotron>
+<div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
+<div style={{padding:"5px 30px"}}>Current Time: {current_date} {current_time}</div>
 
+
+<hr></hr>
+
+  {low_quantity.map(item=> 
       <Card
-        bg="dark"
-        text="white"
+        bg="info"
+        border="secondary"
+        text="black"
         style={{
           width: "18rem",
           display: "inline-block",
           padding: "30px",
-          margin: "20px"
+          margin: "20px", 
+          backgroundColor: "red"
+         
         }}
       >
-        <Card.Header>Header</Card.Header>
+        <Card.Header>Lot#: {item.Lot}</Card.Header>
         <Card.Body>
-          <Card.Title>Primary Card Title</Card.Title>
+          <Card.Title>Quantity Left: {item.Quantity}</Card.Title>
           <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+        Low Quantity Please Update
           </Card.Text>
         </Card.Body>
       </Card>
-
+)}
+      
+      {days_left.map(item=> 
       <Card
-        bg="dark"
-        text="white"
+        bg="warning"
+        border="secondary"
+        text="black"
         style={{
           width: "18rem",
           display: "inline-block",
           padding: "30px",
-          margin: "30px"
+          margin: "20px", 
+         
         }}
       >
-        <Card.Header>Header</Card.Header>
+        <Card.Header>Lot#: {item.Lot}</Card.Header>
         <Card.Body>
-          <Card.Title>Primary Card Title</Card.Title>
+          <Card.Title>Days Left: {item.Time_Left}</Card.Title>
           <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+          About to Expire please Update
           </Card.Text>
         </Card.Body>
       </Card>
+)}  
+    
+    {database.length===0 ? <h1>Nothing Yet-(log in to the server to see)</h1> : <div></div>}
+      
     </div>
+
+    
   );
 };
 

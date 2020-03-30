@@ -13,6 +13,7 @@ import { ArchitectContext } from "../Contexts/ArchitectContext";
 import { ABLContext } from "../Contexts/ABLContext";
 import Login from "../Login";
 import SignUp from "../SignUp";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const Router = () => {
   const { architectItems } = useContext(ArchitectContext);
@@ -37,6 +38,10 @@ const Router = () => {
               path="/ManualUsedTransaction"
               component={ManualUsedTransaction}
             />
+            <PrivateRoute path="/Cobas8100">
+              <Cobas8100 />
+            </PrivateRoute>
+            <Route exact path="/Cobas8000/" component={Cobas8000} />
             <Route component={Error404} />
           </Switch>
         </section>
