@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
+import ManualTransactionItem from "../Components/ManualTransactionItem";
 
 const ManualUsedTransaction = () => {
   const [items, setItems] = useState([]);
@@ -44,8 +45,6 @@ const ManualUsedTransaction = () => {
   useEffect(() => {
     switch (instrument) {
       case "Architect":
-        console.log(items);
-        console.log(itemMapping.current);
         setCurrentItems(
           items.filter(item =>
             itemMapping.current.architect.includes(item.reagentName)
@@ -101,9 +100,13 @@ const ManualUsedTransaction = () => {
         </Form.Group>
       </Form>
       <div>Current Instrument: {instrument}</div>
-      {currentItems.length > 0
-        ? currentItems.map(item => <div>{item.displayName}</div>)
-        : "No items..."}
+      <Form.Group>
+        {currentItems.length > 0
+          ? currentItems.map(item => (
+              <ManualTransactionItem label={item.displayName} />
+            ))
+          : "No items..."}
+      </Form.Group>
     </>
   );
 };
