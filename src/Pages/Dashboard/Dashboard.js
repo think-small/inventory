@@ -125,16 +125,33 @@ const binarySearch = (array, target) => {
 
         //***IMPORTANT*** make sure to put [] around the object!!!
         set_results([array[middleIndex]])   
-     
+ 
+      
+        //check to see if there are duplicate values in the array 
+        if(target === array[middleIndex+1].Lot) {
+                        //merge previous state with the new state-this dosen't work yet 
+          set_results([...display_results, array[middleIndex+1] ]);
+      
+        }
+        if(target === array[middleIndex-1].Lot) {
+      
+              //merge previous state with the new state-this dosen't work yet 
+           set_results([...display_results, array[middleIndex-1] ]);
+        
+        }
+
+
       return console.log("Target was found at index " + middleIndex);
     }
     if(target > array[middleIndex].Lot) {
       //console.log("Searching the right side of Array")
       startIndex = middleIndex + 1;
+
     }
     if(target < array[middleIndex].Lot) {
     //  console.log("Searching the left side of array")
       endIndex = middleIndex - 1;
+
     }
     else {
       console.log("Not Found this loop iteration. Looping another iteration.")
@@ -144,11 +161,9 @@ const binarySearch = (array, target) => {
   console.log("Target value not found in array");
 }  
 
-
+console.log('the length of the array is' + display_results.length);
 const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {item.Lot}</div><div>Name: {item.Name}</div><div>Quantity: {item.Quantity}</div>
-<div>Expiration Date: {item.Expiration_Date}</div>
-<div>Count Per Box: {item.countPerBox}</div>
-</div>);
+          <div>Expiration Date: {item.Expiration_Date}</div><div>Count Per Box: {item.countPerBox}</div></div>);
 
 return (
     <div>
