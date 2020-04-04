@@ -13,11 +13,11 @@ const Dashboard = () => {
 
 const [display_results, set_results] = useState([]);
 
-  const current_time = moment().format("LT");
-  const current_date = moment().format("LL");
+const current_time = moment().format("LT");
+const current_date = moment().format("LL");
 
 
-    useEffect(
+useEffect(
              ()=> {
            
            
@@ -48,65 +48,100 @@ const low_quantity =   database1.filter(items=>items.Quantity<100);
 const days_left =  database1.filter(items=>items.Time_Left<100);
 
 const handleSubmit = event=> {
-  alert('the vlaue of your search is' + Searchbar_value);
+  alert('the value of your search is' + Searchbar_value);
   
   event.preventdefault; 
 }
 
-
-
 const handleChange = event => {
-  
   const value = event.target.value; 
   const target = event.target.type
-  //console.log(value);
- // console.log(target);
 
-if (target==="text") {
+  if (target==="text") {
   setSearch(value);
 }
 
-//alert(database1.length);
-//alert(database1[0].Lot)
 
-// sort by Lot and also make a new array. you want to preserve the  object
-var Lot_array = [];
+// When using binary search the objects must first be sorted alphabetically 
+
 database1.sort(function(a, b) {
-  var nameA = a.Lot.toUpperCase(); // ignore upper and lowercase
-  var nameB = b.Lot.toUpperCase(); // ignore upper and lowercase
+  var nameA = a.Lot// ignore upper and lowercase
+  var nameB = b.Lot // ignore upper and lowercase
   if (nameA < nameB) {
     // push the entire object into the array, but now it is ordered
-    Lot_array.push(a);
+
     return -1;
   }
   if (nameA > nameB) {
-    Lot_array.push(a);
+
     return 1;
   }
-
   // names must be equal
-  Lot_array.push(a)
-  return 0;
+    return 0; 
+  
 });
-//alert('Lot_array length is ' + Lot_array.length)
-//alert(database1[0].Lot)
-const everything = database1.map(item=>item.Lot);
-console.log("everything" + everything)
-const show = Lot_array.map(item=>item);
-//console.log('FROM line 92' + show);
-const show1 = Lot_array.map(item=>item.Lot);
-console.log("line 97" + show1)
 
 
 
+const combine = [...database1]; // combine the arrays
 
-const combine = [...show]; // combine the arrays
-//var sorted = combine.sort(); //sort the array by alphabetical order
+//console.log(combine);
+console.log(database1)
 
-binarySearch(combine, value);
+//call binarysearch function 
+binarySearch(database1, value);
 
 
 }
+
+
+
+// for our serach we our using Binary Search
+const binarySearch = (array, target) => {
+  let startIndex = 0;
+ let endIndex = array.length -1;
+
+  while(startIndex <= endIndex) {
+    let middleIndex = Math.floor((startIndex + endIndex) / 2);
+     
+      console.log("target: " + target + " middleIndex: " + " " + middleIndex + 'the value ' + array[middleIndex].Lot);
+
+    if(target === array[middleIndex].Lot) {
+      alert("found it")
+      //***IMPORTANT*** make sure to put [] around the object!!!
+      set_results([array[middleIndex]])   
+  
+  // continue to search for anyduplicate results in the array 
+  if(target === array[middleIndex+1].Lot) {
+    set_results(display_results => {
+          return  ([...display_results, array[middleIndex+1]]);
+          });
+    }
+       if(target === array[middleIndex-1].Lot) {
+//in react if updating the state right away you have to use function version, or the it will not update state
+      set_results(display_results => {
+          return  ([...display_results, array[middleIndex-1]]);
+         });
+      }
+
+      return console.log("Target was found at index " + middleIndex);
+    }  
+    if(target < array[middleIndex].Lot) {
+     console.log("Searching the left side of array")
+      endIndex = middleIndex - 1;
+  }
+    if(target > array[middleIndex].Lot) {
+      console.log("Searching the right side of Array")
+      startIndex = middleIndex + 1;
+ 
+    }
+  else {
+      console.log("Not Found this loop iteration. Looping another iteration.")
+    }
+  }
+  console.log("Target value not found in array");
+}  
+
 
 
 function handleKeyPress(target) {
@@ -116,52 +151,8 @@ function handleKeyPress(target) {
 }
 
 
-const binarySearch = (array, target) => {
-  let startIndex = 0;
-  let endIndex = array.length - 1;
-  while(startIndex <= endIndex) {
-    let middleIndex = Math.floor((startIndex + endIndex) / 2);
-    if(target === array[middleIndex].Lot) {
-
-        //***IMPORTANT*** make sure to put [] around the object!!!
-        set_results([array[middleIndex]])   
- 
-      
-        //check to see if there are duplicate values in the array 
-        if(target === array[middleIndex+1].Lot) {
-                        //merge previous state with the new state-this dosen't work yet 
-          set_results([...display_results, array[middleIndex+1] ]);
-      
-        }
-        if(target === array[middleIndex-1].Lot) {
-      
-              //merge previous state with the new state-this dosen't work yet 
-           set_results([...display_results, array[middleIndex-1] ]);
-        
-        }
-
-
-      return console.log("Target was found at index " + middleIndex);
-    }
-    if(target > array[middleIndex].Lot) {
-      //console.log("Searching the right side of Array")
-      startIndex = middleIndex + 1;
-
-    }
-    if(target < array[middleIndex].Lot) {
-    //  console.log("Searching the left side of array")
-      endIndex = middleIndex - 1;
-
-    }
-    else {
-      console.log("Not Found this loop iteration. Looping another iteration.")
-    }
-  }
-  
-  console.log("Target value not found in array");
-}  
-
 console.log('the length of the array is' + display_results.length);
+//display the search results
 const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {item.Lot}</div><div>Name: {item.Name}</div><div>Quantity: {item.Quantity}</div>
           <div>Expiration Date: {item.Expiration_Date}</div><div>Count Per Box: {item.countPerBox}</div></div>);
 
