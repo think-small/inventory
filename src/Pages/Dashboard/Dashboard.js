@@ -48,8 +48,8 @@ const low_quantity =   database1.filter(items=>items.Quantity<100);
 const days_left =  database1.filter(items=>items.Time_Left<100);
 
 const handleSubmit = event=> {
-  alert('the value of your search is' + Searchbar_value);
-  
+ // alert('the value of your search is' + Searchbar_value);
+  binarySearch(database1, Searchbar_value);
   event.preventdefault; 
 }
 
@@ -65,8 +65,8 @@ const handleChange = event => {
 // When using binary search the objects must first be sorted alphabetically 
 
 database1.sort(function(a, b) {
-  var nameA = a.Lot// ignore upper and lowercase
-  var nameB = b.Lot // ignore upper and lowercase
+  var nameA = a.Lot   //ABCDEF...Z is greator than abcdefg in javascript!!
+  var nameB = b.Lot 
   if (nameA < nameB) {
     // push the entire object into the array, but now it is ordered
 
@@ -89,7 +89,7 @@ const combine = [...database1]; // combine the arrays
 console.log(database1)
 
 //call binarysearch function 
-binarySearch(database1, value);
+//binarySearch(database1, value);
 
 
 }
@@ -107,11 +107,12 @@ const binarySearch = (array, target) => {
       console.log("target: " + target + " middleIndex: " + " " + middleIndex + 'the value ' + array[middleIndex].Lot);
 
     if(target === array[middleIndex].Lot) {
-      alert("found it")
+ 
       //***IMPORTANT*** make sure to put [] around the object!!!
       set_results([array[middleIndex]])   
   
-  // continue to search for anyduplicate results in the array 
+  // continue to search for any duplicate results in the array 
+  //FINAL version of project should not have duplicate Lot Numbers though
   if(target === array[middleIndex+1].Lot) {
     set_results(display_results => {
           return  ([...display_results, array[middleIndex+1]]);
@@ -146,7 +147,9 @@ const binarySearch = (array, target) => {
 
 function handleKeyPress(target) {
   if(target.charCode==13){
-    alert('the vlaue of your search is' + Searchbar_value);
+  //  alert('the vlaue of your search is' + Searchbar_value);
+    //call binarysearch function 
+binarySearch(database1, Searchbar_value);
   } 
 }
 
