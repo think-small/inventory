@@ -11,6 +11,8 @@ const Dashboard = () => {
   const [database1, setdatabase1] = useState([]);
 
   const [database_1_name, setdatabase1_name] = useState([]);
+
+
   const [Searchbar_value, setSearch] = useState("");
 
 const [display_results, set_results] = useState([]);
@@ -34,7 +36,19 @@ useEffect(
               console.log(myJson);
       
              setdatabase1(myJson);
+        
+            }).catch(err => console.log(err));
+
+            
+            fetch("api/8100")
+            .then(response => {
+              return response.json();
+            })
+            .then(myJson => {
+              console.log(myJson);
+      
              setdatabase1_name(myJson);
+        
             }).catch(err => console.log(err));
            
            
@@ -64,7 +78,7 @@ useEffect(
               },  [],
               )
 
-              
+           
 const low_quantity =   database1.filter(items=>items.Quantity<100);  
 const days_left =  database1.filter(items=>items.Time_Left<100);
 
@@ -102,29 +116,29 @@ function Alphabetical_Sort(database_name,Object_Property) {
   
 });
 }
+  
 Alphabetical_Sort(database1, "Lot");
 Alphabetical_Sort(ablItems, "lotNum");
 Alphabetical_Sort(database_1_name, "Name");
-console.log(database1)
-console.log(database_1_name)
+console.log( database1)
 console.log(ablItems);
+console.log( database_1_name)
+
 
 }
-
-
 
 // for our serach we our using Binary Search
 const binarySearch = (array, target, Lot) => {
   let startIndex = 0;
- let endIndex = array.length -1;
+  let endIndex = array.length -1;
 
-  while(startIndex <= endIndex) {
+while(startIndex <= endIndex) {
     let middleIndex = Math.floor((startIndex + endIndex) / 2);
      
-      console.log("target: " + target + " middleIndex: " + " " + middleIndex + 'the value ' + array[middleIndex][Lot]);
+console.log("Line 122 target: " + target + " middleIndex: " + " " + middleIndex + ' the value ' + array[middleIndex][Lot]);
 
     if(target === array[middleIndex][Lot]) {
-       // alert('there is a match!')
+       // alert('there is a match!' + middleIndex)
       //***IMPORTANT*** make sure to put [] around the object!!!
       //since object propertys are not quite the same between them...
        if (array[middleIndex].Name) { 
@@ -138,66 +152,42 @@ const binarySearch = (array, target, Lot) => {
            //clear the other array 
            set_results([])
       }
-  // continue to search for any duplicate results in the array 
-  //FINAL version of project should not have duplicate Lot Numbers though
-  /** 
-  if(target === array[middleIndex+1][Lot]) {
-    set_results(display_results => {
-          return  ([...display_results, array[middleIndex+1]]);
-          });
-    }
-    **/
-//       if(target === array[middleIndex-1][Lot]) {
-//in react if updating the state right away you have to use function version, or the it will not update state
-  //    set_results(display_results => {
-    //      return  ([...display_results, array[middleIndex-1]]);
-    //     });
-    //  }
-
+ 
 //check for duplicates by doing a linear search, the maximum number of iterations is array.length / 2 
-    var array_size = Math.floor((array.length) / 2);
 
-    
-      
+var array_size = Math.floor((array.length) / 2);
 var copy = [];
 //for the right hand side
      for (var counter =1; counter <=array_size; counter++) {
-      if (target === array[middleIndex+counter][Lot]) {
-        
-      //cannot set new state in for loop therefore make a new array variable
-              copy.push(array[middleIndex+counter]);
-     
-         // console.log("ffis " + ff + " " + target + "  " + counter + " " + array[middleIndex+counter][Lot] + array[middleIndex+counter].Lot) 
-      }
-     }
+       var add = middleIndex+counter; 
+      if (target === array[add][Lot]) {
+           
+            copy.push(array[add]);
+       
+            set_results(display_results => {
+            return  ([...display_results, ...copy]);
+            });
+       }
+    }
 //for the left hand side     
      for (var counter =1; counter <= array_size; counter++) {
-      if (target === array[middleIndex-counter][Lot]) {
-
-  
-              copy.push(array[middleIndex-counter]);
-     
-         // console.log("ffis " + ff + " " + target + "  " + counter + " " + array[middleIndex+counter][Lot] + array[middleIndex+counter].Lot) 
-      }
-     }
-     console.log('LENGTH OF copy is', + copy.length)
-      
-     //finally set the new state
-     set_results(display_results => {
+          var subtract = middleIndex-counter; 
+          if (target === array[subtract][Lot]) {
+           
+            copy.push(array[subtract]);
+           // console.log("ffis " + ff + " " + target + "  " + counter + " " + array[middleIndex+counter][Lot] + array[middleIndex+counter].Lot) 
+          set_results(display_results => {
             return  ([...display_results, ...copy]);
-      });
+          });
+        }
+     }
 
-
-return console.log("Target was found at index " + middleIndex);
+    return console.log("Target was found at index " + middleIndex);
     }  
    
    
-   
-   
-   
-   
     if(target < array[middleIndex][Lot]) {
-     console.log("Searching the left side of array")
+      console.log("Searching the left side of array")
       endIndex = middleIndex - 1;
   }
     if(target > array[middleIndex][Lot]) {
@@ -209,7 +199,7 @@ return console.log("Target was found at index " + middleIndex);
       console.log("Not Found this loop iteration. Looping another iteration.")
     }
   }
-  console.log("Target value not found in array");
+ console.log("Target value not found in array");
 }  
 
 
@@ -225,7 +215,7 @@ binarySearch(ablItems, Searchbar_value, "lotNum");
 }
 
 
-console.log('the length of the array is' + display_results.length);
+//console.log('the length of the array is' + display_results.length);
 //display the search results
 const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {item.Lot}</div><div>Name: {item.Name}</div><div>Quantity: {item.Quantity}</div>
           <div>Expiration Date: {item.Expiration_Date}</div><div>Count Per Box: {item.countPerBox}</div></div>);
