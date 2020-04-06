@@ -9,9 +9,12 @@ const Dashboard = () => {
   
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
+
+  const [database_1_name, setdatabase1_name] = useState([]);
   const [Searchbar_value, setSearch] = useState("");
 
 const [display_results, set_results] = useState([]);
+
 const [ablItems, setAblItems] = useState([]);
 const [Abl, setAbl] = useState([]);
 
@@ -31,6 +34,7 @@ useEffect(
               console.log(myJson);
       
              setdatabase1(myJson);
+             setdatabase1_name(myJson);
             }).catch(err => console.log(err));
            
            
@@ -67,6 +71,7 @@ const days_left =  database1.filter(items=>items.Time_Left<100);
 const handleSubmit = event=> {
  // alert('the value of your search is' + Searchbar_value);
   binarySearch(database1, Searchbar_value,"Lot");
+  binarySearch(database_1_name, Searchbar_value, "Name");
   binarySearch(ablItems, Searchbar_value, "lotNum");
   event.preventdefault; 
 }
@@ -78,13 +83,11 @@ const handleChange = event => {
   if (target==="text") {
   setSearch(value);
 }
-
-
 // When using binary search the objects must first be sorted alphabetically 
-
-database1.sort(function(a, b) {
-  var nameA = a.Lot   //ABCDEF...Z is greator than abcdefg in javascript!!
-  var nameB = b.Lot 
+function Alphabetical_Sort(database_name,Object_Property) {
+  database_name.sort(function(a, b) {
+  var nameA = a[Object_Property]   //ABCDEF...Z is greator than abcdefg in javascript!!
+  var nameB = b[Object_Property]
   if (nameA < nameB) {
     // push the entire object into the array, but now it is ordered
 
@@ -98,34 +101,13 @@ database1.sort(function(a, b) {
     return 0; 
   
 });
-
-ablItems.sort(function(a, b) {
-  var nameA = a.lotNum   //ABCDEF...Z is greator than abcdefg in javascript!!
-  var nameB = b.lotNum
-  if (nameA < nameB) {
-    // push the entire object into the array, but now it is ordered
-
-    return -1;
-  }
-  if (nameA > nameB) {
-
-    return 1;
-  }
-  // names must be equal
-    return 0; 
-  
-});
-
-
-const combine = [...database1]; // combine the arrays
-
-//console.log(combine);
+}
+Alphabetical_Sort(database1, "Lot");
+Alphabetical_Sort(ablItems, "lotNum");
+Alphabetical_Sort(database_1_name, "Name");
 console.log(database1)
+console.log(database_1_name)
 console.log(ablItems);
-
-//call binarysearch function 
-//binarySearch(database1, value);
-
 
 }
 
@@ -150,10 +132,7 @@ const binarySearch = (array, target, Lot) => {
         //clear the other array 
         setAbl([]);
     }
-       //seperate here
-
-
-      // alert(array[middleIndex].displayName)
+       //seperate here, why the arrays are different 
        if (array[middleIndex].displayName) {
            setAbl([array[middleIndex]])
            //clear the other array 
@@ -161,20 +140,62 @@ const binarySearch = (array, target, Lot) => {
       }
   // continue to search for any duplicate results in the array 
   //FINAL version of project should not have duplicate Lot Numbers though
+  /** 
   if(target === array[middleIndex+1][Lot]) {
     set_results(display_results => {
           return  ([...display_results, array[middleIndex+1]]);
           });
     }
-       if(target === array[middleIndex-1][Lot]) {
+    **/
+//       if(target === array[middleIndex-1][Lot]) {
 //in react if updating the state right away you have to use function version, or the it will not update state
-      set_results(display_results => {
-          return  ([...display_results, array[middleIndex-1]]);
-         });
-      }
+  //    set_results(display_results => {
+    //      return  ([...display_results, array[middleIndex-1]]);
+    //     });
+    //  }
 
-      return console.log("Target was found at index " + middleIndex);
+//check for duplicates by doing a linear search, the maximum number of iterations is array.length / 2 
+    var array_size = Math.floor((array.length) / 2);
+
+    
+      
+var copy = [];
+//for the right hand side
+     for (var counter =1; counter <=array_size; counter++) {
+      if (target === array[middleIndex+counter][Lot]) {
+        
+      //cannot set new state in for loop therefore make a new array variable
+              copy.push(array[middleIndex+counter]);
+     
+         // console.log("ffis " + ff + " " + target + "  " + counter + " " + array[middleIndex+counter][Lot] + array[middleIndex+counter].Lot) 
+      }
+     }
+//for the left hand side     
+     for (var counter =1; counter <= array_size; counter++) {
+      if (target === array[middleIndex-counter][Lot]) {
+
+  
+              copy.push(array[middleIndex-counter]);
+     
+         // console.log("ffis " + ff + " " + target + "  " + counter + " " + array[middleIndex+counter][Lot] + array[middleIndex+counter].Lot) 
+      }
+     }
+     console.log('LENGTH OF copy is', + copy.length)
+      
+     //finally set the new state
+     set_results(display_results => {
+            return  ([...display_results, ...copy]);
+      });
+
+
+return console.log("Target was found at index " + middleIndex);
     }  
+   
+   
+   
+   
+   
+   
     if(target < array[middleIndex][Lot]) {
      console.log("Searching the left side of array")
       endIndex = middleIndex - 1;
@@ -198,6 +219,7 @@ function handleKeyPress(target) {
   //  alert('the vlaue of your search is' + Searchbar_value);
     //call binarysearch function 
 binarySearch(database1, Searchbar_value, "Lot");
+binarySearch(database_1_name, Searchbar_value, "Name");
 binarySearch(ablItems, Searchbar_value, "lotNum");
   } 
 }
