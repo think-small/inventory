@@ -19,9 +19,12 @@ function handleInputChange (event) {
     
   //the form must have a name that matches the name in the state
   const name = event.target.name;
+
   console.log("name" + " " + name + " " + " value:" +  value);
+  console.log(name)
 // consider all the situations  
 if (value=="Pipette Tips") {
+
   setName(value);
 }
 if (name==="Lot") {
