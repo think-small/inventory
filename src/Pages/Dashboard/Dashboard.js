@@ -281,7 +281,7 @@ return (
   <Row>
     <Col xs={6} md={4}>
 
-    <Card style={{ width: '18rem' }} bg="danger">
+    <Card style={{ width: '20rem' }} bg="danger">
   <Card.Header>Total Warnings: {low_quantity_size+days_left_size}</Card.Header>
   <ListGroup variant="flush">
  
@@ -296,7 +296,7 @@ return (
     </Col>
    
     <Col xs={6} md={4}>
-<Card style={{ width: '18rem' }} bg="warning">
+<Card style={{ width: '20rem' }} bg="warning">
   <Card.Header>Low Quantity Items</Card.Header>
   <ListGroup variant="flush">
     {low_quantity.map(item=>
@@ -309,7 +309,7 @@ return (
     
     
 <Col xs={6} md={4}>
-<Card style={{ width: '18rem' }} bg="info">
+<Card style={{ width: '20rem' }} bg="info">
   <Card.Header>About to Expire</Card.Header>
   <ListGroup variant="flush">
     {days_left.map(item=>
