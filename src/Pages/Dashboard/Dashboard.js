@@ -5,23 +5,22 @@ import "./styles.css";
 import Navbar from "../../Navbar/Navbar"
 import moment from "moment";
 
+
+//add a simple chart 
+import Chart from "chart.js";
+
 const Dashboard = () => {
   
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
-
   const [database_1_name, setdatabase1_name] = useState([]);
-
-
   const [Searchbar_value, setSearch] = useState("");
+  const [display_results, set_results] = useState([]);
+  const [ablItems, setAblItems] = useState([]);
+  const [Abl, setAbl] = useState([]);
 
-const [display_results, set_results] = useState([]);
-
-const [ablItems, setAblItems] = useState([]);
-const [Abl, setAbl] = useState([]);
-
-const current_time = moment().format("LT");
-const current_date = moment().format("LL");
+  const current_time = moment().format("LT");
+  const current_date = moment().format("LL");
 
 
 useEffect(
@@ -80,7 +79,10 @@ useEffect(
 
            
 const low_quantity =   database1.filter(items=>items.Quantity<100);  
+const low_quantity_size = database1.length; 
 const days_left =  database1.filter(items=>items.Time_Left<100);
+const days_left_size = database1.length; 
+
 
 const handleSubmit = event=> {
  // alert('the value of your search is' + Searchbar_value);
@@ -231,8 +233,17 @@ return (
  {database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
 
-<div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
-<div style={{padding:"5px 30px"}}>Current Time: {current_date} {current_time}</div>
+
+<div style={{padding:"30px" , marginTop: "20px", marginRight: "100px" , width: "250px", backgroundColor: "black", color: "white", float: "right"}}> 
+<h5>Total Warnings: <div style={{float:"right"}}>{low_quantity_size+days_left_size} </div></h5>
+<div style={{color: "#17a2b8"}}>Low Quantity Total: <div style={{float:"right"}}>{low_quantity_size} </div></div> 
+<div style={{color: "#ffc107"}}>About to Expire Total: <div style={{float:"right"}}>{days_left_size} </div></div>
+
+
+</div>
+
+
+
 
 
 <div className="searchMenu">
@@ -253,15 +264,11 @@ return (
             />
 </div>
 
-
 <div>{x}</div>
 <div>{r}</div>
 
-
-
-
-<hr></hr>
-
+<div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
+<div style={{padding:"5px 30px"}}>Current Time: {current_date} {current_time}</div>
   {low_quantity.map(item=> 
       <Card
         bg="info"
@@ -285,6 +292,7 @@ return (
         </Card.Body>
       </Card>
 )}
+
       
       {days_left.map(item=> 
       <Card
