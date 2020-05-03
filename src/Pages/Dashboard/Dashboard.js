@@ -1,10 +1,13 @@
 import React ,{useState, useEffect} from "react";
-import Jumbotron from "react-bootstrap/Jumbotron";
+
 import Card from "react-bootstrap/Card";
 import "./styles.css";
 import Navbar from "../../Navbar/Navbar"
 import moment from "moment";
-
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col"; 
+import ListGroup from "react-bootstrap/ListGroup";
 
 //add a simple chart 
 import Chart from "chart.js";
@@ -268,58 +271,59 @@ return (
 <div>{r}</div>
 
 <div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
-<div style={{padding:"5px 30px"}}>Current Time: {current_date} {current_time}</div>
-  {low_quantity.map(item=> 
-      <Card
-        bg="info"
-        border="secondary"
-        text="black"
-        style={{
-          width: "18rem",
-          display: "inline-block",
-          padding: "30px",
-          margin: "20px", 
-          backgroundColor: "red"
-         
-        }}
-      >
-        <Card.Header>Lot#: {item.Lot}</Card.Header>
-        <Card.Body>
-          <Card.Title>Quantity Left: {item.Quantity}</Card.Title>
-          <Card.Text>
-        Low Quantity Please Update
-          </Card.Text>
-        </Card.Body>
-      </Card>
-)}
 
-      
-      {days_left.map(item=> 
-      <Card
-        bg="warning"
-        border="secondary"
-        text="black"
-        style={{
-          width: "18rem",
-          display: "inline-block",
-          padding: "30px",
-          margin: "20px", 
-         
-        }}
-      >
-        <Card.Header>Lot#: {item.Lot}</Card.Header>
-        <Card.Body>
-          <Card.Title>Days Left: {item.Time_Left}</Card.Title>
-          <Card.Text>
-          About to Expire please Update
-          </Card.Text>
-        </Card.Body>
-      </Card>
-)}  
+  
+
     
-    {database.length===0 ? <h1>Nothing Yet-(log in to the server to see)</h1> : <div></div>}
+   
+
+    <Container>
+  <Row>
+    <Col xs={6} md={4}>
+
+    <Card style={{ width: '18rem' }} bg="danger">
+  <Card.Header>Total Warnings: {low_quantity_size+days_left_size}</Card.Header>
+  <ListGroup variant="flush">
+ 
+    <ListGroup.Item>Low Quantity Total: {low_quantity_size} </ListGroup.Item>
+    <ListGroup.Item>Days Left Total: {days_left_size} </ListGroup.Item>
+  </ListGroup>
+</Card>
 
 
+
+   
+    </Col>
+   
+    <Col xs={6} md={4}>
+<Card style={{ width: '18rem' }} bg="warning">
+  <Card.Header>Low Quantity Items</Card.Header>
+  <ListGroup variant="flush">
+    {low_quantity.map(item=>
+    <ListGroup.Item>Lot: {item.Lot} 
+     <div style={{float: "right"}} > Quantity: {item.Quantity} </div> </ListGroup.Item>
+)}
+  </ListGroup>
+</Card>
+</Col>
+    
+    
+<Col xs={6} md={4}>
+<Card style={{ width: '18rem' }} bg="info">
+  <Card.Header>About to Expire</Card.Header>
+  <ListGroup variant="flush">
+    {days_left.map(item=>
+    <ListGroup.Item>Lot: {item.Lot} 
+     <div style={{float: "right"}} > Days Left: {item.Time_Left} </div> </ListGroup.Item>
+)}
+  </ListGroup>
+</Card>
+  
+  
+  
+    </Col>
+  </Row>
+</Container>
 
      
       
