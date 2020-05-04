@@ -10,10 +10,18 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 
 //add a simple chart 
-import Chart from "chart.js";
+//import Bar from "chart.js";
+import {Bar} from 'react-chartjs-2';
 
 const Dashboard = () => {
+
+
   
+ 
+
+
+
+
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
   const [database_1_name, setdatabase1_name] = useState([]);
@@ -82,9 +90,12 @@ useEffect(
 
            
 const low_quantity =   database1.filter(items=>items.Quantity<100);  
-const low_quantity_size = database1.length; 
+
+const low_quantity_size = low_quantity.length; 
+const low_quantity_Abl = ablItems.filter(items=>items.quantity<100); 
+const low_quantity_size_Abl = low_quantity_Abl.length; 
 const days_left =  database1.filter(items=>items.Time_Left<100);
-const days_left_size = database1.length; 
+const days_left_size = days_left.length; 
 
 
 const handleSubmit = event=> {
@@ -228,18 +239,41 @@ const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {it
 const r = Abl.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
 <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div></div>);
 
+var Lots= low_quantity.map(item=>item.Lot); 
+var Amount =   low_quantity.map(item=>item.Quantity);      
+ //get database Lot# and push into and array 
+
+const graph_data = {
+labels: Lots ,
+datasets: [
+{
+label: 'Blue Caps?',
+backgroundColor: 'rgba(75,192,192,1)',
+borderColor: 'rgba(0,0,0,1)',
+borderWidth: 2,
+data: Amount
+}
+]
+}
+
+
+
+
+
+
 
 return (
     <div>
-     
+
+  
 <Navbar/>
  {database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
 
 
 <div style={{padding:"30px" , marginTop: "20px", marginRight: "100px" , width: "250px", backgroundColor: "black", color: "white", float: "right"}}> 
-<h5>Total Warnings: <div style={{float:"right"}}>{low_quantity_size+days_left_size} </div></h5>
-<div style={{color: "#17a2b8"}}>Low Quantity Total: <div style={{float:"right"}}>{low_quantity_size} </div></div> 
+<h5>Total Warnings: <div style={{float:"right"}}>{low_quantity_size+days_left_size+low_quantity_size_Abl} </div></h5>
+<div style={{color: "#17a2b8"}}>Low Quantity Total: <div style={{float:"right"}}>{low_quantity_size+low_quantity_size_Abl} </div></div> 
 <div style={{color: "#ffc107"}}>About to Expire Total: <div style={{float:"right"}}>{days_left_size} </div></div>
 
 
@@ -277,15 +311,15 @@ return (
     
    
 
-    <Container>
+    <Container >
   <Row>
     <Col xs={6} md={4}>
 
     <Card style={{ width: '20rem' }} bg="danger">
-  <Card.Header>Total Warnings: {low_quantity_size+days_left_size}</Card.Header>
+  <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
   <ListGroup variant="flush">
  
-    <ListGroup.Item>Low Quantity Total: {low_quantity_size} </ListGroup.Item>
+    <ListGroup.Item>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
     <ListGroup.Item>Days Left Total: {days_left_size} </ListGroup.Item>
   </ListGroup>
 </Card>
@@ -297,7 +331,7 @@ return (
    
     <Col xs={6} md={4}>
 <Card style={{ width: '20rem' }} bg="warning">
-  <Card.Header>Low Quantity Items</Card.Header>
+  <Card.Header>Low Quantity-Cobas 8100</Card.Header>
   <ListGroup variant="flush">
     {low_quantity.map(item=>
     <ListGroup.Item>Lot: {item.Lot} 
@@ -309,8 +343,8 @@ return (
     
     
 <Col xs={6} md={4}>
-<Card style={{ width: '20rem' }} bg="info">
-  <Card.Header>About to Expire</Card.Header>
+<Card style={{ width: '20rem' }} bg="light">
+  <Card.Header>About to Expire-Cobas 8100</Card.Header>
   <ListGroup variant="flush">
     {days_left.map(item=>
     <ListGroup.Item>Lot: {item.Lot} 
@@ -318,14 +352,65 @@ return (
 )}
   </ListGroup>
 </Card>
+  </Col>
   
-  
-  
-    </Col>
+  <Col xs={6} md={4}>
+<Card style={{ width: '20rem', marginTop:"20px" }} bg="info">
+  <Card.Header>Low Quantity-Abl</Card.Header>
+  <ListGroup variant="flush">
+    {low_quantity_Abl.map(item=>
+    <ListGroup.Item>Lot: {item.lotNum} 
+     <div style={{float: "right"}} > Low Quantity: {item.quantity} </div> </ListGroup.Item>
+)}
+  </ListGroup>
+</Card>
+  </Col>
+
+  <Col xs={6} md={4}>
+<Card style={{ width: '20rem', marginTop: "20px"}} bg="success">
+  <Card.Header>About to Expire-Abl</Card.Header>
+  <ListGroup variant="flush">
+   
+    <ListGroup.Item>Lot: 
+     <div style={{float: "right"}} > Days Left: </div> </ListGroup.Item>
+
+  </ListGroup>
+</Card>
+  </Col>
+
+
   </Row>
 </Container>
 
-     
+
+
+
+<div style={{width: "50%", padding: "30px"}}>
+<Bar
+          data={graph_data}
+          options={{
+            title:{
+              display:true,
+              text:'Lots with Low Quantity (cobas8100 only)',
+              fontSize:20,
+              barThickness: 1,
+            },
+            scales: {
+              yAxes: [{
+                  ticks: {
+                      suggestedMin: 0,
+                      suggestedMax: 100
+                  }
+              }]},
+            legend:{
+              display:true,
+              position:'right'
+            }
+          }}
+        />
+</div>
+
+
       
     </div>
 
