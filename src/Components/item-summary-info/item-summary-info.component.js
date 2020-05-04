@@ -1,8 +1,12 @@
 import React from "react";
+//  UTILITY FUNCTION IMPORTS
 import moment from "moment";
-import { ListGroup } from "react-bootstrap";
 
-const ItemSummaryInfo = ({
+//  COMPONENT IMPORTS
+import { ListGroup } from "react-bootstrap";
+import "./item-summary-info.styles.scss";
+
+const ItemSummaryInfoComponent = ({
   itemToDisplay: { lotNum, expirationDate, quantity, transactions }
 }) => {
   const dateFormat = "YYYY-MM-DD";
@@ -41,4 +45,4 @@ const ItemSummaryInfo = ({
   );
 };
 
-export default ItemSummaryInfo;
+export default ItemSummaryInfoComponent;

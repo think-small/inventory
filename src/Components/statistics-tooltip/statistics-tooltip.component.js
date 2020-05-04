@@ -1,7 +1,7 @@
 import React from "react";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 
-const StatisticTooltip = ({ title, content, direction, children }) => {
+const StatisticsTooltipComponent = ({ title, content, direction, children }) => {
   const popover = (
     <Popover>
       <Popover.Title>{title}</Popover.Title>
@@ -19,4 +19,4 @@ const StatisticTooltip = ({ title, content, direction, children }) => {
   );
 };
 
-export default StatisticTooltip;
+export default StatisticsTooltipComponent;

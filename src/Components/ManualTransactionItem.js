@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import EditItemQuantity from "./EditItemQuantity";
+import EditItemQuantityComponent from "./edit-item-quantity/edit-item-quantity.component";
 
 const ManualTransactionItem = props => {
   const [isChecked, setIsChecked] = useState(false);
@@ -22,7 +22,7 @@ const ManualTransactionItem = props => {
             marginTop: "1.5em"
           }}
         />
-        {isChecked && <EditItemQuantity />}
+        {isChecked && <EditItemQuantityComponent />}
       </div>
     </>
   );

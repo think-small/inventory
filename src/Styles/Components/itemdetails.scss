@@ -14,32 +14,6 @@
   }
 }
 
-.list-header {
-  background-color: $gray-color;
-  color: $primary-color;
-  font-weight: 700;
-  letter-spacing: 0.15rem;
-  text-transform: uppercase;
-  font-size: smaller;
-}
-
-.list-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: small;
-
-  span:first-child {
-    font-weight: 500;
-  }
-}
-
-.summary-value,
-.stat-value {
-  font-family: "Work Sans";
-  letter-spacing: 0.07em;
-  font-size: 12px;
-}
-
 @media screen and (min-width: 600px) and (max-width: 900px) {
   .item-summary-and-stats {
     .item-summary {

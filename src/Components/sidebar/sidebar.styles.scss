@@ -1,3 +1,16 @@
+@import "../../Styles/base/_settings.scss";
+
+.sidebar {
+  input {
+    padding: 20px;
+    height: 10px;
+    width: 80%;
+    margin: 20px 10px 10px 01px;
+    border-radius: 1px;
+    border: 1px solid white;
+  }
+}
+
 @media screen and (min-width: 600px) {
   .sidebar {
     background: linear-gradient($primary-color, #303b45);

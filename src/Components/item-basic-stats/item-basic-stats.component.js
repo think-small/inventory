@@ -1,11 +1,14 @@
 import React from "react";
-import { ListGroup } from "react-bootstrap";
-import moment from "moment";
-import StatisticTooltip from "./StatisticTooltip";
-import { aggregateData, getRawData } from "../utils/DataCleaning";
-import { calcAverage, stockOut, turnover } from "../utils/Statistics";
+//  UTILITY FUNCTION IMPORTS
+import StatisticsTooltipComponent from "../statistics-tooltip/statistics-tooltip.component";
+import { aggregateData, getRawData } from "../../utils/DataCleaning";
+import { calcAverage, stockOut, turnover } from "../../utils/Statistics";
 
-const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
+//  COMPONENT IMPORTS
+import { ListGroup } from "react-bootstrap";
+import "./item-basic-stats.styles.scss";
+
+const ItemBasicStatsComponent = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  ACQUIRE DATA
   const usageData = getRawData(transactions, "usage");
   const receivedData = getRawData(transactions, "received");
@@ -36,7 +39,7 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
         <span>Monthly Units Received</span>
         <span className="stat-value">{monthlyReceived * countPerBox}</span>
       </ListGroup.Item>
-      <StatisticTooltip
+      <StatisticsTooltipComponent
         title="Stock Out"
         content="The average number of times inventory ran out in a given time period"
         direction="right"
@@ -45,8 +48,8 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
           <span>Monthly Stock Out</span>
           <span className="stat-value">{stockOutStat}</span>
         </ListGroup.Item>
-      </StatisticTooltip>
-      <StatisticTooltip
+      </StatisticsTooltipComponent>
+      <StatisticsTooltipComponent
         title="Turnover"
         content="A ratio indicating how many times the entire inventory for this item has been used and replaced every month"
         direction="right"
@@ -55,9 +58,9 @@ const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
           <span>Monthly Turnover</span>
           <span className="stat-value">{avgTurnover}</span>
         </ListGroup.Item>
-      </StatisticTooltip>
+      </StatisticsTooltipComponent>
     </ListGroup>
   );
 };
 
-export default ItemBasicStats;
+export default ItemBasicStatsComponent;

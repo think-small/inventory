@@ -2,7 +2,7 @@ import React from "react";
 import { NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-const SideBarNavItem = ({ url, textContent }) => {
+const SidebarNavItemComponent = ({ url, textContent }) => {
   return (
     <LinkContainer to={`/${url}`} activeClassName="activeLink">
       <NavItem>{textContent}</NavItem>
@@ -10,4 +10,4 @@ const SideBarNavItem = ({ url, textContent }) => {
   );
 };
 
-export default SideBarNavItem;
+export default SidebarNavItemComponent;

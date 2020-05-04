@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { Card, Nav } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ChartContainerComponent from "../components/chart-container/chart-container.component";
-import ItemSummaryInfo from "../Components/ItemSummaryInfo";
-import ItemBasicStats from "../Components/ItemBasicStats";
+import ItemSummaryInfoComponent from "../components/item-summary-info/item-summary-info.component";
+import ItemBasicStatsComponent from "../components/item-basic-stats/item-basic-stats.component";
 import queryStringParser from "query-string";
 
 const ItemDetails = props => {
@@ -64,10 +64,10 @@ const ItemDetails = props => {
           </Card.Title>
           <section className="item-summary-and-stats">
             <div className="item-summary">
-              <ItemSummaryInfo itemToDisplay={itemToDisplay} />
+              <ItemSummaryInfoComponent itemToDisplay={itemToDisplay} />
             </div>
             <div className="item-summary">
-              <ItemBasicStats itemToDisplay={itemToDisplay} />
+              <ItemBasicStatsComponent itemToDisplay={itemToDisplay} />
             </div>
           </section>
         </Card.Body>

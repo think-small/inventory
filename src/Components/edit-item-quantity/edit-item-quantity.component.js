@@ -1,6 +1,6 @@
 import React from "react";
 
-const EditItemQuantity = () => {
+const EditItemQuantityComponent = () => {
   return (
     <span>
       <button style={{ padding: "0.25em 0.5em" }}>-</button>
@@ -10,4 +10,4 @@ const EditItemQuantity = () => {
   );
 };
 
-export default EditItemQuantity;
+export default EditItemQuantityComponent;
