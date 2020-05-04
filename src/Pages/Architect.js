@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import Navbar from "../Navbar/Navbar";
-import { sortTable } from "../UtilityFunctions/TableUtils";
+import { sortTable } from "../utils/TableUtils";
 
 const Architect = () => {
   const [architectItems, setArchitectItems] = useState();
@@ -20,7 +20,7 @@ const Architect = () => {
       try {
         const res = await fetch("/api/Architect/all-items");
         const data = await res.json();
-        const findCurrentLotItems = data.filter(item => item.isCurrentLot);
+        const findCurrentLotItems = data.filter((item) => item.isCurrentLot);
         setArchitectItems(data);
         setCurrentLotItems(findCurrentLotItems);
       } catch (err) {
@@ -30,7 +30,7 @@ const Architect = () => {
     fetchData();
   }, []);
 
-  const handleTableHeaderClick = e => {
+  const handleTableHeaderClick = (e) => {
     const clickedHeader = e.target.innerText.trim();
     let currentLotSortedItems = [...currentLotItems];
     switch (clickedHeader) {
@@ -81,18 +81,18 @@ const Architect = () => {
     Route to ItemDetails component (query string containing lotNum), and pass array of
     current lot and new lot items.
    */
-  const handleClick = e => {
+  const handleClick = (e) => {
     const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
     const clickedItem = architectItems.filter(
-      item => item.displayName === clickedDisplayName
+      (item) => item.displayName === clickedDisplayName
     );
     history.push({
       pathname: `/Architect/${clickedItem[0].reagentName}`,
       search: `lotNum=${clickedItem[0].lotNum}`,
       state: {
         param: clickedItem[0].reagentName,
-        items: clickedItem
-      }
+        items: clickedItem,
+      },
     });
   };
 
@@ -237,7 +237,7 @@ const Architect = () => {
               </thead>
               <tbody>
                 {currentLotItems
-                  ? currentLotItems.map(item => {
+                  ? currentLotItems.map((item) => {
                       return (
                         <tr
                           key={item.orderID}

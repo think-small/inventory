@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import { Modal, Button, Table } from "react-bootstrap";
+//  UTILITY FUNCTION IMPORTS
 import moment from "moment";
-import { CSVLink } from "react-csv";
 import uuid from "uuid";
-import Chart from "chart.js";
-import { getRawData, getData } from "../UtilityFunctions/DataCleaning";
+import { setLayoutSettings, setChartSettings, createChart } from "./chart.utils";
+import { getData } from "../../utils/DataCleaning";
+
+//  COMPONENT IMPORTS
+import { Modal, Button, Table } from "react-bootstrap";
+import { CSVLink } from "react-csv";
+import "./chart.styles.scss";
 
 let chart; //  declare chart as global to allow chart.destroy() to work properly
 
-const ItemChart = props => {
+const ItemChart = (props) => {
   // STATE AND CLICK HANDLER FUNCTIONS
   const [show, setShow] = useState(false);
   const [transactionHistory, setTransactionHistory] = useState([]);
@@ -30,147 +34,25 @@ const ItemChart = props => {
     numOfDays,
     countPerBox
   ) => {
+    const WIDTH = 600;
+    const HEIGHT = 270;
+
     const data = getData(transactionsArr, type, numOfDays, countPerBox);
     const canvas = document.getElementById("itemChart");
-    canvas.width = 600;
-    canvas.height = 270;
 
-    const layoutSettings = {
-      barColors: data.data.map(val => (val >= 0 ? "#24292e" : "#991a11")),
-      hoverBarColors: data.data.map(val => (val >= 0 ? "#4b555e" : "#d12115")),
-      padding: 20
-    };
-    if (type === "usage") {
-      layoutSettings.titleText = "Usage Data";
-      layoutSettings.yLabel = "Amount Used";
-    } else if (type === "inStock") {
-      layoutSettings.titleText = "In Stock Data";
-      layoutSettings.yLabel = "Amount in Stock";
-    } else if (type === "received") {
-      layoutSettings.titleText = "Received Data";
-      layoutSettings.yLabel = "Amount Received";
-    }
-
-    const chartSettings = {};
-    switch (numOfDays) {
-      case 1:
-        chartSettings.unit = "hour";
-        chartSettings.format = "hh a";
-        break;
-      case 30:
-        chartSettings.unit = "day";
-        chartSettings.format = "MMM D";
-        break;
-      case 365:
-        chartSettings.unit = "month";
-        chartSettings.format = "MMM YYYY";
-        break;
-      default:
-        chartSettings.unit = "day";
-        chartSettings.format = "MMM D";
-    }
+    //  CONFIGURE CHART SETTINGS
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    const layoutSettings = setLayoutSettings(type, data);
+    const chartSettings = setChartSettings(numOfDays);
 
     //  Needed to prevent persistence of previous data;
-    //  consier chart.update() if destroy() is slow.
+    //  consider chart.update() if destroy() is slow.
     if (chart) chart.destroy();
-    chart = new Chart(canvas, {
-      type: "bar",
-      data: {
-        labels: data.labels,
-        datasets: [
-          {
-            label: layoutSettings.yLabel,
-            data: data.data,
-            backgroundColor: layoutSettings.barColors,
-            borderColor: layoutSettings.barColors,
-            hoverBackgroundColor: layoutSettings.hoverBarColors
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {
-          padding: layoutSettings.padding
-        },
-        title: {
-          display: true,
-          text: `${displayName} ${layoutSettings.titleText}`
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [
-            {
-              type: "time",
-              distribution: "series",
-              offset: true,
-              gridLines: {
-                display: false
-              },
-              time: {
-                unit: chartSettings.unit,
-                displayFormats: {
-                  [chartSettings.unit]: chartSettings.format
-                }
-              }
-            }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true
-              },
-              scaleLabel: {
-                display: true,
-                labelString: layoutSettings.yLabel
-              }
-            }
-          ]
-        },
-        tooltips: {
-          callbacks: {
-            title: tooltipItem => {
-              switch (numOfDays) {
-                case 365:
-                  return `${tooltipItem[0]["label"]
-                    .split("-")
-                    .slice(0, 2)
-                    .join("-")}`;
-                default:
-                  return `${tooltipItem[0]["label"].split("T")[0]}`;
-              }
-            }
-          },
-          custom: tooltip => (tooltip.displayColors = false)
-        },
-        onClick: (e, item) => {
-          if (item[0] && item[0].hasOwnProperty("_model")) {
-            const dateString = item[0]._model.label;
-            const dateObj = new Date(dateString);
-            const momentObj = moment(dateObj);
-
-            const rawData = getRawData(
-              props.itemToDisplay.transactions,
-              props.chartType,
-              true
-            );
-            const filteredByDateData = rawData
-              .filter(transaction => {
-                return (
-                  moment(transaction.timestamp)
-                    .startOf(chartSettings.unit)
-                    .format() === momentObj.startOf(chartSettings.unit).format()
-                );
-              })
-              .sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
-            setTransactionHistory([...filteredByDateData]);
-            handleShow();
-          }
-        }
-      }
-    });
+    chart = createChart(
+        chart, canvas, data,
+        displayName, numOfDays, type, props.itemToDisplay,
+        layoutSettings, chartSettings, setTransactionHistory, handleShow);
   };
 
   useLayoutEffect(() => {
@@ -183,18 +65,18 @@ const ItemChart = props => {
         const tableBodyOptions = {
           root: null,
           threshold: 0,
-          rootMargin: "-145px 0px 0px 0px" //  -145px to avoid adding and removing isScrolling class when modal is opened.
+          rootMargin: "-145px 0px 0px 0px", //  -145px to avoid adding and removing isScrolling class when modal is opened.
         };
-        const tableBodyObserver = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
+        const tableBodyObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
             if (!entry.isIntersecting && tableHeaderRefs.current[0]) {
               //  null check for ref prevents firing when modal closes
-              tableHeaderRefs.current.forEach(ref =>
+              tableHeaderRefs.current.forEach((ref) =>
                 ref.classList.add("isScrolling")
               );
             } else if (entry.isIntersecting && tableHeaderRefs.current[0]) {
               //  null check for ref prevents firing when modal closes
-              tableHeaderRefs.current.forEach(ref =>
+              tableHeaderRefs.current.forEach((ref) =>
                 ref.classList.remove("isScrolling")
               );
             }
@@ -237,7 +119,7 @@ const ItemChart = props => {
                       <th
                         className="chart-modal-th"
                         key={index}
-                        ref={ref => (tableHeaderRefs.current[index] = ref)}
+                        ref={(ref) => (tableHeaderRefs.current[index] = ref)}
                       >
                         {header}
                       </th>
@@ -248,7 +130,7 @@ const ItemChart = props => {
                   {transactionHistory.map((transaction, index) => (
                     <tr
                       key={uuid()}
-                      ref={ref => (tableRef.current[index] = ref)}
+                      ref={(ref) => (tableRef.current[index] = ref)}
                     >
                       <td>
                         {moment(transaction.timestamp).format(
@@ -272,7 +154,7 @@ const ItemChart = props => {
         <Modal.Footer className="transaction-history-modal-footer">
           <CSVLink
             className="transaction-download-button"
-            data={transactionHistory.map(transaction => {
+            data={transactionHistory.map((transaction) => {
               const transactionCopy = { ...transaction };
               transactionCopy.timestamp = moment(
                 transactionCopy.timestamp
@@ -283,11 +165,11 @@ const ItemChart = props => {
               { label: "Transaction Type", key: "transactionType" },
               {
                 label: "Quantity in Stock After Transaction",
-                key: "quantityInStock"
+                key: "quantityInStock",
               },
               { label: "Timestamp", key: "timestamp" },
               { label: "Amount Used", key: "amount" },
-              { label: "Number of Boxes Received", key: "numBoxesReceived" }
+              { label: "Number of Boxes Received", key: "numBoxesReceived" },
             ]}
             target="_blank"
             filename={`${props.itemToDisplay.displayName} Transactions.csv`}

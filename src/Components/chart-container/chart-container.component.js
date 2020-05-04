@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Chart from "./Chart";
+import Chart from "../chart/chart.component";
 import { Form } from "react-bootstrap";
+import "./chart-container.styles.scss";
 
-const ChartContainer = props => {
+const ChartContainerComponent = (props) => {
   //  DEFAULT CHART -> USAGE WITH WEEK RANGE
   const [chartType, setChartType] = useState("usage");
   const [dateRange, setDateRange] = useState(7);
 
-  const handleSelect = e => {
+  const handleSelect = (e) => {
     setDateRange(Number(e.target.value));
   };
 
@@ -80,4 +81,4 @@ const ChartContainer = props => {
   );
 };
 
-export default ChartContainer;
+export default ChartContainerComponent;

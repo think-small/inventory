@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Card, Nav } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import ChartContainer from "../Components/ChartContainer";
+import ChartContainerComponent from "../components/chart-container/chart-container.component";
 import ItemSummaryInfo from "../Components/ItemSummaryInfo";
 import ItemBasicStats from "../Components/ItemBasicStats";
 import queryStringParser from "query-string";
@@ -71,7 +71,7 @@ const ItemDetails = props => {
             </div>
           </section>
         </Card.Body>
-        <ChartContainer itemToDisplay={itemToDisplay} />
+        <ChartContainerComponent itemToDisplay={itemToDisplay} />
       </Card>
     </section>
   );

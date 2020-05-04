@@ -2,12 +2,8 @@ import React from "react";
 import { ListGroup } from "react-bootstrap";
 import moment from "moment";
 import StatisticTooltip from "./StatisticTooltip";
-import { aggregateData, getRawData } from "../UtilityFunctions/DataCleaning";
-import {
-  calcAverage,
-  stockOut,
-  turnover
-} from "../UtilityFunctions/Statistics";
+import { aggregateData, getRawData } from "../utils/DataCleaning";
+import { calcAverage, stockOut, turnover } from "../utils/Statistics";
 
 const ItemBasicStats = ({ itemToDisplay: { transactions, countPerBox } }) => {
   //  ACQUIRE DATA
