@@ -3,7 +3,7 @@ import React from "react";
 
 
 
-const Navbar = () =>  {
+const NavbarComponent = () =>  {
 
 function logout () {
     fetch("/logout")
@@ -74,5 +74,5 @@ return (
         )
 }
 
-export default Navbar; 
+export default NavbarComponent;
 

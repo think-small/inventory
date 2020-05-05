@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import  "./Card_Input.css";
+import "./card-input.styles.css";
 
 
 
 
-const Card_Input = (props) => {
+const CardInputComponent = (props) => {
 
 return (
 
@@ -93,4 +93,4 @@ return (
 )
 }
 
-export default Card_Input; 
+export default CardInputComponent;

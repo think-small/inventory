@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Card_Input from "./Card_Input";
+import CardInputComponent from "./card-input.component";
 
-function Card_Input_main (props) {
+function CardInputMainComponent (props) {
 
 
 
@@ -119,7 +119,7 @@ console.log(props.route);
 
 return (
     <div>
-        <Card_Input 
+        <CardInputComponent
         handleSubmit={()=>handleSubmit()}
         handleInputChange={()=> handleInputChange(event)} 
         handleChangeisNewLot={()=>{handleChangeisNewLot(event)}}
@@ -128,4 +128,4 @@ return (
     </div>
 )
 }
-export default Card_Input_main;
+export default CardInputMainComponent;

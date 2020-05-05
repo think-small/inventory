@@ -1,9 +1,9 @@
 import React from "react";
 
-import Navbar from "../Navbar/Navbar";
-import Jumbotron1 from "../Jumbotron/Jumbotron"; 
+import NavbarComponent from "../components/navbar/navbar.component";
+import Jumbotron1 from "../components/jumbotron/jumbotron.component";
 
-import Card_Input_main from "../Card_Input/Card_Input_main"; 
+import CardInputMainComponent from "../components/card-input/card-input-main.component";
 import Tables_main from "../Table/Tables_main";
 import Tables2 from "../Table/Tables2"; 
 
@@ -17,11 +17,11 @@ return (
 <div>
 
 
-<Navbar />
+<NavbarComponent />
 
 
 
-<Card_Input_main route="whatever-route-in-the-future" />
+<CardInputMainComponent route="whatever-route-in-the-future" />
   
 <Tables_main />       
 

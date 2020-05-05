@@ -13,7 +13,7 @@ const compiler = webpack(config);
 
 const passport = require("./SignUp/Passport.js");
 
-//var isAuthenticated = require("./SignUp/isAuthenticated");
+//var isAuthenticated = require("./signup/isAuthenticated");
 
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -98,7 +98,7 @@ app.post("/api/login", passport.authenticate("local"), function(req, res) {
    // console.log('in cobas09000' + req.user )
    // res.json({ id: req.user.Id, username: req.user.Username });
    res.status(200).json({
-    status: 'Login successful!'
+    status: 'login successful!'
 });
   });
 **/

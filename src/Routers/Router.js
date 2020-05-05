@@ -11,9 +11,9 @@ import ItemDetails from "../Pages/ItemDetails";
 import SidebarComponent from "../components/sidebar/sidebar.component";
 import { ArchitectContext } from "../Contexts/ArchitectContext";
 import { ABLContext } from "../Contexts/ABLContext";
-import Login from "../Login";
-import SignUp from "../SignUp";
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Login from "../components/login/login.component";
+import SignUp from "../components/signup/signup.component";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const Router = () => {
   const { architectItems } = useContext(ArchitectContext);

@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 
 
 
-import "./index.css";
+import "./signup.styles.css";
 
 const Login = () =>  {
 
@@ -60,7 +60,7 @@ const data = {Username: username,
             };
 
 
-fetch("/api/SignUp", {
+fetch("/api/signup", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data)

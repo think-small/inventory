@@ -1,5 +1,5 @@
 import React, {useEffect, useState }from "react";
-import Navbar from "../Navbar/Navbar";
+import NavbarComponent from "../components/navbar/navbar.component";
 
 
 
@@ -35,7 +35,7 @@ function logout () {
 return (
 
 <div>
-<Navbar />
+<NavbarComponent />
 <div>Use this page temporarily to see if username and login works</div>
 
 {database.length === 1 ? <h1>Hello, {   database.map(item=> <h1>{item.Username}

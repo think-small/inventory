@@ -2,7 +2,7 @@ import React ,{useState, useEffect} from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Card from "react-bootstrap/Card";
 import "./styles.css";
-import Navbar from "../../Navbar/Navbar"
+import NavbarComponent from "../../components/navbar/navbar.component"
 import moment from "moment";
 
 const Dashboard = () => {
@@ -227,7 +227,7 @@ const r = Abl.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</
 return (
     <div>
      
-<Navbar/>
+<NavbarComponent/>
  {database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
 

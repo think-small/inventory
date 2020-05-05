@@ -4,7 +4,7 @@ import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 
 
 
-import "./index.css";
+import "./login.styles.css";
 
 const Login = ()=>  {
 

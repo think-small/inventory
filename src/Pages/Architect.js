@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import Navbar from "../Navbar/Navbar";
+import NavbarComponent from "../components/navbar/navbar.component";
 import { sortTable } from "../utils/TableUtils";
 
 const Architect = () => {
@@ -100,7 +100,7 @@ const Architect = () => {
     <div>
       {architectItems ? (
         <>
-          <Navbar />
+          <NavbarComponent />
           <section>
             <Table hover>
               <thead>
@@ -262,7 +262,7 @@ const Architect = () => {
         </>
       ) : (
         <>
-          <Navbar />
+          <NavbarComponent />
           <section></section>
         </>
       )}
