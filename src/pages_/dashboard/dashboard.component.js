@@ -2,10 +2,10 @@ import React ,{useState, useEffect} from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Card from "react-bootstrap/Card";
 import "./styles.css";
-import NavbarComponent from "../../components/navbar/navbar.component"
+import NavbarComponent from "../../components_/navbar/navbar.component"
 import moment from "moment";
 
-const Dashboard = () => {
+const DashboardComponent = () => {
   
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
@@ -63,12 +63,12 @@ useEffect(
 
          const fetchData1 = async () => {
           try {
-            const res = await fetch("/api/ABL/all-items");
+            const res = await fetch("/api/AblComponent/all-items");
             const data = await res.json();
             setAblItems(data);
         
           } catch (err) {
-            throw new Error("Unable to fetch ABL items");
+            throw new Error("Unable to fetch AblComponent items");
           }
         };
         fetchData1();
@@ -247,7 +247,7 @@ return (
             <input
               className="searchBar"
               type="text"
-              placeholder="Search for Lot in Abl & Cobas8100  - will add more later, Lot must match exactly"
+              placeholder="Search for Lot in Abl & Cobas8100Component  - will add more later, Lot must match exactly"
               value={Searchbar_value} onChange={handleChange} 
               onKeyPress={handleKeyPress}
             />
@@ -321,4 +321,4 @@ return (
   );
 };
 
-export default Dashboard;
+export default DashboardComponent;

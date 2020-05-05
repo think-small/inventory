@@ -1,16 +1,16 @@
 const router = require("express").Router();
 const controller = require("./controller");
 
-router.get("/api/Architect/all-items", controller.allItems);
+router.get("/api/ArchitectComponent/all-items", controller.allItems);
 router.get(
-  "/api/Architect/all-items-no-transactions",
+  "/api/ArchitectComponent/all-items-no-transactions",
   controller.allItemsNoTransactions
 );
-router.get("/api/Architect/all-transactions", controller.allTransactions);
+router.get("/api/ArchitectComponent/all-transactions", controller.allTransactions);
 router.get(
-  "/api/Architect/generate-random-transactions",
+  "/api/ArchitectComponent/generate-random-transactions",
   controller.generateRandomTransactions
 );
-router.get("/api/Architect/:name", controller.getSpecificItem);
+router.get("/api/ArchitectComponent/:name", controller.getSpecificItem);
 
 module.exports = router;

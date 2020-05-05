@@ -15,11 +15,11 @@ const SidebarComponent = () => {
       <IndexLinkContainer to="/" activeClassName="activeLink">
         <NavItem>{"Dashboard"}</NavItem>
       </IndexLinkContainer>
-      <NavLink url="ABL/" textContent="ABL" />
+      <NavLink url="AblComponent/" textContent="AblComponent" />
 
-      <NavLink url="Architect/" textContent="Architect" />
-      <NavLink url="Cobas8000/" textContent="Cobas 8000" />
-      <NavLink url="Cobas8100/" textContent="Cobas 8100" />
+      <NavLink url="ArchitectComponent/" textContent="ArchitectComponent" />
+      <NavLink url="Cobas8000Component/" textContent="Cobas 8000" />
+      <NavLink url="Cobas8100Component/" textContent="Cobas 8100" />
       <NavLink url="ManualUsedTransaction/" textContent="Manual Transaction" />
     </Nav>
   );

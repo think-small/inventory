@@ -2,7 +2,7 @@ import React ,{useState, useEffect} from "react";
 
 
 
-const Searchbar = ()=> {
+const SearchbarComponent = ()=> {
 
 
 return (
@@ -18,4 +18,4 @@ nothing yet
 )
 }
 
-export default Searchbar; 
+export default SearchbarComponent;

@@ -3,7 +3,7 @@ import ABLReducer from "../../Reducers/ABLReducer";
 import uuid from "uuid";
 import moment from "moment";
 
-//  Create ABL Item Tests
+//  Create AblComponent Item Tests
 test("Should create new item with name as new property on state object - all arguments passed into addABLItem", () => {
   const name = "ROFLcopter";
   const newItem = {
@@ -63,7 +63,7 @@ test("Should create new item with name as new property on state object - no argu
   expect(state).toEqual({ ...data, undefined: detailsArr });
 });
 
-//  Edit ABL Item Tests
+//  Edit AblComponent Item Tests
 test("Should edit single property", () => {
   const name = Object.keys(data)[0];
   const lotNum = Object.values(data[name])[0].lotNum;
@@ -139,7 +139,7 @@ test("Should return original state if given update properties don't exist", () =
   expect(state).toEqual(data);
 });
 
-//  Delete ABL Item Transaction Tests
+//  Delete AblComponent Item Transaction Tests
 test("Should remove element from transaction array for cal1Solution (current lot)", () => {
   const name = "cal1Solution";
   const lotNum = "FD20S-SK2";

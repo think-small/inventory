@@ -2,7 +2,7 @@ const db = require("../db");
 const router = require("express").Router();
 const moment = require("moment");
 
-router.get("/api/ABL/all-items", async (req, res) => {
+router.get("/api/AblComponent/all-items", async (req, res) => {
   db.query("SELECT * FROM abl", (err, ablItems) => {
     if (err) {
       console.log(err);
@@ -24,7 +24,7 @@ router.get("/api/ABL/all-items", async (req, res) => {
   });
 });
 
-router.get("/api/ABL/all-items-no-transactions", (req, res) => {
+router.get("/api/AblComponent/all-items-no-transactions", (req, res) => {
   db.query("SELECT * FROM abl", (err, ablItems) => {
     if (err) {
       console.error(err);
@@ -34,7 +34,7 @@ router.get("/api/ABL/all-items-no-transactions", (req, res) => {
   });
 });
 
-router.get("/api/ABL/generate-random-transactions", (req, res) => {
+router.get("/api/AblComponent/generate-random-transactions", (req, res) => {
   const newTransactionType = ["used", "received"];
   const query = "SELECT * FROM abl;";
 
@@ -88,7 +88,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
         item.transactions.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
       );
 
-      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ABL ITEM
+      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH AblComponent ITEM
       transactions.forEach(itemTransactions => {
         const item = result.find(
           item => item.lotNum === itemTransactions.lotNum
@@ -131,7 +131,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
                   console.log(err);
                   res.send(err);
                 } else {
-                  const msg = "ABL transactions created";
+                  const msg = "AblComponent transactions created";
                   console.log(msg);
                 }
               }

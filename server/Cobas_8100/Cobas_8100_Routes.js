@@ -164,7 +164,7 @@ router.get('/api/8100',(req, res) => {
         console.log('updated worked!');
       })
    **/
-  // get the id from the frontend and also get the Quantity (from Cobas8100.js page)
+  // get the id from the frontend and also get the Quantity (from Cobas8100Component.js page)
   console.log('the id is ' + Id); 
   if (req.body.Quantity ==="") {
   connection.query(`UPDATE Cobas_8100 SET Expiration_Date  =? WHERE Id = ?`, [ req.body.Expiration, Id], (error, results) =>{

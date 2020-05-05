@@ -2,29 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import NavbarComponent from "../components/navbar/navbar.component";
-import { sortTable } from "../utils/TableUtils";
+import NavbarComponent from "../../components_/navbar/navbar.component";
+import { sortTable } from "../../utils/TableUtils";
 
-const Architect = () => {
-  const [architectItems, setArchitectItems] = useState();
+const AblComponent = () => {
+  const [ablItems, setAblItems] = useState();
   const [currentLotItems, setCurrentLotItems] = useState();
   const [isNameSorted, setIsNameSorted] = useState(false);
   const [isLotNumSorted, setIsLotNumSorted] = useState(false);
   const [isExpDateSorted, setIsExpDateSorted] = useState(false);
-  const [isQuantitySorted, setIsQuantitySorted] = useState(false);
-
+  const [isQuantitySorted, setIsQauntitySorted] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/Architect/all-items");
+        const res = await fetch("/api/AblComponent/all-items");
         const data = await res.json();
         const findCurrentLotItems = data.filter((item) => item.isCurrentLot);
-        setArchitectItems(data);
+        setAblItems(data);
         setCurrentLotItems(findCurrentLotItems);
       } catch (err) {
-        throw new Error("Unable to fetch Architect items");
+        throw new Error("Unable to fetch AblComponent items");
       }
     };
     fetchData();
@@ -66,7 +65,7 @@ const Architect = () => {
           currentLotSortedItems,
           "quantity",
           isQuantitySorted,
-          setIsQuantitySorted
+          setIsQauntitySorted
         );
         setCurrentLotItems(currentLotSortedItems);
         break;
@@ -77,17 +76,17 @@ const Architect = () => {
 
   /**
     Handle click events for each table row.
-    Get matching item from architectItems.
+    Get matching item from ablItems.
     Route to ItemDetails component (query string containing lotNum), and pass array of
     current lot and new lot items.
    */
   const handleClick = (e) => {
     const clickedDisplayName = e.currentTarget.querySelector("td").innerText;
-    const clickedItem = architectItems.filter(
+    const clickedItem = ablItems.filter(
       (item) => item.displayName === clickedDisplayName
     );
     history.push({
-      pathname: `/Architect/${clickedItem[0].reagentName}`,
+      pathname: `/ABL/${clickedItem[0].reagentName}`,
       search: `lotNum=${clickedItem[0].lotNum}`,
       state: {
         param: clickedItem[0].reagentName,
@@ -98,7 +97,7 @@ const Architect = () => {
 
   return (
     <div>
-      {architectItems ? (
+      {ablItems ? (
         <>
           <NavbarComponent />
           <section>
@@ -270,4 +269,4 @@ const Architect = () => {
   );
 };
 
-export default Architect;
+export default AblComponent;

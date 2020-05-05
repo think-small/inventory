@@ -128,7 +128,7 @@ const generateRandomTransactions = (req, res) => {
                   console.log(err);
                   res.send(err);
                 } else {
-                  const msg = "Architect transactions created";
+                  const msg = "ArchitectComponent transactions created";
                   console.log(msg);
                 }
               }
@@ -138,7 +138,7 @@ const generateRandomTransactions = (req, res) => {
       });
 
       result.forEach(({ quantity, lotNum }) => {
-        const sql = "UPDATE Architect SET quantity = ? WHERE lotNum = ?";
+        const sql = "UPDATE ArchitectComponent SET quantity = ? WHERE lotNum = ?";
         db.query(sql, [quantity, lotNum], (err, result) => {
           if (err) {
             res.send(err);

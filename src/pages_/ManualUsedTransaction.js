@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
-import ManualTransactionItem from "../Components/ManualTransactionItem";
+import ManualTransactionItem from "../components_/ManualTransactionItem";
 
 const ManualUsedTransaction = () => {
   const [items, setItems] = useState([]);
@@ -25,9 +25,9 @@ const ManualUsedTransaction = () => {
         setItems([...AllItems]);
 
         const architectItems = await fetch(
-          "/api/Architect/all-items-no-transactions"
+          "/api/ArchitectComponent/all-items-no-transactions"
         );
-        const ablItems = await fetch("/api/ABL/all-items-no-transactions");
+        const ablItems = await fetch("/api/AblComponent/all-items-no-transactions");
         const architectItemData = await architectItems.json();
         const ablItemData = await ablItems.json();
 
@@ -51,7 +51,7 @@ const ManualUsedTransaction = () => {
           )
         );
         break;
-      case "ABL 800":
+      case "AblComponent 800":
         setCurrentItems(
           items.filter(item =>
             itemMapping.current.abl.includes(item.reagentName)

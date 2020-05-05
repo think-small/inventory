@@ -1,9 +1,9 @@
 import React, {useEffect, useState }from "react";
-import NavbarComponent from "../components/navbar/navbar.component";
+import NavbarComponent from "../../components_/navbar/navbar.component";
 
 
 
-const Cobas8000 = () => {
+const Cobas8000Component = () => {
 
 const [database, setdatabase] = useState([]);
  
@@ -46,4 +46,4 @@ return (
 </div>
 );
 };
-export default Cobas8000;
+export default Cobas8000Component;
