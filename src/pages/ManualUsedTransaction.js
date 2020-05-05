@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
-import ManualTransactionItem from "../components_/ManualTransactionItem";
+import ManualTransactionItem from "../components/ManualTransactionItem";
 
 const ManualUsedTransaction = () => {
   const [items, setItems] = useState([]);

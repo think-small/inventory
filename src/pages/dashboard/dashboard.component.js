@@ -2,7 +2,7 @@ import React ,{useState, useEffect} from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Card from "react-bootstrap/Card";
 import "./styles.css";
-import NavbarComponent from "../../components_/navbar/navbar.component"
+import NavbarComponent from "../../components/navbar/navbar.component"
 import moment from "moment";
 
 const DashboardComponent = () => {

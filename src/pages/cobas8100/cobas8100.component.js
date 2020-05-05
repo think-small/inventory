@@ -1,9 +1,9 @@
 import React from "react";
 
-import NavbarComponent from "../../components_/navbar/navbar.component";
-import Jumbotron1 from "../../components_/jumbotron/jumbotron.component";
+import NavbarComponent from "../../components/navbar/navbar.component";
+import Jumbotron1 from "../../components/jumbotron/jumbotron.component";
 
-import CardInputMainComponent from "../../components_/card-input/card-input-main.component";
+import CardInputMainComponent from "../../components/card-input/card-input-main.component";
 import Tables_main from "../../Table/Tables_main";
 import Tables2 from "../../Table/Tables2";
 

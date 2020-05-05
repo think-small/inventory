@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import NavbarComponent from "../../components_/navbar/navbar.component";
+import NavbarComponent from "../../components/navbar/navbar.component";
 import { sortTable } from "../../utils/TableUtils";
 
 const ArchitectComponent = () => {
@@ -18,13 +18,13 @@ const ArchitectComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/ArchitectComponent/all-items");
+        const res = await fetch("/api/Architect/all-items");
         const data = await res.json();
         const findCurrentLotItems = data.filter((item) => item.isCurrentLot);
         setArchitectItems(data);
         setCurrentLotItems(findCurrentLotItems);
       } catch (err) {
-        throw new Error("Unable to fetch ArchitectComponent items");
+        throw new Error("Unable to fetch Architect items");
       }
     };
     fetchData();

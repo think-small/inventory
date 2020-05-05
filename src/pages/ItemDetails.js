@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Card, Nav } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import ChartContainerComponent from "../components_/chart-container/chart-container.component";
-import ItemSummaryInfoComponent from "../components_/item-summary-info/item-summary-info.component";
-import ItemBasicStatsComponent from "../components_/item-basic-stats/item-basic-stats.component";
+import ChartContainerComponent from "../components/chart-container/chart-container.component";
+import ItemSummaryInfoComponent from "../components/item-summary-info/item-summary-info.component";
+import ItemBasicStatsComponent from "../components/item-basic-stats/item-basic-stats.component";
 import queryStringParser from "query-string";
 
 const ItemDetails = props => {

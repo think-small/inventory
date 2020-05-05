@@ -2,7 +2,7 @@ const db = require("../db");
 const router = require("express").Router();
 const moment = require("moment");
 
-router.get("/api/AblComponent/all-items", async (req, res) => {
+router.get("/api/ABL/all-items", async (req, res) => {
   db.query("SELECT * FROM abl", (err, ablItems) => {
     if (err) {
       console.log(err);
@@ -24,7 +24,7 @@ router.get("/api/AblComponent/all-items", async (req, res) => {
   });
 });
 
-router.get("/api/AblComponent/all-items-no-transactions", (req, res) => {
+router.get("/api/ABL/all-items-no-transactions", (req, res) => {
   db.query("SELECT * FROM abl", (err, ablItems) => {
     if (err) {
       console.error(err);
@@ -34,7 +34,7 @@ router.get("/api/AblComponent/all-items-no-transactions", (req, res) => {
   });
 });
 
-router.get("/api/AblComponent/generate-random-transactions", (req, res) => {
+router.get("/api/ABL/generate-random-transactions", (req, res) => {
   const newTransactionType = ["used", "received"];
   const query = "SELECT * FROM abl;";
 
