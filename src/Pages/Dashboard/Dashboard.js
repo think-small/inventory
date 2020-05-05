@@ -11,7 +11,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 //add a simple chart 
 //import Bar from "chart.js";
-import {Bar} from 'react-chartjs-2';
+import {Bar, Doughnut} from 'react-chartjs-2';
+
+import 'chartjs-plugin-datalabels'
 
 const Dashboard = () => {
 
@@ -257,7 +259,19 @@ data: Amount
 }
 
 
+const graph_data1 = {
 
+  labels: ["Low Quantity", "About to Expire"] ,
+  datasets: [
+  {
+  label: 'Blue Caps?',
+  backgroundColor: ['blue', 'pink'],
+  borderColor: 'rgba(0,0,0,0)',
+  borderWidth: 1,
+  data: [low_quantity_size+low_quantity_size_Abl, days_left_size]
+  }
+  ]
+  }
 
 
 
@@ -271,13 +285,7 @@ return (
 
 
 
-<div style={{padding:"30px" , marginTop: "20px", marginRight: "100px" , width: "250px", backgroundColor: "black", color: "white", float: "right"}}> 
-<h5>Total Warnings: <div style={{float:"right"}}>{low_quantity_size+days_left_size+low_quantity_size_Abl} </div></h5>
-<div style={{color: "#17a2b8"}}>Low Quantity Total: <div style={{float:"right"}}>{low_quantity_size+low_quantity_size_Abl} </div></div> 
-<div style={{color: "#ffc107"}}>About to Expire Total: <div style={{float:"right"}}>{days_left_size} </div></div>
 
-
-</div>
 
 
 
@@ -304,7 +312,7 @@ return (
 <div>{x}</div>
 <div>{r}</div>
 
-<div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
+<div style={{padding: "25px" , fontSize:"30px"}}>At A Glance </div>
 
   
 
@@ -319,8 +327,30 @@ return (
   <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
   <ListGroup variant="flush">
  
-    <ListGroup.Item>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
-    <ListGroup.Item>Days Left Total: {days_left_size} </ListGroup.Item>
+
+<ListGroup.Item>
+<Doughnut
+          data={graph_data1}
+          options={{
+            title:{
+              display:false,
+              text:'Total Warnings',
+              fontSize:20,
+              barThickness: 1,
+            },
+            
+            legend:{
+              display:false,
+              position:'right'
+            }
+          }}
+        />
+
+</ListGroup.Item>
+    <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
+
+
   </ListGroup>
 </Card>
 
@@ -386,7 +416,7 @@ return (
 
 
 <div style={{width: "50%", padding: "30px"}}>
-<Bar
+<Doughnut
           data={graph_data}
           options={{
             title:{
@@ -395,13 +425,7 @@ return (
               fontSize:20,
               barThickness: 1,
             },
-            scales: {
-              yAxes: [{
-                  ticks: {
-                      suggestedMin: 0,
-                      suggestedMax: 100
-                  }
-              }]},
+            
             legend:{
               display:true,
               position:'right'
