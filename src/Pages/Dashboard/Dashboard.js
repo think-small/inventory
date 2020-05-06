@@ -8,8 +8,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col"; 
 import ListGroup from "react-bootstrap/ListGroup";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
+
 import Table from "react-bootstrap/Table";
 import Tab from "react-bootstrap/Tab"; 
 import Tabs from "react-bootstrap/Tabs";
@@ -348,12 +347,12 @@ return (
 
 
 <Col xs={6} md={4}>
-<Card style={{ width: '20rem' }} bg="light">
+<Card style={{ width: '20rem', color:'white' }} bg="dark">
   <Card.Header>Total Warnings</Card.Header>
   <ListGroup variant="flush">
     <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+days_left_size}</h1>
-    <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
-    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item >Abl: {low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item >Architect: 0 </ListGroup.Item>
     <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
     <ListGroup.Item>Cobas 8100: {low_quantity.length+days_left_size} </ListGroup.Item>   
   </ListGroup>
@@ -366,7 +365,7 @@ return (
 
    
     <Col xs={6} md={4}>
-<Card style={{ width: '20rem' }} bg="light">
+<Card style={{ width: '20rem', color:'white' }} bg="dark">
   <Card.Header>About to Expire Total</Card.Header>
   <ListGroup variant="flush">
     <h1 style={{padding: '30px', textAlign:'center'}}>Total: {days_left.length}</h1>
@@ -379,7 +378,7 @@ return (
 </Col>
     
 <Col xs={6} md={4}>
-<Card style={{ width: '20rem' }} bg="light">
+<Card style={{ width: '20rem', color:"white" }} bg="dark">
   <Card.Header>Low Quantity Total</Card.Header>
   <ListGroup variant="flush">
     <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl}</h1>
@@ -394,7 +393,7 @@ return (
 
 
   <Col xs={6} md={4}>
-<Card style={{ width: '32rem', marginTop: "40px" }} bg="light">
+<Card style={{ width: '32rem', marginTop: "40px", color:"white" }} bg="dark">
   <Card.Header>About to Expire Lots</Card.Header>
   <ListGroup variant="flush">
    
@@ -461,7 +460,7 @@ return (
 
 
   <Col xs={6} md={4}>
-<Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px"}} bg="light">
+<Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px", color: "white"}} bg="dark">
   <Card.Header>Low Quantity Lots</Card.Header>
   <ListGroup variant="flush">
    

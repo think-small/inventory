@@ -41,3 +41,8 @@
   text-align: center;
   background-color: #e6e6e6;
 }
+
+
+.list-group {
+  color: black !important; 
+}
