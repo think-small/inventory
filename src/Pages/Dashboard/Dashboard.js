@@ -8,6 +8,11 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col"; 
 import ListGroup from "react-bootstrap/ListGroup";
+import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
+import Tab from "react-bootstrap/Tab"; 
+import Tabs from "react-bootstrap/Tabs";
 
 //add a simple chart 
 //import Bar from "chart.js";
@@ -245,19 +250,6 @@ var Lots= low_quantity.map(item=>item.Lot);
 var Amount =   low_quantity.map(item=>item.Quantity);      
  //get database Lot# and push into and array 
 
-const graph_data = {
-labels: Lots ,
-datasets: [
-{
-label: 'Blue Caps?',
-backgroundColor: 'rgba(75,192,192,1)',
-borderColor: 'rgba(0,0,0,1)',
-borderWidth: 2,
-data: Amount
-}
-]
-}
-
 
 const graph_data1 = {
 
@@ -289,7 +281,7 @@ return (
 
 
 
-
+{/*
 
 <div className="searchMenu">
             <div className="fas">
@@ -312,15 +304,16 @@ return (
 <div>{x}</div>
 <div>{r}</div>
 
-<div style={{padding: "25px" , fontSize:"30px"}}>At A Glance </div>
 
-  
+*/}
+
+<div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
+
 
     
-   
 
     <Container >
-  <Row>
+  <Row>  {/*
     <Col xs={6} md={4}>
 
     <Card style={{ width: '20rem' }} bg="danger">
@@ -349,64 +342,197 @@ return (
 </ListGroup.Item>
     <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
     <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
+</ListGroup>
+</Card></Col>
+*/}
 
 
-  </ListGroup>
-</Card>
-
-
-
-   
-    </Col>
-   
-    <Col xs={6} md={4}>
-<Card style={{ width: '20rem' }} bg="warning">
-  <Card.Header>Low Quantity-Cobas 8100</Card.Header>
+<Col xs={6} md={4}>
+<Card style={{ width: '20rem' }} bg="light">
+  <Card.Header>Total Warnings</Card.Header>
   <ListGroup variant="flush">
-    {low_quantity.map(item=>
-    <ListGroup.Item>Lot: {item.Lot} 
-     <div style={{float: "right"}} > Quantity: {item.Quantity} </div> </ListGroup.Item>
-)}
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+days_left_size}</h1>
+    <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {low_quantity.length+days_left_size} </ListGroup.Item>   
   </ListGroup>
 </Card>
 </Col>
     
+
+
+
+
+   
+    <Col xs={6} md={4}>
+<Card style={{ width: '20rem' }} bg="light">
+  <Card.Header>About to Expire Total</Card.Header>
+  <ListGroup variant="flush">
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {days_left.length}</h1>
+    <ListGroup.Item>Abl: 0 </ListGroup.Item>
+    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {days_left.length} </ListGroup.Item>   
+  </ListGroup>
+</Card>
+</Col>
     
 <Col xs={6} md={4}>
 <Card style={{ width: '20rem' }} bg="light">
-  <Card.Header>About to Expire-Cobas 8100</Card.Header>
+  <Card.Header>Low Quantity Total</Card.Header>
   <ListGroup variant="flush">
-    {days_left.map(item=>
-    <ListGroup.Item>Lot: {item.Lot} 
-     <div style={{float: "right"}} > Days Left: {item.Time_Left} </div> </ListGroup.Item>
-)}
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl}</h1>
+    <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {low_quantity.length} </ListGroup.Item>   
   </ListGroup>
 </Card>
-  </Col>
+</Col>
   
-  <Col xs={6} md={4}>
-<Card style={{ width: '20rem', marginTop:"20px" }} bg="info">
-  <Card.Header>Low Quantity-Abl</Card.Header>
-  <ListGroup variant="flush">
-    {low_quantity_Abl.map(item=>
-    <ListGroup.Item>Lot: {item.lotNum} 
-     <div style={{float: "right"}} > Low Quantity: {item.quantity} </div> </ListGroup.Item>
-)}
-  </ListGroup>
-</Card>
-  </Col>
+
 
   <Col xs={6} md={4}>
-<Card style={{ width: '20rem', marginTop: "20px"}} bg="success">
-  <Card.Header>About to Expire-Abl</Card.Header>
+<Card style={{ width: '32rem', marginTop: "40px" }} bg="light">
+  <Card.Header>About to Expire Lots</Card.Header>
   <ListGroup variant="flush">
    
-    <ListGroup.Item>Lot: 
-     <div style={{float: "right"}} > Days Left: </div> </ListGroup.Item>
+    <ListGroup.Item>
+  
+<div >
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" >
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Expiration Date</th>
 
+      
+    </tr>
+  </thead>
+  <tbody>
+  <div>Nothing yet</div>
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+   
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Time_Left}</td>
+
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+
+
+
+  </ListGroup.Item>
   </ListGroup>
 </Card>
   </Col>
+
+
+  <Col xs={6} md={4}>
+<Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px"}} bg="light">
+  <Card.Header>Low Quantity Lots</Card.Header>
+  <ListGroup variant="flush">
+   
+    <ListGroup.Item>
+  
+<div >
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" >
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.quantity}</td>
+
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Quantity}</td>
+  
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+
+
+
+  </ListGroup.Item>
+  </ListGroup>
+</Card>
+  </Col>
+
+
+
 
 
   </Row>
@@ -414,28 +540,66 @@ return (
 
 
 
-
-<div style={{width: "50%", padding: "30px"}}>
-<Doughnut
-          data={graph_data}
-          options={{
-            title:{
-              display:true,
-              text:'Lots with Low Quantity (cobas8100 only)',
-              fontSize:20,
-              barThickness: 1,
-            },
-            
-            legend:{
-              display:true,
-              position:'right'
-            }
-          }}
-        />
-</div>
-
-
+{/*
+<div style={{width: "70%",  padding: "30px"}}>
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" style={{color: "yellow"}}>
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
       
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.quantity}</td>
+   <td>{item.expirationDate}</td>
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet </div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Quantity}</td>
+   <td>{item.Expiration_Date}</td>
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+     
+   */}
+
     </div>
 
     
