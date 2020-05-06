@@ -432,7 +432,7 @@ return (
   <thead>
     <tr>
       <th>Lot #</th>
-      <th>Quantity</th>
+      <th>Days to Expiration</th>
    
       
     </tr>
