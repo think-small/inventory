@@ -88,7 +88,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
         item.transactions.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
       );
 
-      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ABL ITEM
+      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH AblComponent ITEM
       transactions.forEach(itemTransactions => {
         const item = result.find(
           item => item.lotNum === itemTransactions.lotNum
@@ -131,7 +131,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
                   console.log(err);
                   res.send(err);
                 } else {
-                  const msg = "ABL transactions created";
+                  const msg = "AblComponent transactions created";
                   console.log(msg);
                 }
               }
