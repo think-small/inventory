@@ -1,10 +1,14 @@
 import React, { useState, useRef } from "react";
-import { Card, Nav } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import ChartContainerComponent from "../components/chart-container/chart-container.component";
-import ItemSummaryInfoComponent from "../components/item-summary-info/item-summary-info.component";
-import ItemBasicStatsComponent from "../components/item-basic-stats/item-basic-stats.component";
+//  UTILITY FUNCTION IMPORTS
 import queryStringParser from "query-string";
+import { useHistory } from "react-router-dom";
+
+//  COMPONENT IMPORTS
+import { Card, Nav } from "react-bootstrap";
+import ChartContainerComponent from "../../components/chart-container/chart-container.component";
+import ItemSummaryInfoComponent from "../../components/item-summary-info/item-summary-info.component";
+import ItemBasicStatsComponent from "../../components/item-basic-stats/item-basic-stats.component";
+import "./item-details.styles.scss";
 
 const ItemDetails = props => {
   const { param, items } = props.location.state;
