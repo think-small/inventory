@@ -1,48 +1,61 @@
-const db = require("../db");
-const router = require("express").Router();
 const moment = require("moment");
+const db = require("../db");
 
-router.get("/api/ABL/all-items", async (req, res) => {
-  db.query("SELECT * FROM abl", (err, ablItems) => {
+const allItems = async (req, res) => {
+  db.query("SELECT * FROM architect", (err, architectItems) => {
     if (err) {
       console.log(err);
     } else {
-      db.query("SELECT * FROM abl_transactions", (err, ablTransactions) => {
-        if (err) {
-          console.log(err);
-        } else {
-          ablItems.forEach(item => {
-            const transactions = ablTransactions.filter(
-              transaction => transaction.lotNum === item.lotNum
-            );
-            item.transactions = transactions;
-          });
-          res.send(ablItems);
+      db.query(
+        "SELECT * FROM architect_transactions",
+        (err, architectTransactions) => {
+          if (err) {
+            console.log(err);
+          } else {
+            architectItems.forEach(item => {
+              const transactions = architectTransactions.filter(
+                transaction => transaction.lotNum === item.lotNum
+              );
+              item.transactions = transactions;
+            });
+            res.send(architectItems);
+          }
         }
-      });
+      );
     }
   });
-});
+};
 
-router.get("/api/ABL/all-items-no-transactions", (req, res) => {
-  db.query("SELECT * FROM abl", (err, ablItems) => {
+const allItemsNoTransactions = async (req, res) => {
+  db.query("SELECT * FROM architect", (err, architectItems) => {
     if (err) {
-      console.error(err);
+      console.log(err);
     } else {
-      res.send(ablItems);
+      res.send(architectItems);
     }
   });
-});
+};
 
-router.get("/api/ABL/generate-random-transactions", (req, res) => {
+const allTransactions = (req, res) => {
+  db.query("SELECT * FROM architect_transactions", (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(result);
+      res.json(result);
+    }
+  });
+};
+
+const generateRandomTransactions = (req, res) => {
   const newTransactionType = ["used", "received"];
-  const query = "SELECT * FROM abl;";
+  const query = "SELECT * FROM architect;";
 
   db.query(query, (err, result) => {
     if (err) {
       res.send(err);
     } else {
-      const transactions = result.map(ablItem => {
+      const transactions = result.map(archItem => {
         const arr = [];
         const numTransactions = 500;
         let count = 0; //  Create numTransactions for each unique lot number
@@ -55,32 +68,16 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
               .valueOf()
           };
           if (newTransaction.transactionType === "used") {
-            // newTransaction.amount = Math.floor(Math.random() * 4.5 + 1);
-            // newTransaction.numBoxesReceived = null;
-            switch (true) {
-              case ablItem.countPerBox < 3:
-                newTransaction.amount = Math.floor(Math.random() * 4.5 + 1);
-                newTransaction.numBoxesReceived = null;
-                break;
-              case ablItem.countPerBox >= 3 && ablItem.countPerBox < 5:
-                newTransaction.amount = Math.floor(Math.random() * 10 + 1);
-                newTransaction.numBoxesReceived = null;
-                break;
-              case ablItem.countPerBox >= 5 && ablItem.countPerBox < 10:
-                newTransaction.amount = Math.floor(Math.random() * 22 + 1);
-                newTransaction.numBoxesReceived = null;
-                break;
-              default:
-                break;
-            }
+            newTransaction.amount = Math.floor(Math.random() * 4.5 + 1);
+            newTransaction.numBoxesReceived = null;
           } else {
             newTransaction.numBoxesReceived = Math.floor(Math.random() * 2 + 1);
             newTransaction.amount = null;
           }
-          arr.push({ lotNum: ablItem.lotNum, ...newTransaction });
+          arr.push({ lotNum: archItem.lotNum, ...newTransaction });
           count++;
         }
-        return { lotNum: ablItem.lotNum, transactions: arr };
+        return { lotNum: archItem.lotNum, transactions: arr };
       });
 
       //  SORT TRANSACTIONS BY TIMESTAMP
@@ -88,7 +85,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
         item.transactions.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1))
       );
 
-      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH AblComponent ITEM
+      //  SET quantityInStock PROPERTY OF TRANSACTION AND QUANTITY PROPERTY OF EACH ARCHITECT ITEM
       transactions.forEach(itemTransactions => {
         const item = result.find(
           item => item.lotNum === itemTransactions.lotNum
@@ -115,7 +112,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
             timestamp
           }) => {
             const sql =
-              "INSERT INTO abl_transactions (lotNum, transactionType, amount, numBoxesReceived, quantityInStock, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+              "INSERT INTO architect_transactions (lotNum, transactionType, amount, numBoxesReceived, quantityInStock, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
             db.query(
               sql,
               [
@@ -131,7 +128,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
                   console.log(err);
                   res.send(err);
                 } else {
-                  const msg = "AblComponent transactions created";
+                  const msg = "Architect transactions created";
                   console.log(msg);
                 }
               }
@@ -141,7 +138,7 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
       });
 
       result.forEach(({ quantity, lotNum }) => {
-        const sql = "UPDATE abl SET quantity = ? WHERE lotNum = ?";
+        const sql = "UPDATE Architect SET quantity = ? WHERE lotNum = ?";
         db.query(sql, [quantity, lotNum], (err, result) => {
           if (err) {
             res.send(err);
@@ -153,6 +150,30 @@ router.get("/api/ABL/generate-random-transactions", (req, res) => {
       res.send(transactions);
     }
   });
-});
+};
 
-module.exports = router;
+/*
+ * API PARAMS
+ * name - reagent name
+ * lotNum (query string) reagent's lot number
+ */
+const getSpecificItem = (req, res) => {
+  console.log(req.params.name);
+  console.log(req.query.lotNum);
+  const sql = `SELECT * FROM architect_transactions WHERE lotNum = ?`;
+  db.query(sql, [req.query.lotNum], (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(result);
+    }
+  });
+};
+
+module.exports = {
+  allItems,
+  allItemsNoTransactions,
+  allTransactions,
+  generateRandomTransactions,
+  getSpecificItem
+};

@@ -8,7 +8,7 @@ export const ItemsContext = createContext();
 const ItemsContextProvider = props => {
   const dummyData = [
     {
-      instrument: "ABL",
+      instrument: "abl",
       itemID: "CAL1",
       name: "Calibration Solution 1",
       lotNum: "A293-B2380S",
@@ -26,7 +26,7 @@ const ItemsContextProvider = props => {
       isNewLot: false
     },
     {
-      instrument: "ABL",
+      instrument: "abl",
       itemID: "CAL2",
       name: "Calibration Solution 2",
       lotNum: "T238SSK-298SKDS1",
@@ -44,7 +44,7 @@ const ItemsContextProvider = props => {
       isNewLot: true
     },
     {
-      instrument: "ABL",
+      instrument: "abl",
       itemID: "CAL2",
       name: "Calibration Solution 2",
       lotNum: "CMSKW-938S2L",
@@ -62,7 +62,7 @@ const ItemsContextProvider = props => {
       isNewLot: false
     },
     {
-      instrument: "ABL",
+      instrument: "abl",
       itemID: "AC1",
       name: "AutoCheck Level 1",
       lotNum: "3982IZ3829",

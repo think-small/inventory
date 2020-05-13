@@ -1,0 +1,128 @@
+@import "../../Styles/base/_settings.scss";
+
+.sidebar {
+  input {
+    padding: 20px;
+    height: 10px;
+    width: 80%;
+    margin: 20px 10px 10px 01px;
+    border-radius: 1px;
+    border: 1px solid white;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .sidebar {
+    background: linear-gradient($primary-color, #303b45);
+    color: $text-color;
+    width: 13rem;
+    padding-left: 1em;
+    height: 100vh;
+    text-align: center;
+    padding-top: 5rem;
+    position: fixed;
+
+    .nav-item {
+      display: flex;
+      position: relative;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+      transition: 200ms ease-in-out;
+    }
+
+    .nav-item:hover:not(.activeLink) {
+      color: $accent-color;
+      font-weight: bold;
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    .activeLink {
+      color: $accent-color;
+      font-weight: bold;
+      transform: scale(1.05);
+    }
+
+    .activeLink:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (min-width: 350px) and (max-width: 599px) {
+  .sidebar {
+    background-color: $primary-color;
+    color: $text-color;
+    width: 100vw;
+    height: 50vh;
+    text-align: center;
+
+    .nav-item {
+      display: flex;
+      position: relative;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+      transition: 200ms ease-in-out;
+    }
+
+    .nav-item:hover:not(.activeLink) {
+      color: $accent-color;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .activeLink {
+      color: $accent-color;
+      font-weight: bold;
+    }
+
+    .activeLink:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .sidebar {
+    background-color: $primary-color;
+    color: $text-color;
+    width: 100vw;
+    height: 50vh;
+    text-align: center;
+
+    .nav-item {
+      display: flex;
+      position: relative;
+      padding: 10px;
+      justify-content: left;
+      align-items: center;
+      height: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+      transition: 200ms ease-in-out;
+    }
+
+    .nav-item:hover:not(.activeLink) {
+      color: $accent-color;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .activeLink {
+      color: $accent-color;
+      font-weight: bold;
+    }
+
+    .activeLink:hover {
+      cursor: pointer;
+    }
+  }
+}

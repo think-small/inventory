@@ -5,7 +5,7 @@ var connection = require('../db.js');
 
 var isAuthenticated = require("./isAuthenticated");
 
-router.post("/api/SignUp", (req,res) => {
+router.post("/api/signup", (req,res) => {
   connection.query(`INSERT SignIn (Username, Password) VALUES (?,?)`, [req.body.Username,req.body.Password],  (error, results)=> {
     if (error) 
     return console.error(error.message);
@@ -43,7 +43,7 @@ router.get("/logout", function(req, res) {
 
 
 /** 
-router.get("/api/Login", (req,res)=> {
+router.get("/api/login", (req,res)=> {
 connection.query("SELECT  * from SignIn", (error, results)=> {
   if (error) {
     res.send(error); 

@@ -13,15 +13,9 @@ const compiler = webpack(config);
 
 const passport = require("./SignUp/Passport.js");
 
-//var isAuthenticated = require("./SignUp/isAuthenticated");
-
-
-
+//var isAuthenticated = require("./signup/isAuthenticated");
 
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-
-
 
 app.use(
   webpackDevMiddleware(compiler, {
@@ -43,23 +37,25 @@ app.use(
   })
 );
 
-
-
-
 // parse application/json
 app.use(bodyParser.json());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "../public")));
 
 // We need to use sessions to keep track of our user's login status-make the cookie
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true, httpOnly: false }));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true,
+    httpOnly: false
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-
+app.use(require("./Utility/Utility"));
 app.use(require("./Cobas_8100/Cobas_8100_Routes"));
 app.use(require("./Cobas_8100/Cobas_8100_Tables"));
 app.use(require("./Architect/Architect_Routes"));
@@ -78,30 +74,23 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+app.post("/api/login", passport.authenticate("local"), function(req, res) {
+  //if passport did authenticate you will get the latest user
+  // console.log('the user is ' + req.user);
+  //console.log(req.user[0])
+  //console.log(req.user[0].Username);
 
+  //makes a different id everytime u succesfully login
+  // console.log('the session is ' + req.session.id);
 
-  app.post('/api/login', passport.authenticate('local'), function(req, res) {
-
-//if passport did authenticate you will get the latest user    
-   // console.log('the user is ' + req.user);
-    //console.log(req.user[0])
-    //console.log(req.user[0].Username);
-  
-     //makes a different id everytime u succesfully login
-   // console.log('the session is ' + req.session.id);
-    
-    //for (const property in req.session.cookie.data) {
-    //  console.log(`${property}: ${req.session.cookie.data[property]}`);
+  //for (const property in req.session.cookie.data) {
+  //  console.log(`${property}: ${req.session.cookie.data[property]}`);
   // }
-   //just put something here for now , so that the client side is able to process requests from Passport.js file....
-   //res.json(req.user[0])
-  
-   res.json({message:"Success", username: req.user[0].Username});
+  //just put something here for now , so that the client side is able to process requests from Passport.js file....
+  //res.json(req.user[0])
 
- });
-
-
-
+  res.json({ message: "Success", username: req.user[0].Username });
+});
 
 /** 
  app.get('/api/Cobas9', isAuthenticated,
@@ -109,13 +98,10 @@ app.get("*", (req, res) => {
    // console.log('in cobas09000' + req.user )
    // res.json({ id: req.user.Id, username: req.user.Username });
    res.status(200).json({
-    status: 'Login successful!'
+    status: 'login successful!'
 });
   });
 **/
-
-
-
 
 const port = process.env.PORT || 8080;
 app.listen(port);
