@@ -1,27 +1,50 @@
 import React ,{useState, useEffect} from "react";
-import Jumbotron from "react-bootstrap/Jumbotron";
+
 import Card from "react-bootstrap/Card";
 import "./styles.css";
 import NavbarComponent from "../../components/navbar/navbar.component"
 import moment from "moment";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col"; 
+import ListGroup from "react-bootstrap/ListGroup";
 
+import Table from "react-bootstrap/Table";
+import Tab from "react-bootstrap/Tab"; 
+import Tabs from "react-bootstrap/Tabs";
+
+//add a simple chart 
+//import Bar from "chart.js";
+import {Bar, Doughnut} from 'react-chartjs-2';
+
+import 'chartjs-plugin-datalabels'
+
+<<<<<<< HEAD:src/pages/dashboard/dashboard.component.js
 const DashboardComponent = () => {
   
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
+=======
+const Dashboard = () => {
+>>>>>>> master:src/Pages/Dashboard/Dashboard.js
 
+
+  
+ 
+
+
+
+
+  const [database, setdatabase] = useState([]);
+  const [database1, setdatabase1] = useState([]);
   const [database_1_name, setdatabase1_name] = useState([]);
-
-
   const [Searchbar_value, setSearch] = useState("");
+  const [display_results, set_results] = useState([]);
+  const [ablItems, setAblItems] = useState([]);
+  const [Abl, setAbl] = useState([]);
 
-const [display_results, set_results] = useState([]);
-
-const [ablItems, setAblItems] = useState([]);
-const [Abl, setAbl] = useState([]);
-
-const current_time = moment().format("LT");
-const current_date = moment().format("LL");
+  const current_time = moment().format("LT");
+  const current_date = moment().format("LL");
 
 
 useEffect(
@@ -80,7 +103,13 @@ useEffect(
 
            
 const low_quantity =   database1.filter(items=>items.Quantity<100);  
+
+const low_quantity_size = low_quantity.length; 
+const low_quantity_Abl = ablItems.filter(items=>items.quantity<100); 
+const low_quantity_size_Abl = low_quantity_Abl.length; 
 const days_left =  database1.filter(items=>items.Time_Left<100);
+const days_left_size = days_left.length; 
+
 
 const handleSubmit = event=> {
  // alert('the value of your search is' + Searchbar_value);
@@ -223,17 +252,47 @@ const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {it
 const r = Abl.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
 <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div></div>);
 
+var Lots= low_quantity.map(item=>item.Lot); 
+var Amount =   low_quantity.map(item=>item.Quantity);      
+ //get database Lot# and push into and array 
+
+
+const graph_data1 = {
+
+  labels: ["Low Quantity", "About to Expire"] ,
+  datasets: [
+  {
+  label: 'Blue Caps?',
+  backgroundColor: ['blue', 'pink'],
+  borderColor: 'rgba(0,0,0,0)',
+  borderWidth: 1,
+  data: [low_quantity_size+low_quantity_size_Abl, days_left_size]
+  }
+  ]
+  }
+
+
+
 
 return (
     <div>
+<<<<<<< HEAD:src/pages/dashboard/dashboard.component.js
      
 <NavbarComponent/>
+=======
+
+  
+<Navbar/>
+>>>>>>> master:src/Pages/Dashboard/Dashboard.js
  {database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
 
-<div style={{padding: "30px" , fontSize:"30px"}}>About to Expire or Low Quantity: </div>
-<div style={{padding:"5px 30px"}}>Current Time: {current_date} {current_time}</div>
 
+
+
+
+
+{/*
 
 <div className="searchMenu">
             <div className="fas">
@@ -253,68 +312,305 @@ return (
             />
 </div>
 
-
 <div>{x}</div>
 <div>{r}</div>
 
 
+*/}
+
+<div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
 
 
-<hr></hr>
-
-  {low_quantity.map(item=> 
-      <Card
-        bg="info"
-        border="secondary"
-        text="black"
-        style={{
-          width: "18rem",
-          display: "inline-block",
-          padding: "30px",
-          margin: "20px", 
-          backgroundColor: "red"
-         
-        }}
-      >
-        <Card.Header>Lot#: {item.Lot}</Card.Header>
-        <Card.Body>
-          <Card.Title>Quantity Left: {item.Quantity}</Card.Title>
-          <Card.Text>
-        Low Quantity Please Update
-          </Card.Text>
-        </Card.Body>
-      </Card>
-)}
-      
-      {days_left.map(item=> 
-      <Card
-        bg="warning"
-        border="secondary"
-        text="black"
-        style={{
-          width: "18rem",
-          display: "inline-block",
-          padding: "30px",
-          margin: "20px", 
-         
-        }}
-      >
-        <Card.Header>Lot#: {item.Lot}</Card.Header>
-        <Card.Body>
-          <Card.Title>Days Left: {item.Time_Left}</Card.Title>
-          <Card.Text>
-          About to Expire please Update
-          </Card.Text>
-        </Card.Body>
-      </Card>
-)}  
     
-    {database.length===0 ? <h1>Nothing Yet-(log in to the server to see)</h1> : <div></div>}
+
+    <Container >
+  <Row>  {/*
+    <Col xs={6} md={4}>
+
+    <Card style={{ width: '20rem' }} bg="danger">
+  <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
+  <ListGroup variant="flush">
+ 
+
+<ListGroup.Item>
+<Doughnut
+          data={graph_data1}
+          options={{
+            title:{
+              display:false,
+              text:'Total Warnings',
+              fontSize:20,
+              barThickness: 1,
+            },
+            
+            legend:{
+              display:false,
+              position:'right'
+            }
+          }}
+        />
+
+</ListGroup.Item>
+    <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
+</ListGroup>
+</Card></Col>
+*/}
+
+
+<Col xs={6} md={4}>
+<Card style={{ width: '20rem', color:'white' }} bg="dark">
+  <Card.Header>Total Warnings</Card.Header>
+  <ListGroup variant="flush">
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+days_left_size}</h1>
+    <ListGroup.Item >Abl: {low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item >Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {low_quantity.length+days_left_size} </ListGroup.Item>   
+  </ListGroup>
+</Card>
+</Col>
+    
 
 
 
-     
+
+   
+    <Col xs={6} md={4}>
+<Card style={{ width: '20rem', color:'white' }} bg="dark">
+  <Card.Header>About to Expire Total</Card.Header>
+  <ListGroup variant="flush">
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {days_left.length}</h1>
+    <ListGroup.Item>Abl: 0 </ListGroup.Item>
+    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {days_left.length} </ListGroup.Item>   
+  </ListGroup>
+</Card>
+</Col>
+    
+<Col xs={6} md={4}>
+<Card style={{ width: '20rem', color:"white" }} bg="dark">
+  <Card.Header>Low Quantity Total</Card.Header>
+  <ListGroup variant="flush">
+    <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl}</h1>
+    <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
+    <ListGroup.Item>Architect: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
+    <ListGroup.Item>Cobas 8100: {low_quantity.length} </ListGroup.Item>   
+  </ListGroup>
+</Card>
+</Col>
+  
+
+
+  <Col xs={6} md={4}>
+<Card style={{ width: '32rem', marginTop: "40px", color:"white" }} bg="dark">
+  <Card.Header>About to Expire Lots</Card.Header>
+  <ListGroup variant="flush">
+   
+    <ListGroup.Item>
+  
+<div >
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" >
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Expiration Date</th>
+
       
+    </tr>
+  </thead>
+  <tbody>
+  <div>Nothing yet</div>
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Days to Expiration</th>
+   
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Time_Left}</td>
+
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+
+
+
+  </ListGroup.Item>
+  </ListGroup>
+</Card>
+  </Col>
+
+
+  <Col xs={6} md={4}>
+<Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px", color: "white"}} bg="dark">
+  <Card.Header>Low Quantity Lots</Card.Header>
+  <ListGroup variant="flush">
+   
+    <ListGroup.Item>
+  
+<div >
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" >
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.quantity}</td>
+
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Quantity}</td>
+  
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+
+
+
+  </ListGroup.Item>
+  </ListGroup>
+</Card>
+  </Col>
+
+
+
+
+
+  </Row>
+</Container>
+
+
+
+{/*
+<div style={{width: "70%",  padding: "30px"}}>
+<Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
+  <Tab eventKey="abl" title="Abl" style={{color: "yellow"}}>
+  
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.quantity}</td>
+   <td>{item.expirationDate}</td>
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+  </Tab>
+  <Tab eventKey="Architect" title="Architect">
+    <div>Nothin yet</div>
+  </Tab>
+  <Tab eventKey="Cobas 8000" title="Cobas 8000">
+   <div>Nothin yet </div>
+  </Tab>
+  <Tab eventKey="Cobas 8100" title="Cobas 8100">
+
+  <Table striped bordered hover>
+  <thead>
+    <tr>
+      <th>Lot #</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
+   <td>{item.Quantity}</td>
+   <td>{item.Expiration_Date}</td>
+       </tr>
+     
+     )} 
+</tbody>
+
+</Table>
+
+</Tab>
+</Tabs>
+</div>
+     
+   */}
+
     </div>
 
     
