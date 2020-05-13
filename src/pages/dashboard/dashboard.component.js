@@ -19,14 +19,9 @@ import {Bar, Doughnut} from 'react-chartjs-2';
 
 import 'chartjs-plugin-datalabels'
 
-<<<<<<< HEAD:src/pages/dashboard/dashboard.component.js
 const DashboardComponent = () => {
   
-  const [database, setdatabase] = useState([]);
-  const [database1, setdatabase1] = useState([]);
-=======
-const Dashboard = () => {
->>>>>>> master:src/Pages/Dashboard/Dashboard.js
+ 
 
 
   
@@ -276,14 +271,8 @@ const graph_data1 = {
 
 return (
     <div>
-<<<<<<< HEAD:src/pages/dashboard/dashboard.component.js
      
 <NavbarComponent/>
-=======
-
-  
-<Navbar/>
->>>>>>> master:src/Pages/Dashboard/Dashboard.js
  {database.length === 1 ? <h1 style={{padding:"30px"}}> {   database.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
 
 
