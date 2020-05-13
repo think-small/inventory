@@ -74,6 +74,12 @@ return (
  </div>
 
 
+ <div className="containment" > 
+<label className="top_label">Order Id</label>          
+  <input type="text"name="orderID" onChange={props.handleInputChange} />
+</div>
+
+
 
 
 <br></br>

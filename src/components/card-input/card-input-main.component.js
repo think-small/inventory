@@ -13,6 +13,7 @@ const [isCurrentLot, setisCurrentLot] = useState(false);
 const [isNewLot, setisNewLot] = useState(false); 
 const [par, setpar] = useState("");
 const [countPerBox, setCountPerBox] = useState("");
+const [OrderID, setOrderID] = useState("");
 
 function handleInputChange (event) {
   const value = event.target.value;
@@ -42,6 +43,10 @@ if (name=="par") {
 if (name=="countPerBox") {
   setCountPerBox(value);
 }
+if (name==="orderID") {
+  setOrderID(value);
+}
+
 }
 
 function handleChangeisNewLot (event) {
@@ -80,6 +85,7 @@ function handleSubmit(event) {
     countPerBox: countPerBox,
     Lot: Lot,
     Expiration: Expiration,
+    OrderID: OrderID
 
   };
   console.log(data);
