@@ -21,15 +21,6 @@ import 'chartjs-plugin-datalabels'
 
 const DashboardComponent = () => {
   
- 
-
-
-  
- 
-
-
-
-
   const [database, setdatabase] = useState([]);
   const [database1, setdatabase1] = useState([]);
   const [database_1_name, setdatabase1_name] = useState([]);
@@ -58,6 +49,7 @@ useEffect(
             }).catch(err => console.log(err));
 
             
+            // for the search bar
             fetch("api/8100")
             .then(response => {
               return response.json();
@@ -70,18 +62,19 @@ useEffect(
             }).catch(err => console.log(err));
            
            
-            const fetchData = async ()=> {
-              const res = await fetch("/api/Cobas9", {credentials: 'include'});
-              res.json().then(res => setdatabase(res))
-              .catch(err => console.log(err));
-            }
+      //      const fetchData = async ()=> {
+        //      const res = await fetch("/api/Cobas9", {credentials: 'include'});
+        //      res.json().then(res => setdatabase(res))
+        //      .catch(err => console.log(err));
+        //    }
               
-         fetchData();  
+        // fetchData();  
 
 
          const fetchData1 = async () => {
           try {
-            const res = await fetch("/api/AblComponent/all-items");
+          
+            const res = await fetch("/api/ABL/all-items");
             const data = await res.json();
             setAblItems(data);
         
@@ -97,12 +90,14 @@ useEffect(
               )
 
            
-const low_quantity =   database1.filter(items=>items.Quantity<100);  
+const low_quantity =   database1.filter(items=>items.quantity<100);  
 
 const low_quantity_size = low_quantity.length; 
 const low_quantity_Abl = ablItems.filter(items=>items.quantity<100); 
+
 const low_quantity_size_Abl = low_quantity_Abl.length; 
-const days_left =  database1.filter(items=>items.Time_Left<100);
+console.log('the length of this is' + low_quantity_size_Abl); 
+const days_left =  database1.filter(items=>items.timeLeft<100);
 const days_left_size = days_left.length; 
 
 
@@ -247,8 +242,8 @@ const x = display_results.map(item=><div style={{padding: "30px"}}><div>Lot: {it
 const r = Abl.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
 <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div></div>);
 
-var Lots= low_quantity.map(item=>item.Lot); 
-var Amount =   low_quantity.map(item=>item.Quantity);      
+var Lots= low_quantity.map(item=>item.lotNum); 
+var Amount =   low_quantity.map(item=>item.quantity);      
  //get database Lot# and push into and array 
 
 
@@ -438,8 +433,8 @@ return (
     </tr>
   </thead>
   <tbody>
-   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
-   <td>{item.Time_Left}</td>
+   {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.timeLeft}</td>
 
        </tr>
      
@@ -510,8 +505,8 @@ return (
     </tr>
   </thead>
   <tbody>
-   {low_quantity.map(item=>   <tr> <td>{item.Lot}   </td>  
-   <td>{item.Quantity}</td>
+   {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>  
+   <td>{item.quantity}</td>
   
        </tr>
      
