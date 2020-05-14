@@ -54,12 +54,12 @@ return (
 {Cobas_8100_Transactions.length > 0 ? Cobas_8100_Transactions.map(items=> (
 
   <tr key={items.id}>
-      <td>{items.Lot}</td>
-      <td>{items.Name}</td>
+      <td>{items.lotNum}</td>
+      <td>{items.displayName}</td>
 
-       <td>{items.Expiration_Date.substring(0,10)}</td>
+       <td>{items.expirationDate.substring(0,10)}</td>
    
-      <td>{items.Amount}</td>
+      <td>{items.amount}</td>
       <td>{items.Quantity_In_Stock}</td>   
     
       <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>

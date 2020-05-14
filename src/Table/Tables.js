@@ -14,7 +14,7 @@ const Tables = (props)=> {
         <thead>
           <tr>  
             <th>Lot #</th>
-            <th>Name</th>
+            <th>Type (displayName in sql table)</th>
           
             <th>Expiration Date</th>
             <th>Days Left </th>
@@ -23,7 +23,9 @@ const Tables = (props)=> {
              <th>isCurrentLot</th>
               <th>isNewLot</th>
               <th>par</th>
+
               <th>CountBox</th>
+              <th>Order Id</th>
             <th>Lot Created On</th>
   <th>Delete</th>
           </tr>
@@ -31,9 +33,9 @@ const Tables = (props)=> {
     
         {Database.map(items=> (  
           <tr key={items.id}>
-            <td>{items.Lot} </td>
-            <td>{items.Name}</td>
-            <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}><div>{items.Expiration_Date.substring(0,10) }
+            <td>{items.lotNum} </td>
+            <td>{items.displayName}</td>
+            <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}><div>{items.expirationDate.substring(0,10) }
             
             <form
                          onSubmit={
@@ -70,19 +72,19 @@ const Tables = (props)=> {
              
              
              </div></td>
-            <td>{items.Time_Left}</td>
+            <td>{items.timeLeft}</td>
         
         
         
-          <td>{items.Warning}</td>
+          <td>{items.warning}</td>
          
           <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}>
               <div>
                    {" "}
-                   {items.Quantity <= 100 ? (
+                   {items.quantity <= 100 ? (
                      <div style={{ color: "red" }}>
                        {" "}
-                      {items.Quantity} Left
+                      {items.quantity} Left
                        <form
                          onSubmit={
                            props.handleUpdate
@@ -115,7 +117,7 @@ const Tables = (props)=> {
                        </button>
                      </div>
                    ) : (
-                     <div>  {items.Quantity} </div>
+                     <div>  {items.quantity} </div>
                    )}{" "}
                  </div></td>
              
@@ -123,7 +125,8 @@ const Tables = (props)=> {
                  <td>{items.isNewLot=='1'? 'true': 'false'}</td> 
                  <td>{items.par}</td>
                  <td>{items.countPerBox}</td>  
-             <td>{items.Date.substring(0,10)} {items.Date.substring(11,16)}</td>
+                 <td>{items.orderID} </td>
+             <td>{items.date.substring(0,10)} {items.date.substring(11,16)}</td>
          
 
            <td> <button onClick={props.handleDelete}  value={items.id} > Delete </button>    

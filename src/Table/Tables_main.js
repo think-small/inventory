@@ -8,7 +8,7 @@ import Tables from "./Tables"
 const Tables_main = ()=> {
 
     const [Cobas_8100, setdatabase] = useState([]);
-    const [Cobas_8100_Transactions, setdatabase1] = useState([]);
+
     
     const [Name, setName] = useState("Blue Caps");
     const [Lot, setLot] = useState("Lot"); 
@@ -62,15 +62,8 @@ const Tables_main = ()=> {
            setdatabase(myJson);
           }).catch(err => console.log(err));
     
-          const fetchData1 = async ()=> {
-            const res = await fetch("api/8100_all");
-            res.json().then(res => setdatabase1(res))
-            .catch(err => console.log(err));
-          }
-              fetchData1(); 
-       
-       
-       
+          
+
             }, [],
             )
     
@@ -136,12 +129,13 @@ const Tables_main = ()=> {
                           
                             if (parseInt(event.target.value)==Cobas_8100[x].id) {
                               
-                        
-                            var na = Cobas_8100[x].Lot; //gets the lot number
-                   
+                                
+                            var databaseLot = Cobas_8100[x].lotNum; //gets the lot number from the database
+                
                        
+                   // if the expiration value is empty then get the value from the database
                          if (Expiration==="") {
-                            var info = {Lot: na, Amount: Quantity, Expiration: Cobas_8100[x].Expiration_Date}; 
+                            var info = {Lot: databaseLot, Amount: Quantity, Expiration: Cobas_8100[x].expirationDate}; 
                                 fetch(`/api/post/8100_Transactions`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
@@ -165,9 +159,10 @@ const Tables_main = ()=> {
                                     console.log(err);
                                   });
                                 }
-                           
+                        
+                        // if the (Amount?) quantity is empty then get the value from the database        
                               if (Quantity==="") {
-                                var info = {Lot: na, Amount: Cobas_8100[x].Quantity, Expiration: Expiration}; 
+                                var info = {Lot: databaseLot, Amount: Cobas_8100[x].quantity, Expiration: Expiration}; 
                                 fetch(`/api/post/8100_Transactions`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
