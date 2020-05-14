@@ -13,7 +13,6 @@ import Table from "react-bootstrap/Table";
 import Tab from "react-bootstrap/Tab"; 
 import Tabs from "react-bootstrap/Tabs";
 
-import Bar from "chart.js";
 import {Bar, Doughnut} from 'react-chartjs-2';
 
 import 'chartjs-plugin-datalabels';

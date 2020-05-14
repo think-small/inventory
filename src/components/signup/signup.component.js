@@ -7,17 +7,17 @@ import "./signup.styles.css";
 
 const Login = () =>  {
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_verify, setVerify] = useState("");
-  const [database_username, setDatabase_username] = useState([]);
+  const [database_email, setDatabase_email] = useState([]);
   const [array_count, setarray_count] = useState([]);
 
 useEffect(  ()=> {
 
   const fetchData1 = async ()=> {
-    const res = await fetch("/api/Username");
-    res.json().then(res => setDatabase_username(res))
+    const res = await fetch("/api/signup");
+    res.json().then(res => setDatabase_email(res))
     .catch(err => console.log(err));
   }
       fetchData1(); 
@@ -30,7 +30,7 @@ useEffect(  ()=> {
 function validateForm() {
      
 // verify the inputs, before posting into database
-return username.length > 0 && password.length > 0 && password_verify.length> 0  && password.trim()===password_verify.trim() ;
+return email.length > 0 && password.length > 0 && password_verify.length> 0  && password.trim()===password_verify.trim() ;
                                   
   }
 
@@ -40,8 +40,8 @@ console.log(value);
 
 const id = event.target.id; 
 // get the id from the form and set and new value for them 
-if (id==="username"){
-  setUsername(value);
+if (id==="email"){
+  setEmail(value);
 }
 if (id==="password") {
   setPassword(value);
@@ -55,7 +55,7 @@ if (id=="verify_password") {
 const handleSubmit = event => {
     event.preventDefault();
 
-const data = {Username: username, 
+const data = {email: email,
               Password: password
             };
 
@@ -65,26 +65,24 @@ fetch("/api/signup", {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data)
 })
-  .then(function(response) {
-    if (response.status >= 400) {
-      throw new Error("Bad response from server");
-
-    }
-     return response.json();
-  })
+    .then(data => {
+        if (data.errors.length > 0) {
+            data.errors.forEach(err => console.error(`${Object.keys(err)[0]}: ${Object.values(err)[0]}`));
+        }
+    })
   .catch(function(err) {
     console.log(err);
   });
 
-// check to see if the username is unique or if it is a duplicate, if not unique do not allow POST....
+// check to see if the email is unique or if it is a duplicate, if not unique do not allow POST....
   var x = 0;
   var counter = 0;
   var counter2 = 1;   
 
-  while (x<database_username.length) {
+  while (x<database_email.length) {
         x++;
       
-        if (username===database_username[x].Username) {
+        if (email===database_email[x].email) {
               counter++; 
            
                if (counter===1) {
@@ -96,13 +94,13 @@ fetch("/api/signup", {
               }
          }
 
-         // the case when the username is unique
-         if (username!==database_username[x].Username) {
+         // the case when the email is unique
+         if (email!==database_email[x].email) {
           counter2++; 
        
           console.log(counter2);
-          console.log(database_username.length); 
-          if (counter2===database_username.length) {
+          console.log(database_email.length);
+          if (counter2===database_email.length) {
          //   alert('unique password!')
          //if unique then go to this route for now 
             window.location.href = '/login';
@@ -114,12 +112,12 @@ fetch("/api/signup", {
 event.preventDefault();
 event.target.reset(); //this will clear the form after you submit
 // when the post is complete clear the form and possibly redirect the user to the main page??
-setUsername("");
+setEmail("");
 setPassword("");
 }
 
   
- //const Users = database_username.map((items) => {console.log(items.Username)}); 
+ //const Users = database_email.map((items) => {console.log(items.email)});
  
     return (
   
@@ -131,15 +129,15 @@ setPassword("");
       <div className="Login">
         <form onSubmit={handleSubmit}>         
           <FormGroup >
-            <FormLabel>Username or Email</FormLabel>
+            <FormLabel>Email</FormLabel>
             <FormControl
              
-             value={username}
+             value={email}
              onChange={handleChange}
-             id="username"
+             id="email"
              
             />
-            {array_count.length >= 1 ? <div style={{color: "red"}}>Username already taken! Try another one </div> : <div></div>}
+            {array_count.length >= 1 ? <div style={{color: "red"}}>Email already taken! Try another one </div> : <div></div>}
           </FormGroup>
 
           

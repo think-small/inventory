@@ -1,6 +1,6 @@
 const express = require("express");
 var session = require("express-session");
-
+const MySQLStore = require("express-mysql-session");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
@@ -10,10 +10,9 @@ var webpackHotMiddleware = require("webpack-hot-middleware");
 const webpack = require("webpack");
 const config = require("../webpack.config");
 const compiler = webpack(config);
-
-const passport = require("./SignUp/Passport.js");
-
-//var isAuthenticated = require("./signup/isAuthenticated");
+const db = require('./db.js');
+const passport = require('passport');
+require("./SignUp/Passport")(passport);
 
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -43,24 +42,45 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
 // We need to use sessions to keep track of our user's login status-make the cookie
+const options = {
+    host: "localhost",
+    port: 8889,
+    user: "root",
+    password: "root",
+    database: "Inventory",
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}
+
+const sessionStore = new MySQLStore(options, db);
 app.use(
   session({
     secret: "keyboard cat",
-    resave: true,
+    expires: new Date(Date.now() + (30 * 86400 * 1000)),
+    resave: false,
     saveUninitialized: true,
-    httpOnly: false
+    store: sessionStore,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: true
+      }
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+    console.log(req.session.passport);
+    next();
+})
 
 app.use(require("./Utility/Utility"));
 app.use(require("./Cobas_8100/Cobas_8100_Routes"));
 app.use(require("./Cobas_8100/Cobas_8100_Tables"));
 app.use(require("./Architect/Architect_Routes"));
 app.use(require("./ABL/ABL_Routes"));
-app.use(require("./SignUp/SignUp_Routes"));
+app.use(require("./SignUp/signup.routes"));
 
 // a dummy route to see if this file will work
 app.get("/api/hello", (req, res) => {
@@ -74,34 +94,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.post("/api/login", passport.authenticate("local"), function(req, res) {
-  //if passport did authenticate you will get the latest user
-  // console.log('the user is ' + req.user);
-  //console.log(req.user[0])
-  //console.log(req.user[0].Username);
-
-  //makes a different id everytime u succesfully login
-  // console.log('the session is ' + req.session.id);
-
-  //for (const property in req.session.cookie.data) {
-  //  console.log(`${property}: ${req.session.cookie.data[property]}`);
-  // }
-  //just put something here for now , so that the client side is able to process requests from Passport.js file....
-  //res.json(req.user[0])
-
-  res.json({ message: "Success", username: req.user[0].Username });
-});
-
-/** 
- app.get('/api/Cobas9', isAuthenticated,
-  function(req, res) {
-   // console.log('in cobas09000' + req.user )
-   // res.json({ id: req.user.Id, username: req.user.Username });
-   res.status(200).json({
-    status: 'login successful!'
-});
-  });
-**/
+app.post("/api/login", (req, res, next) => {
+    passport.authenticate('local', { successRedirect: "/", failureRedirect: "/login" })(req, res, next);
+})
 
 const port = process.env.PORT || 8080;
 app.listen(port);
