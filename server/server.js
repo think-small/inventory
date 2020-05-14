@@ -70,10 +70,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use((req, res, next) => {
-    console.log(req.session.passport);
-    next();
-})
+
 
 app.use(require("./Utility/Utility"));
 app.use(require("./Cobas_8100/Cobas_8100_Routes"));
