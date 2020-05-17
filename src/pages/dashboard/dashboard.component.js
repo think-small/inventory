@@ -25,10 +25,15 @@ const DashboardComponent = () => {
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
-    const [SignIn, setSignIn] = useState([]);
+   
     const [Cobas8100name, setCobas8100name] = useState([]);
 
 
+    //
+     const [combinelotNumbers, setcombinelotNumbers] = useState([]); 
+     const [combinedisplayNames, setcombinedisplayNames] = useState([]); 
+
+ 
     //value from the searchbar 
     const [Searchbar_value, setSearch] = useState("");
 
@@ -45,7 +50,7 @@ const DashboardComponent = () => {
                     return response.json();
                 })
                 .then(myJson => {
-                    console.log(myJson);
+                   
                     setCobas8100(myJson);
 
                 }).catch(err => console.log(err));
@@ -68,21 +73,31 @@ const DashboardComponent = () => {
                     return response.json();
                 })
                 .then(myJson => {
-                   console.log(myJson);
+             
                    setCobas8100name(myJson);
 
                 }).catch(err => console.log(err));
 
-                //just gets the user name info- will change in the future 
-                const fetchData = async ()=> {
-                const res = await fetch("/api/Cobas9", {credentials: 'include'});
-                res.json().then(res => setSignIn(res))
-                .catch(err => console.log(err));
-                }
-
-             fetchData();
+           
         },  [],
     )
+
+
+
+    function Alphabetical_Sort(databaseName,Object_Property) {
+        databaseName.sort(function(a, b) {
+        var nameA = a[Object_Property]   //ABCDEF caps come before lowercase (abcdef) in javascript!!
+        var nameB = b[Object_Property]
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+
+            return 1;
+        }
+        return 0;
+        });
+    }
 
 //when you sort the arrays...
     const handleChange = event => {
@@ -92,24 +107,29 @@ const DashboardComponent = () => {
             setSearch(value);
         }
 
-        function Alphabetical_Sort(databaseName,Object_Property) {
-            databaseName.sort(function(a, b) {
-            var nameA = a[Object_Property]   //ABCDEF caps come before lowercase (abcdef) in javascript!!
-            var nameB = b[Object_Property]
-            if (nameA < nameB) {
-                return -1;
-            }
-            if (nameA > nameB) {
-    
-                return 1;
-            }
-            return 0;
-            });
-        }
+        // create combined arrays, that are similar right now but when using alphabetical_sort parameter for each will be different
+        var combine = [...Cobas8100, ...Abl]; 
+        // does this make a brand new array ?
+        var combine1 = [...Cobas8100, ...Abl]; 
 
-        Alphabetical_Sort(Cobas8100, "lotNum");
-        Alphabetical_Sort(Abl, "lotNum");
-        Alphabetical_Sort(Cobas8100name, "displayName");
+        setcombinelotNumbers(combine);
+        setcombinedisplayNames(combine1); 
+
+        /** 
+          Alphabetical_Sort(combinelotNumbers, "lotNum")  
+        for (var i = 0; i<combinelotNumbers.length; i++) {
+                 console.log(combinelotNumbers[i].lotNum); 
+
+             }
+             console.log("\n"); 
+
+             Alphabetical_Sort(combinedisplayNames, "displayName")  
+        for (var i = 0; i<combinedisplayNames.length; i++) {
+                console.log(combinedisplayNames[i].displayName); 
+
+            }
+           console.log("\n"); 
+  */
        }
 
 //defining binary serach algorithim       
@@ -200,19 +220,38 @@ const DashboardComponent = () => {
 
     const handleKeyPress = (target)=> {
 
+        //when you press 'ENTER' in the searchbar...
         if(target.charCode==13){
-            set_results([]); //clear the previous search 
-            binarySearch(Cobas8100, Searchbar_value, "lotNum");
-            binarySearch(Cobas8100name, Searchbar_value, "displayName");
-            binarySearch(Abl, Searchbar_value, "lotNum");
+            set_results([]); //clear the previous search ??
+   
+            // test if the sorting works 
+            Alphabetical_Sort(combinelotNumbers, "lotNum");
+            Alphabetical_Sort(combinedisplayNames, "displayName");
+
+            for (var i = 0; i<combinelotNumbers.length; i++) {
+                 console.log(combinelotNumbers[i].lotNum); 
+
+             }
+             console.log("\n"); 
+
+             for (var i = 0; i<combinedisplayNames.length; i++) {      
+             console.log(combinedisplayNames[i].displayName); 
+            }
+            console.log("\n");
+
+            binarySearch(combinelotNumbers, Searchbar_value, "lotNum");
+            binarySearch(combinedisplayNames, Searchbar_value, "displayName");
+       
+         
         }
     }
 
     const handleSubmit = event=> {
-        binarySearch(Cobas8100, Searchbar_value,"lotNum");
-        binarySearch(Cobas8100name, Searchbar_value, "displayName");
-        binarySearch(Abl, Searchbar_value, "lotNum");
-        event.preventdefault;
+      //  binarySearch(Cobas8100, Searchbar_value,"lotNum");
+       // binarySearch(Abl, Searchbar_value, "lotNum");
+     //   binarySearch(Cobas8100name, Searchbar_value, "displayName");
+      
+       // event.preventdefault;
     }
 
     //display the search results
@@ -242,7 +281,7 @@ const DashboardComponent = () => {
         <div>
 
             <NavbarComponent/>
-            {SignIn.length === 1 ? <h1 style={{padding:"30px"}}> {   SignIn.map(item=> <div>Hello, {item.Username}</div>)} </h1> : <h1></h1>      }
+
 
 
         <div className="searchMenu">
@@ -257,7 +296,7 @@ const DashboardComponent = () => {
             <input
               className="searchBar"
               type="text"
-              placeholder="Search for Lot in Abl & Cobas8100Component  - will add more later, Lot must match exactly"
+              placeholder="Search by lotNum or displayName from Abl & Cobas8100"
               value={Searchbar_value} onChange={handleChange} 
               onKeyPress={handleKeyPress}
             />
@@ -370,7 +409,12 @@ const DashboardComponent = () => {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <div>Nothing yet</div>
+                                                    <tr>
+                                                        <th>Nothing yet</th>
+                                                        <th>Nothing yet</th>
+
+
+                                                    </tr>
                                                     </tbody>
 
                                                 </Table>
