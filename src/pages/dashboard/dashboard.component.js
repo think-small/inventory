@@ -32,6 +32,7 @@ const DashboardComponent = () => {
     //
      const [combinelotNumbers, setcombinelotNumbers] = useState([]); 
      const [combinedisplayNames, setcombinedisplayNames] = useState([]); 
+     const [combineorderID, setcombinedorderID] = useState([]); 
 
  
     //value from the searchbar 
@@ -109,13 +110,14 @@ const DashboardComponent = () => {
 
         // create combined arrays, that are similar right now but when using alphabetical_sort parameter for each will be different
         var combine = [...Cobas8100, ...Abl]; 
-        // does this make a brand new array ?
         var combine1 = [...Cobas8100, ...Abl]; 
+        var combine2 = [...Cobas8100, ...Abl]; 
 
         setcombinelotNumbers(combine);
         setcombinedisplayNames(combine1); 
-
-        /** 
+        setcombinedorderID(combine2); 
+        //IF YOU DO THE Alpahbetical_Sort here it gives wierd errors for some reason
+/*        
           Alphabetical_Sort(combinelotNumbers, "lotNum")  
         for (var i = 0; i<combinelotNumbers.length; i++) {
                  console.log(combinelotNumbers[i].lotNum); 
@@ -227,6 +229,7 @@ const DashboardComponent = () => {
             // test if the sorting works 
             Alphabetical_Sort(combinelotNumbers, "lotNum");
             Alphabetical_Sort(combinedisplayNames, "displayName");
+            Alphabetical_Sort(combineorderID, "orderID"); 
 
             for (var i = 0; i<combinelotNumbers.length; i++) {
                  console.log(combinelotNumbers[i].lotNum); 
@@ -238,9 +241,16 @@ const DashboardComponent = () => {
              console.log(combinedisplayNames[i].displayName); 
             }
             console.log("\n");
+            for (var i = 0; i<combineorderID.length; i++) {      
+                console.log(combineorderID[i].orderID); 
+               }
+               console.log("\n");
+
 
             binarySearch(combinelotNumbers, Searchbar_value, "lotNum");
             binarySearch(combinedisplayNames, Searchbar_value, "displayName");
+            binarySearch(combineorderID, Searchbar_value, "orderID"); 
+            
        
          
         }
@@ -256,10 +266,10 @@ const DashboardComponent = () => {
 
     //display the search results
     const searchResults = displayResults.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-        <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div></div>);
+        <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
 
     const searchResults1 = clearAll.map(item=><div style={{padding: "30px"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-        <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div></div>);
+        <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID} </div></div>);
 
 
 // info for the pie graph 
@@ -296,7 +306,7 @@ const DashboardComponent = () => {
             <input
               className="searchBar"
               type="text"
-              placeholder="Search by lotNum or displayName from Abl & Cobas8100"
+              placeholder="Search lotNum/displayName/orderID from Abl or Cobas8100"
               value={Searchbar_value} onChange={handleChange} 
               onKeyPress={handleKeyPress}
             />
