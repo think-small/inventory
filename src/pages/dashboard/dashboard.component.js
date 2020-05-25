@@ -85,6 +85,68 @@ const DashboardComponent = () => {
 
 
 
+
+// sets up the temporary array which is needed for the KMP search
+function computeTemporaryArray( pattern){
+    //  int [] lps = new int[pattern.length];
+    //  var lps = [pattern.length]; 
+      var lps = new Array(pattern.length); 
+      var index =0;
+
+      for(var i=1; i < pattern.length; ){
+          if(pattern[i] == pattern[index]){
+              lps[i] = index + 1;
+              index++;
+              i++;
+          }else{
+              if(index != 0){
+                  index = lps[index-1];
+              }else{
+                  lps[i] =0;
+                  i++;
+              }
+          }
+      }
+      return lps;
+  }
+  
+  /**
+   * KMP algorithm of pattern matching.
+   */
+  function  KMP(text, pattern){
+      
+      //int lps[] = computeTemporaryArray(pattern);
+      var lps = []; 
+      //console.log(pattern);
+     
+      //call the function which contains the temporary array 
+      lps = computeTemporaryArray(pattern); 
+    
+      var i=0;
+      var j=0;
+
+      while(i < text.length && j < pattern.length){
+          if(text[i] == pattern[j]){
+              i++;
+              j++;
+          }else{
+              if(j!=0){
+                  j = lps[j-1];
+              }else{
+                  i++;
+              }
+          }
+      }
+      if(j == pattern.length){
+
+         // text is value found from your search 
+          return text; 
+      }
+      return "nothing found!";
+  }
+      
+       
+
     function Alphabetical_Sort(databaseName,Object_Property) {
         databaseName.sort(function(a, b) {
         var nameA = a[Object_Property]   //ABCDEF caps come before lowercase (abcdef) in javascript!!
@@ -142,7 +204,7 @@ const DashboardComponent = () => {
         while(startIndex <= endIndex) {
             let middleIndex = Math.floor((startIndex + endIndex) / 2);
 
-            console.log("Line 122 target: " + target + " middleIndex: " + " " + middleIndex + ' the value ' + array[middleIndex][Lot]);
+       //     console.log("Line 122 target: " + target + " middleIndex: " + " " + middleIndex + ' the value ' + array[middleIndex][Lot]);
 
             if(target === array[middleIndex][Lot]) {
                 // alert('there is a match!' + middleIndex)
@@ -195,21 +257,67 @@ const DashboardComponent = () => {
 
 
             if(target < array[middleIndex][Lot]) {
-                console.log("Searching the left side of array")
+               // console.log("Searching the left side of array")
                 endIndex = middleIndex - 1;
             }
             if(target > array[middleIndex][Lot]) {
-                console.log("Searching the right side of Array")
+               // console.log("Searching the right side of Array")
                 startIndex = middleIndex + 1;
 
             }
             else {
-                console.log("Not Found this loop iteration. Looping another iteration.")
+              //  console.log("Not Found this loop iteration. Looping another iteration.")
             
             }
         }
-        console.log("Target value not found in array");
+       // console.log("Target value not found in array");
+       runKMP(); 
     }
+
+ 
+function runKMP () {
+ //testing KMP
+ for (var i = 0; i<Cobas8100.length; i++) {
+   // console.log(Cobas8100[i].lotNum +  "  " + "KMP lotNum "  + " " +  KMP(Cobas8100[i].lotNum, Searchbar_value)); 
+   // console.log(Cobas8100[i].displayName +  "  " + "KMP displayName "  + " " +  KMP(Cobas8100[i].displayName, Searchbar_value)); 
+   // console.log(Cobas8100[i].orderID +  "  " + "KMP orderID "  + " " +  KMP(Cobas8100[i].orderID, Searchbar_value)); 
+
+    if (KMP(Cobas8100[i].lotNum, Searchbar_value)===Cobas8100[i].lotNum) {
+        set_results([ Cobas8100[i] ]);
+    }
+    if (KMP(Cobas8100[i].displayName, Searchbar_value)===Cobas8100[i].displayName) {
+        set_results([Cobas8100[i]]); 
+    } 
+    if (KMP(Cobas8100[i].orderID, Searchbar_value)===Cobas8100[i].orderID) {
+        set_results([Cobas8100[i]]); 
+    } 
+
+}
+
+for (var g = 0; g<Abl.length; g++) { 
+    console.log(Abl[g].lotNum +  "  " + "KMP lotNum "  + " " +  KMP(Abl[g].lotNum, Searchbar_value)); 
+    console.log(Abl[g].displayName +  "  " + "KMP displayName "  + " " +  KMP(Abl[g].displayName, Searchbar_value)); 
+
+
+     if (KMP(Abl[g].lotNum, Searchbar_value)===Abl[g].lotNum) {
+         set_results([ Abl[g] ]);
+     }
+     if (KMP(Abl[g].displayName, Searchbar_value)===Abl[g].displayName) {
+   
+         set_results([Abl[g]]); 
+     } 
+     if (KMP(Abl[g].orderID, Searchbar_value)===Abl[g].orderID) {
+         set_results([Abl[g]]); 
+     } 
+ 
+ }
+
+
+
+
+
+
+ }
 
     const low_quantity =   Cobas8100.filter(items=>items.quantity<100);
     const low_quantity_size = low_quantity.length;
@@ -231,18 +339,25 @@ const DashboardComponent = () => {
             Alphabetical_Sort(combinedisplayNames, "displayName");
             Alphabetical_Sort(combineorderID, "orderID"); 
 
+               
+
+
+
+
+
+
             for (var i = 0; i<combinelotNumbers.length; i++) {
-                 console.log(combinelotNumbers[i].lotNum); 
+              //   console.log(combinelotNumbers[i].lotNum); 
 
              }
              console.log("\n"); 
 
              for (var i = 0; i<combinedisplayNames.length; i++) {      
-             console.log(combinedisplayNames[i].displayName); 
+           //  console.log(combinedisplayNames[i].displayName); 
             }
             console.log("\n");
             for (var i = 0; i<combineorderID.length; i++) {      
-                console.log(combineorderID[i].orderID); 
+             //   console.log(combineorderID[i].orderID); 
                }
                console.log("\n");
 
@@ -306,7 +421,7 @@ const DashboardComponent = () => {
             <input
               className="searchBar"
               type="text"
-              placeholder="Search lotNum/displayName/orderID from Abl or Cobas8100"
+              placeholder="Search by lotNum/displayName/orderID from Abl or Cobas8100"
               value={Searchbar_value} onChange={handleChange} 
               onKeyPress={handleKeyPress}
             />
