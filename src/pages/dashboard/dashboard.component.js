@@ -25,7 +25,7 @@ const DashboardComponent = () => {
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
-   
+    const [Architect, setArchitect] = useState([]);
 
     //value from the searchbar 
     const [Searchbar_value, setSearch] = useState("");
@@ -34,6 +34,7 @@ const DashboardComponent = () => {
     //after you get results put them into a new array
     const [displayResults, set_results] = useState([]);
     const [KMPresults, setKMPresults] = useState([]);
+    const [KMPresults1, setKMPresults1] = useState([]);
    
 
 
@@ -61,7 +62,26 @@ const DashboardComponent = () => {
                     }
                 };
                 fetchData1();
-           
+                
+
+                const fetchData2 = async () => {
+                    try {
+                      const res = await fetch("/api/Architect/all-items");
+                      const data = await res.json();
+                    
+                      setArchitect(data);
+                
+                    } catch (err) {
+                      throw new Error("Unable to fetch Architect items");
+                    }
+                  };
+                  fetchData2();
+
+
+
+
+
+
         },  [],
     )
 
@@ -140,6 +160,7 @@ function runKMP () {
  // temporary arrays because you cannot push directly into a hook(array)....but can indirectly using spread operators   
  var tempCobas8100 = []; 
  var tempAbl = [];
+ var tempArchitect = [];
 
 for (var i = 0; i<Cobas8100.length; i++) {
     if (KMP(Cobas8100[i].lotNum, Searchbar_value)===Cobas8100[i].lotNum) {
@@ -155,10 +176,11 @@ for (var i = 0; i<Cobas8100.length; i++) {
      set_results([]);
      set_results(displayResults =>  ([...displayResults, ...tempCobas8100]));
 
-for (var g = 0; g<=Abl.length; g++) { 
+for (var g = 0; g<Abl.length; g++) { 
     
     if (KMP(Abl[g].lotNum, Searchbar_value)===Abl[g].lotNum) {
      tempAbl.push(Abl[g]); 
+     
      }
     if (KMP(Abl[g].displayName, Searchbar_value)===Abl[g].displayName) {
        tempAbl.push(Abl[g]); 
@@ -170,7 +192,24 @@ for (var g = 0; g<=Abl.length; g++) {
      setKMPresults([]);
      setKMPresults(KMPresults => ([...KMPresults,...tempAbl]));
 }
+
+
+for (var f = 0; f<Architect.length; f++) { 
+  
+    if (KMP(Architect[f].lotNum, Searchbar_value)===Architect[f].lotNum) {
+     tempArchitect.push(Architect[f]); 
+     }
+    if (KMP(Architect[f].displayName, Searchbar_value)===Architect[f].displayName) {
+       tempArchitect.push(Architect[f]); 
+     } 
+    if (KMP(Architect[f].orderID, Searchbar_value)===Architect[f].orderID) {
+        tempArchitect.push(Architect[f]); 
+    } 
  
+     setKMPresults1([]);
+     setKMPresults1(KMPresults1 => ([...KMPresults1,...tempArchitect]));
+}
+
 }
 
   
@@ -188,12 +227,14 @@ for (var g = 0; g<=Abl.length; g++) {
     }
 
     //display the search results
-const searchResults = displayResults.map(item=><div style={{padding: "30px", marginLeft:"25px", display: "inline-block"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-        <div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
+const searchResults = displayResults.map(item=><div style={{margin: "10px" ,padding: "30px", marginLeft:"25px", display: "inline-block", backgroundColor:"tan"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
+        <div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
 
-const searchResults2 = KMPresults.map(item=><div style={{padding: "30px", marginLeft: "30px",  display:"inline-block"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-<div>Expiration Date: {item.expirationDate}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
+const searchResults2 = KMPresults.map(item=><div style={{margin: "10px", padding: "30px", marginLeft: "30px",  display:"inline-block", backgroundColor:"lightBlue"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
+<div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
 
+const searchResults3 = KMPresults1.map(item=><div style={{margin: "10px", padding: "30px", marginLeft: "30px",  display:"inline-block", backgroundColor:"yellow"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
+<div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
 
 // below variables are for the quantitiy and days left in dasbhoard page
 const low_quantity =   Cobas8100.filter(items=>items.quantity<100);
@@ -241,7 +282,7 @@ const days_left_size = days_left.length;
             <input
               className="searchBar"
               type="text"
-              placeholder="Search Abl or Cobas8100"
+              placeholder="Search by Lot, Name or Order Id"
               value={Searchbar_value} onChange={handleChange} 
               onKeyPress={handleKeyPress}
             />
@@ -252,7 +293,7 @@ const days_left_size = days_left.length;
 
 {searchResults2.length>=1 ? <div> {searchResults2} </div>: <div>  </div>}
 
-
+{searchResults3.length>=1 ? <div> {searchResults3} </div>: <div>  </div>}
 
 
             <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
