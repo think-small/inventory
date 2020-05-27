@@ -226,16 +226,6 @@ for (var f = 0; f<Architect.length; f++) {
         event.preventdefault;
     }
 
-    //display the search results
-const searchResults = displayResults.map(item=><div style={{margin: "10px" ,padding: "30px", marginLeft:"25px", display: "inline-block", backgroundColor:"tan"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-        <div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
-
-const searchResults2 = KMPresults.map(item=><div style={{margin: "10px", padding: "30px", marginLeft: "30px",  display:"inline-block", backgroundColor:"lightBlue"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-<div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
-
-const searchResults3 = KMPresults1.map(item=><div style={{margin: "10px", padding: "30px", marginLeft: "30px",  display:"inline-block", backgroundColor:"yellow"}}><div>Lot: {item.lotNum}</div><div>Name: {item.displayName}</div><div>Quantity: {item.quantity}</div>
-<div>Expiration Date: {item.expirationDate.split("T")[0]}</div><div>Count Per Box: {item.countPerBox}</div><div>Order Id: {item.orderID}</div></div>);
-
 // below variables are for the quantitiy and days left in dasbhoard page
 const low_quantity =   Cobas8100.filter(items=>items.quantity<100);
 const low_quantity_size = low_quantity.length;
@@ -288,12 +278,53 @@ const days_left_size = days_left.length;
             />
         </div>
 
-     
-{searchResults.length>=1 ? <div> {searchResults} </div>: <div>  </div>}
+<div style={{marginTop: "20px"}}>
+{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
+        <Table responsive  striped bordered hover size="lg">
+  <thead>
+    <tr>
+    <th>Lot#</th>
+      <th>Display Name</th>
+      <th>Order Id</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
+    
+    </tr>
+  </thead>
+  <tbody>
+  {displayResults.map(item =>  
+    <tr>
+       <td>{item.lotNum}</td>
+      <td>{item.displayName}</td>
+      <td>{item.orderID}</td>
+      <td>{item.quantity}</td>
+      <td>{item.expirationDate.split("T")[0]}</td>
+    </tr>
+  )}
+  {KMPresults.map(item =>  
+    <tr>
+       <td>{item.lotNum}</td>
+      <td>{item.displayName}</td>
+      <td>{item.orderID}</td>
+      <td>{item.quantity}</td>
+      <td>{item.expirationDate.split("T")[0]}</td>
+    </tr>
+  )}
+   {KMPresults1.map(item =>  
+    <tr>
+       <td>{item.lotNum}</td>
+      <td>{item.displayName}</td>
+      <td>{item.orderID}</td>
+      <td>{item.quantity}</td>
+      <td>{item.expirationDate.split("T")[0]}</td>
+    </tr>
+  )}
+  </tbody>
+</Table>  : <div></div> }
+</div>
 
-{searchResults2.length>=1 ? <div> {searchResults2} </div>: <div>  </div>}
 
-{searchResults3.length>=1 ? <div> {searchResults3} </div>: <div>  </div>}
+
 
 
             <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
@@ -327,6 +358,11 @@ const days_left_size = days_left.length;
 </ListGroup>
 </Card></Col>
 */}
+
+
+
+
+
 
 
                     <Col xs={6} md={4}>
