@@ -228,7 +228,7 @@ const [searchWarning, setsearchWarning] = useState("");
         if (Searchbar_value.length>0) {
                 
             runKMP(); 
-            
+           
             if(runKMP()===null) {
                     setsearchWarning("Oh no! No results were found for " + Searchbar_value + "."); 
              }
@@ -243,7 +243,7 @@ const [searchWarning, setsearchWarning] = useState("");
     const handleSubmit = event=> {
         
         if (Searchbar_value.length>0) {
-                
+           
             runKMP(); 
             
             if(runKMP()===null) {
@@ -309,8 +309,16 @@ const days_left_size = days_left.length;
         </div>
 
 <div style={{marginTop: "20px"}}>
+
 {displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
-        <Table responsive  striped bordered hover size="lg">
+<h2 style={{marginLeft: "15px"}}> {displayResults.length+KMPresults.length+KMPresults1.length}  Matches </h2> :
+<div></div> }
+
+{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
+         
+
+
+ <Table responsive  striped bordered hover size="lg">
   <thead>
     <tr>
     <th>Lot#</th>
