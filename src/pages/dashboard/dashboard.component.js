@@ -209,20 +209,50 @@ for (var f = 0; f<Architect.length; f++) {
      setKMPresults1([]);
      setKMPresults1(KMPresults1 => ([...KMPresults1,...tempArchitect]));
 }
+if (tempArchitect.length===0 && tempAbl.length===0 && tempCobas8100.length===0 ) {
+    
+    return null; 
+
+}
+
 
 }
 
   
-
+const [searchWarning, setsearchWarning] = useState(""); 
     const handleKeyPress = (target)=> {
      //when you press 'ENTER' in the searchbar...
     if(target.charCode==13){
-         runKMP(); 
-        }
+      
+        
+        if (Searchbar_value.length>0) {
+                
+            runKMP(); 
+            
+            if(runKMP()===null) {
+                    setsearchWarning("Oh no! No results were found for " + Searchbar_value + "."); 
+             }
+            
+            }
+
+   
+        
+    }
     }
 
     const handleSubmit = event=> {
-        runKMP(); 
+        
+        if (Searchbar_value.length>0) {
+                
+            runKMP(); 
+            
+            if(runKMP()===null) {
+                    setsearchWarning("Oh no! No results were found for " + Searchbar_value + "."); 
+             }
+            
+            }
+
+
         event.preventdefault;
     }
 
@@ -320,7 +350,7 @@ const days_left_size = days_left.length;
     </tr>
   )}
   </tbody>
-</Table>  : <div></div> }
+</Table>  : <h2 style={{margin: "55px"}}>{searchWarning}</h2> }
 </div>
 
 
