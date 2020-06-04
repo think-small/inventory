@@ -82,7 +82,7 @@ return (
 
 
 
-<br></br>
+
 
 <div style={{paddingBottom: "100px", margin: "20px" }}>
   <button className="submit_button" >Submit</button>
