@@ -18,12 +18,14 @@ connection.query(Cobas_8100_Transactions, function (err, result) {
     console.log("Cobas_8100_Transactions created");
   });
 
-
+/** 
 var Daily_Records = "CREATE TABLE IF NOT EXISTS Cobas_8100_Daily_Records (ENTRIES INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY)SELECT id, lotNum, quantity, date,  expirationDate From Cobas_8100";
 connection.query(Daily_Records, function (err, result) {
   if (err) throw err;
   console.log("Daily_Records Table created");
 });
+
+
 
 
 var scheduler = "SET GLOBAL event_scheduler = ON";
@@ -44,7 +46,7 @@ connection.query(Event, function (err, result) {
     if (err) throw err;
     console.log("Event fired!");
   });
-
+*/
 
 module.exports = router; 
 

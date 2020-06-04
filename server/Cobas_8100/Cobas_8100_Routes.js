@@ -50,7 +50,7 @@ router.post('/api/post/8100', (req,res)=> {
       }
       else {
         console.log('Created a new Lot!');
-        console.log(result);
+        //console.log(result);
       }
       
   })
@@ -64,8 +64,8 @@ connection.query('UPDATE Cobas_8100 set warning = ?  WHERE timeLeft <= 7' ,
          console.log(error); 
        }
        else {
-         console.log('the update worked!!');
-         console.log(result);
+       //   console.log('the update worked!!');
+        // console.log(result);
        }
        
        })
@@ -77,8 +77,8 @@ connection.query('UPDATE Cobas_8100 set warning = ?  WHERE timeLeft < 0' ,
           console.log(error); 
         }
         else {
-          console.log('the update worked!!');
-          console.log(result);
+         // console.log('the update worked!!');
+         // console.log(result);
         }
         
         })
@@ -94,7 +94,7 @@ router.post(`/Cobas_8100_Transactions`, (req,res) => {
     if (error)  {
     return console.error(error.message); }
     else {
-    console.log('The post into the Cobas_8100_Tranactions table worked');
+    console.log('Post into the Cobas_8100_Tranactions table worked');
     }
 
   })
@@ -105,13 +105,15 @@ router.post(`/Cobas_8100_Transactions`, (req,res) => {
 router.put('/api/update/8100', (req,res)=> {
     let Quantity = req.body.Quantity; 
     let Id = req.body.Id; 
+    let Lot = req.body.Lot; 
 
-    //if Quantity is empty that means the that the Expiration input is being filled from from the frontend... 
+
+//if Quantity is empty that means the that the Expiration input is being filled from from the frontend... 
     if (req.body.Quantity ==="") {
       connection.query(`UPDATE Cobas_8100 SET expirationDate  =? WHERE Id = ?`, [ req.body.Expiration, Id], (error, results) =>{
             if (error) 
             return console.error(error.message);
-            console.log("Expiration Date updated to" + " " + req.body.Expiration);
+            console.log("Expiration Date updated to" + " " + req.body.Expiration   + " in lot" + " " + req.body.Lot);
     } )
   }
 
@@ -120,7 +122,7 @@ router.put('/api/update/8100', (req,res)=> {
         connection.query(`UPDATE Cobas_8100 SET quantity  =? WHERE Id = ?`, [ Quantity, Id], (error, results) =>{
               if (error) 
               return console.error(error.message);
-              console.log('Quantity updated to' + " " +  Quantity);
+              console.log('Quantity updated to' + " " +  Quantity  + " in lot" + " " + req.body.Lot);
     } )
     }
   
@@ -179,22 +181,23 @@ router.put('/api/update/8100', (req,res)=> {
   connection.query(sql, id, (error, results, fields) => {
       if (error)
         return console.error(error.message);
-        console.log('Deleted Row(s):', results.affectedRows);
+        console.log('Deleted Row(s):', results.affectedRows + " " + " from the Cobas_8100 table");
     });
   
   })
   
   
-  router.delete('/api/delete/8100_Transactions', (req,res)=> {
-    
-    let sql = `DELETE FROM Cobas_8100_Transactions WHERE lotNum = ?`;
-    let Lot = req.body.Lot; 
+  router.delete('/api/delete/Cobas_8100_', (req,res)=> {
 
-  connection.query(sql, Lot, (error, results, fields) => {
+    let sql = `DELETE FROM Cobas_8100_Transactions WHERE lotNum  = ?`;
+    let Lot = req.body.Lot; 
+    //console.log(Lot)
+
+  connection.query(sql, Lot, (error, results) => {
       if (error)
         return console.error(error.message);
      
-      console.log('Deleted Row(s):', results.affectedRows);
+      console.log('Deleted Row(s):', results.affectedRows + " " + "from the Cobas_8100_Transactions table" );
     });
   
   })

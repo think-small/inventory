@@ -70,6 +70,7 @@ const DashboardComponent = () => {
                       const data = await res.json();
                     
                       setArchitect(data);
+                      console.log(Architect)
                 
                     } catch (err) {
                       throw new Error("Unable to fetch Architect items");
@@ -259,12 +260,19 @@ const [searchWarning, setsearchWarning] = useState("");
 // below variables are for the quantitiy and days left in dasbhoard page
 const low_quantity =   Cobas8100.filter(items=>items.quantity<100);
 const low_quantity_size = low_quantity.length;
+const days_left =  Cobas8100.filter(items=>items.timeLeft<100);
+const days_left_size = days_left.length;
+
 
 const low_quantity_Abl = Abl.filter(items=>items.quantity<100);
 const low_quantity_size_Abl = low_quantity_Abl.length;
 
-const days_left =  Cobas8100.filter(items=>items.timeLeft<100);
-const days_left_size = days_left.length;
+const low_quantity_Architect = Architect.filter(items=>items.quantity<100);
+const low_quantity_size_Architect = low_quantity_Architect.length; 
+
+const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architect+days_left_size; 
+
+
 
 
 
@@ -367,7 +375,8 @@ const days_left_size = days_left.length;
 
             <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
-                <Row>  {/*
+                <Row>  
+                    
     <Col xs={6} md={4}>
     <Card style={{ width: '20rem' }} bg="danger">
     <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
@@ -395,7 +404,7 @@ const days_left_size = days_left.length;
     <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
 </ListGroup>
 </Card></Col>
-*/}
+
 
 
 
@@ -407,19 +416,14 @@ const days_left_size = days_left.length;
                         <Card style={{ width: '20rem', color:'white' }} bg="primary">
                             <Card.Header>Total Warnings</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+days_left_size}</h1>
+                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {total}</h1>
                                 <ListGroup.Item >Abl: {low_quantity_size_Abl} </ListGroup.Item>
-                                <ListGroup.Item >Architect: 0 </ListGroup.Item>
+                                <ListGroup.Item >Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8100: {low_quantity.length+days_left_size} </ListGroup.Item>
                             </ListGroup>
                         </Card>
                     </Col>
-
-
-
-
-
 
                     <Col xs={6} md={4}>
                         <Card style={{ width: '20rem', color:'white' }} bg="info">
@@ -438,9 +442,9 @@ const days_left_size = days_left.length;
                         <Card style={{ width: '20rem', color:"white" }} bg="secondary">
                             <Card.Header>Low Quantity Total</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl}</h1>
+                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+low_quantity_size_Architect}</h1>
                                 <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
-                                <ListGroup.Item>Architect: 0 </ListGroup.Item>
+                                <ListGroup.Item>Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8100: {low_quantity.length} </ListGroup.Item>
                             </ListGroup>

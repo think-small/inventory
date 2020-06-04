@@ -70,17 +70,6 @@ const Tables_main = ()=> {
     function handleDelete(event) {
               event.preventDefault();
         
-          
-              var Lot;
-              for (var x = 0; x<Cobas_8100.length; x++) {
-               
-                if (event.target.value==Cobas_8100[x].id) {
-                   Lot = Cobas_8100[x].Lot;
-                }
-          
-              }
-
-          
               var data = { Id: event.target.value }; //gets the current id of the lot (which happens to be from the database)
           
               fetch("/api/delete/8100", {
@@ -100,9 +89,18 @@ const Tables_main = ()=> {
                   console.log(err);
                 });
             
-          
+
+
+// if there are any lots in the Cobas_Transactions that match what is in the Cobas_8100 table delete them too
+    for (var x = 0; x<Cobas_8100.length; x++) {
+               
+    if (event.target.value==Cobas_8100[x].id) {
+            var  Lot = Cobas_8100[x].lotNum;
+            
+               
+                    
             var Lot_Number = {Lot: Lot}; 
-                fetch("/api/delete/8100_Transactions", {
+                fetch("/api/delete/Cobas_8100_", {
                   method: "delete",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(Lot_Number)
@@ -118,7 +116,18 @@ const Tables_main = ()=> {
                   .catch(function(err) {
                     console.log(err);
                   });
-                   }
+                   
+
+                  window.location.reload();
+    
+
+
+                }
+            
+              }
+
+                
+                }
     
     
     function  handleUpdate(event) {
@@ -183,14 +192,14 @@ const Tables_main = ()=> {
                  }                
                                 }    
                         
-                              }
+                              
                      
          
     
                    //}
                  
                    // if you don't type anyting in expiration then the value will be nothing 
-                    const data = { Quantity: Quantity, Id: event.target.value, Name: Name, Lot: Lot, Expiration: Expiration};
+                    const data = { Quantity: Quantity, Id: event.target.value, Name: Name, Lot: Cobas_8100[x].lotNum, Expiration: Expiration};
                    
                     fetch("api/update/8100", {
                       method: "PUT",
@@ -214,7 +223,8 @@ const Tables_main = ()=> {
                       window.location.reload();
     
     
-    
+
+                    }//end of the for loop
                   
                     }
 
