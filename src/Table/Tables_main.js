@@ -134,10 +134,9 @@ const Tables_main = ()=> {
                                 
         for(var x = 0; x<Cobas_8100.length; x++) {
                    if (parseInt(event.target.value)==Cobas_8100[x].id) {
-                       
-                    
+                
                       if (Expiration==="") {
-                        var info = {Lot: Cobas_8100[x].lotNum, Amount: Quantity, Expiration: Cobas_8100[x].expirationDate}; 
+                        var info = {Lot: Cobas_8100[x].lotNum, Amount: Quantity, Expiration: Cobas_8100[x].expirationDate.substring(0,10)}; 
                                 fetch(`/Cobas_8100_Transactions`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },

@@ -6,7 +6,7 @@ var connection = require('../db.js');
 
 
 
-var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,    expirationDate DATE NOT NULL, timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL)ENGINE=MyISAM;"
+var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,    expirationDate DATE NOT NULL,   timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL, instrumentID VARCHAR(10) NOT NULL DEFAULT 'Cobas8100')ENGINE=MyISAM;"
   connection.query(Cobas_8100, function (err, result) {
       if (err) throw err;
       console.log("Cobas_8100 table created");

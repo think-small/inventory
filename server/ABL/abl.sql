@@ -17,6 +17,7 @@ IF NOT EXISTS abl
     expirationDate DATETIME NOT NULL,
     orderID VARCHAR
 (100) NOT NULL,
+    instrumentID VARCHAR(10) NOT NULL DEFAULT 'Abl',
     PRIMARY KEY
 (id)
 );
