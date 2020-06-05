@@ -164,6 +164,7 @@ function runKMP () {
  var tempArchitect = [];
 
 for (var i = 0; i<Cobas8100.length; i++) {
+ 
     if (KMP(Cobas8100[i].lotNum, Searchbar_value)===Cobas8100[i].lotNum) {
         tempCobas8100.push(Cobas8100[i]); 
     }
@@ -177,8 +178,11 @@ for (var i = 0; i<Cobas8100.length; i++) {
      set_results([]);
      set_results(displayResults =>  ([...displayResults, ...tempCobas8100]));
 
+
+     
+
 for (var g = 0; g<Abl.length; g++) { 
-    
+  
     if (KMP(Abl[g].lotNum, Searchbar_value)===Abl[g].lotNum) {
      tempAbl.push(Abl[g]); 
      
@@ -322,10 +326,11 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
 <h2 style={{marginLeft: "15px"}}> {displayResults.length+KMPresults.length+KMPresults1.length}  Matches </h2> :
 <div></div> }
 
+
+
+
+
 {displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
-         
-
-
  <Table responsive  striped bordered hover size="lg">
   <thead>
     <tr>
@@ -334,7 +339,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
       <th>Order Id</th>
       <th>Quantity</th>
       <th>Expiration Date</th>
-    
+      <th>Instrument Id</th>
     </tr>
   </thead>
   <tbody>
@@ -345,6 +350,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
       <td>{item.orderID}</td>
       <td>{item.quantity}</td>
       <td>{item.expirationDate.split("T")[0]}</td>
+      <td>{item.instrumentID}</td>
     </tr>
   )}
   {KMPresults.map(item =>  
@@ -354,6 +360,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
       <td>{item.orderID}</td>
       <td>{item.quantity}</td>
       <td>{item.expirationDate.split("T")[0]}</td>
+      <td>{item.instrumentID}</td>
     </tr>
   )}
    {KMPresults1.map(item =>  
@@ -363,6 +370,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
       <td>{item.orderID}</td>
       <td>{item.quantity}</td>
       <td>{item.expirationDate.split("T")[0]}</td>
+      <td>{item.instrumentID}</td>
     </tr>
   )}
   </tbody>
@@ -376,12 +384,14 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
             <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
                 <Row>  
-                    
+      { /**                   
     <Col xs={6} md={4}>
     <Card style={{ width: '20rem' }} bg="danger">
     <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
+
     <ListGroup variant="flush">
     <ListGroup.Item>
+     
     <Doughnut
           data={graph_data1}
           options={{
@@ -398,14 +408,14 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
             }
           }}
         />
-
+      
     </ListGroup.Item>
     <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
     <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
 </ListGroup>
 </Card></Col>
 
-
+  */}
 
 
 

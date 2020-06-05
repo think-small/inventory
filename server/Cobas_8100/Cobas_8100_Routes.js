@@ -6,7 +6,7 @@ var connection = require('../db.js');
 
 
 router.get('/api/8100',(req, res) => {
-  connection.query('SELECT id, displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, warning, timeLeft, date, orderID from Cobas_8100 ORDER BY lotNum ASC', (error, result)=> {
+  connection.query('SELECT id, displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, warning, timeLeft, date, orderID, instrumentID from Cobas_8100 ORDER BY lotNum ASC', (error, result)=> {
     if (error) {
       res.send(error); 
     }
