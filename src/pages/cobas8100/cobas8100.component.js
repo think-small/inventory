@@ -20,9 +20,9 @@ return (
 <NavbarComponent />
 
 
-
+{/*
 <CardInputMainComponent route="whatever-route-in-the-future" />
-  
+*/}
 <Tables_main />       
 
 <Tables2 />

@@ -13,4 +13,8 @@ router.get(
 );
 router.get("/api/Architect/:name", controller.getSpecificItem);
 
+
+router.post("/api/post/Architect", controller.postNewLot); 
+
+
 module.exports = router;

@@ -334,9 +334,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
  <Table responsive  striped bordered hover size="lg">
   <thead>
     <tr>
-    <th>Lot#</th>
+       <th>Lot#</th>
       <th>Display Name</th>
       <th>Order Id</th>
+      <th>Current Lot?</th>
       <th>Quantity</th>
       <th>Expiration Date</th>
       <th>Instrument Id</th>
@@ -348,8 +349,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
        <td>{item.lotNum}</td>
       <td>{item.displayName}</td>
       <td>{item.orderID}</td>
-      <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]}</td>
+      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
+      <td>{item.quantity}
+      </td>
+      <td>{item.expirationDate.split("T")[0]} </td>
       <td>{item.instrumentID}</td>
     </tr>
   )}
@@ -358,8 +361,12 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
        <td>{item.lotNum}</td>
       <td>{item.displayName}</td>
       <td>{item.orderID}</td>
+      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
       <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]}</td>
+      <td>{item.expirationDate.split("T")[0]} 
+  
+      
+        </td>
       <td>{item.instrumentID}</td>
     </tr>
   )}
@@ -368,6 +375,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
        <td>{item.lotNum}</td>
       <td>{item.displayName}</td>
       <td>{item.orderID}</td>
+      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
       <td>{item.quantity}</td>
       <td>{item.expirationDate.split("T")[0]}</td>
       <td>{item.instrumentID}</td>
