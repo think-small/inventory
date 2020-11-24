@@ -17,7 +17,7 @@ router.get("/api/ABL/all-items", async (req, res) => {
             );
             item.transactions = transactions;
           });
-          res.send(ablItems);
+          res.status(200).json(ablItems);
         }
       });
     }
