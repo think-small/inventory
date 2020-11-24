@@ -9,7 +9,8 @@ const Tables = (props)=> {
 
     return (
    
-<div >
+<div style={{padding:"30px"}} >
+        <div>The Cobas 8100 Table</div>
         <Table striped bordered hover   responsive >
         <thead>
           <tr>  
@@ -81,7 +82,7 @@ const Tables = (props)=> {
           <td  style={{wordWrap: "break-word", minWidth: "160px", maxWidth: "160px"}}>
               <div>
                    {" "}
-                   {items.quantity <= 100 ? (
+                   {items.quantity <= 1000 ? (
                      <div style={{ color: "red" }}>
                        {" "}
                       {items.quantity} Left

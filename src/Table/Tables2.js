@@ -34,8 +34,10 @@ return (
 
 
 
-<div> <p>History of Expiration Date and Quantity(from join table)</p>
-<Table striped bordered hover >
+<div style={{padding: "30px"}} > 
+
+  <p>Historical Data (the cobas_8100 data joined with the Cobas_8100_Transactions table)</p>
+  <Table striped bordered hover  >
   <thead>
     <tr>
       <th>Lot #</th>

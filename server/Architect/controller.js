@@ -170,10 +170,44 @@ const getSpecificItem = (req, res) => {
   });
 };
 
+
+  
+const postNewLot = (req,res)=> {
+   
+ // const id = req.body.Id;    //may not need this.mysql should auto-increment
+  const Name = req.body.Name;
+  const Lot = req.body.Lot;  
+  const Quantity = req.body.Quantity;
+  const Expiration_Date = req.body.Expiration;
+  const orderID = req.body.OrderID; 
+ // INSERT INTO Architect
+ // (
+ // reagentName, displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, orderID
+ // )
+//VALUES
+ // (
+ //     "hepBsAg", "Hepatitis B Surface Antigen Reagent", "SLKW-ZKL28", 10, TRUE, FALSE, 4, 2, "2022-08-30 00:00:00", "SLKW22KZ23JK2KL"
+//);
+
+db.query('INSERT INTO Architect (reagentName, displayName, lotNum,  quantity, isCurrentLot, isNewLot, par, countPerBox,   expirationDate, orderID  ) VALUES (?,?,?,?,?,?,?,?,?,?)' , 
+[Name, Name, Lot, Quantity, req.body.isCurrentLot, req.body.isNewLot, req.body.par, req.body.countPerBox,  Expiration_Date, orderID, ],(error, result)=> {
+ if (error) {
+   res.send(error);
+   console.log(error); 
+ }
+ else {
+   console.log('Created a new lot for the Architect!');
+   //console.log(result);
+ }
+ 
+})
+}
+
 module.exports = {
   allItems,
   allItemsNoTransactions,
   allTransactions,
   generateRandomTransactions,
-  getSpecificItem
+  getSpecificItem,
+  postNewLot,
 };

@@ -70,17 +70,6 @@ const Tables_main = ()=> {
     function handleDelete(event) {
               event.preventDefault();
         
-          
-              var Lot;
-              for (var x = 0; x<Cobas_8100.length; x++) {
-               
-                if (event.target.value==Cobas_8100[x].id) {
-                   Lot = Cobas_8100[x].Lot;
-                }
-          
-              }
-
-          
               var data = { Id: event.target.value }; //gets the current id of the lot (which happens to be from the database)
           
               fetch("/api/delete/8100", {
@@ -100,9 +89,18 @@ const Tables_main = ()=> {
                   console.log(err);
                 });
             
-          
+
+
+// if there are any lots in the Cobas_Transactions that match what is in the Cobas_8100 table delete them too
+    for (var x = 0; x<Cobas_8100.length; x++) {
+               
+    if (event.target.value==Cobas_8100[x].id) {
+            var  Lot = Cobas_8100[x].lotNum;
+            
+               
+                    
             var Lot_Number = {Lot: Lot}; 
-                fetch("/api/delete/8100_Transactions", {
+                fetch("/api/delete/Cobas_8100_", {
                   method: "delete",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(Lot_Number)
@@ -118,25 +116,28 @@ const Tables_main = ()=> {
                   .catch(function(err) {
                     console.log(err);
                   });
-                   }
+                   
+
+                  window.location.reload();
+    
+
+
+                }
+            
+              }
+
+                
+                }
     
     
     function  handleUpdate(event) {
-                
-                
-                   for(var x = 0; x<Cobas_8100.length; x++) {
-                    
-                          
-                            if (parseInt(event.target.value)==Cobas_8100[x].id) {
-                              
                                 
-                            var databaseLot = Cobas_8100[x].lotNum; //gets the lot number from the database
+        for(var x = 0; x<Cobas_8100.length; x++) {
+                   if (parseInt(event.target.value)==Cobas_8100[x].id) {
                 
-                       
-                   // if the expiration value is empty then get the value from the database
-                         if (Expiration==="") {
-                            var info = {Lot: databaseLot, Amount: Quantity, Expiration: Cobas_8100[x].expirationDate}; 
-                                fetch(`/api/post/8100_Transactions`, {
+                      if (Expiration==="") {
+                        var info = {Lot: Cobas_8100[x].lotNum, Amount: Quantity, Expiration: Cobas_8100[x].expirationDate.substring(0,10)}; 
+                                fetch(`/Cobas_8100_Transactions`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify(info)
@@ -149,7 +150,7 @@ const Tables_main = ()=> {
                                   })
                             
                                   .then(function(data) {
-                                    //  alert(data);
+             
                             
                                     if (data == "success") {
                                       console.log("thanks for submitting!");
@@ -158,12 +159,14 @@ const Tables_main = ()=> {
                                   .catch(function(err) {
                                     console.log(err);
                                   });
+                        
                                 }
                         
-                        // if the (Amount?) quantity is empty then get the value from the database        
+                        // the opposite case- if the  quantity is empty then get the value from the database
+         
                               if (Quantity==="") {
-                                var info = {Lot: databaseLot, Amount: Cobas_8100[x].quantity, Expiration: Expiration}; 
-                                fetch(`/api/post/8100_Transactions`, {
+                                var info = {Lot: Cobas_8100[x].lotNum, Amount: Cobas_8100[x].quantity, Expiration: Expiration}; 
+                                fetch(`/Cobas_8100_Transactions`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify(info)
@@ -176,7 +179,7 @@ const Tables_main = ()=> {
                                   })
                             
                                   .then(function(data) {
-                                    //  alert(data);
+                         
                             
                                     if (data == "success") {
                                       console.log("thanks for submitting!");
@@ -188,13 +191,15 @@ const Tables_main = ()=> {
                  }                
                                 }    
                         
-                              }
+                              
                      
          
     
                    //}
-                      /** when you do a put command it updates everything, you may want insert???? */
-                    const data = { Quantity: Quantity, Id: event.target.value, Name: Name, Lot: Lot, Expiration: Expiration};
+                 
+                   // if you don't type anyting in expiration then the value will be nothing 
+                    const data = { Quantity: Quantity, Id: event.target.value, Name: Name, Lot: Cobas_8100[x].lotNum, Expiration: Expiration};
+                   
                     fetch("api/update/8100", {
                       method: "PUT",
                       headers: {
@@ -217,18 +222,19 @@ const Tables_main = ()=> {
                       window.location.reload();
     
     
-    
+
+                    }//end of the for loop
                   
                     }
 
 
 return (
 
-<div style={{paddingTop: "100px", paddingBottom: "100px",  borderBottomStyle: "ridge"}} >
-  <div>your input table</div>
+
+
     <Tables From_Database={Cobas_8100} handleUpdate={() => {handleUpdate(event) }} 
     handleInputChange= {() => handleInputChange(event)} handleDelete= {()=>handleDelete(event)}  />          
-</div>           
+         
 
     
 )

@@ -5,30 +5,27 @@ var connection = require('../db.js');
 //make all the (3) tables here, and also fire the "events" table
 
 
-//var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(45) NOT NULL,Lot VARCHAR(45) NOT NULL,Quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,   Expiration_Date DATE NOT NULL,Time_Left INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `Expiration_Date`)), Warning VARCHAR(45) NOT NULL,  Date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)ENGINE=MyISAM;"
-//connection.query(Cobas_8100, function (err, result) {
- //   if (err) throw err;
- //   console.log("Cobas_8100 table created");
- // });
 
-  var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,    expirationDate DATE NOT NULL, timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL)ENGINE=MyISAM;"
+var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,    expirationDate DATE NOT NULL,   timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL, instrumentID VARCHAR(10) NOT NULL DEFAULT 'Cobas8100')ENGINE=MyISAM;"
   connection.query(Cobas_8100, function (err, result) {
       if (err) throw err;
       console.log("Cobas_8100 table created");
     });  
 
-var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (id INT(6) AUTO_INCREMENT PRIMARY KEY, lotNum VARCHAR(45) NOT NULL, expirationDate VARCHAR(45) NOT NUll, amount VARCHAR(45) NOT NULL, Quantity_In_Stock VARCHAR(45) NOT NULL, Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (id INT(6) AUTO_INCREMENT PRIMARY KEY, lotNum VARCHAR(45) NOT NULL, expirationDate DATE NOT NUll, amount VARCHAR(45) NOT NULL, Quantity_In_Stock VARCHAR(45) NOT NULL, Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 connection.query(Cobas_8100_Transactions, function (err, result) {
     if (err) throw err;
     console.log("Cobas_8100_Transactions created");
   });
 
-
+/** 
 var Daily_Records = "CREATE TABLE IF NOT EXISTS Cobas_8100_Daily_Records (ENTRIES INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY)SELECT id, lotNum, quantity, date,  expirationDate From Cobas_8100";
 connection.query(Daily_Records, function (err, result) {
   if (err) throw err;
   console.log("Daily_Records Table created");
 });
+
+
 
 
 var scheduler = "SET GLOBAL event_scheduler = ON";
@@ -49,7 +46,7 @@ connection.query(Event, function (err, result) {
     if (err) throw err;
     console.log("Event fired!");
   });
-
+*/
 
 module.exports = router; 
 
