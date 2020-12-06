@@ -61,8 +61,6 @@ const DashboardComponent = () => {
                         throw new Error("Unable to fetch AblComponent items");
                     }
                 };
-                fetchData1();
-                
 
                 const fetchData2 = async () => {
                     try {
@@ -70,24 +68,16 @@ const DashboardComponent = () => {
                       const data = await res.json();
                     
                       setArchitect(data);
-                      console.log(Architect)
                 
                     } catch (err) {
                       throw new Error("Unable to fetch Architect items");
                     }
                   };
-                  fetchData2();
 
-
-
-
-
-
+                fetchData1();
+                fetchData2();
         },  [],
     )
-
-
-
 
 // sets up the temporary array which is needed for the KMP search
 function computeTemporaryArray( pattern){
@@ -116,8 +106,6 @@ function computeTemporaryArray( pattern){
    * KMP algorithm of pattern matching.
    */
   function  KMP(text, pattern){
-      
- 
       var lps = [];   
       //call the function which contains the temporary array 
       lps = computeTemporaryArray(pattern); 
@@ -262,9 +250,9 @@ const [searchWarning, setsearchWarning] = useState("");
     }
 
 // below variables are for the quantitiy and days left in dasbhoard page
-const low_quantity =   Cobas8100.filter(items=>items.quantity<100);
+const low_quantity =   Cobas8100.length > 0 ? Cobas8100.filter(items=>items.quantity<100) : [];
 const low_quantity_size = low_quantity.length;
-const days_left =  Cobas8100.filter(items=>items.timeLeft<100);
+const days_left =  Cobas8100.length > 0 ? Cobas8100.filter(items=>items.timeLeft<100) : [];
 const days_left_size = days_left.length;
 
 
@@ -275,9 +263,6 @@ const low_quantity_Architect = Architect.filter(items=>items.quantity<100);
 const low_quantity_size_Architect = low_quantity_Architect.length; 
 
 const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architect+days_left_size; 
-
-
-
 
 
 // info for the pie graph 
