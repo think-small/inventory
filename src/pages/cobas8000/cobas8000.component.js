@@ -1,5 +1,6 @@
 import React, {useEffect, useState }from "react";
 import NavbarComponent from "../../components/navbar/navbar.component";
+import moment from "moment";
 
 
 
@@ -111,7 +112,7 @@ const Cobas8000Component = () => {
       par: par, 
       countPerBox: countPerBox,
       Lot: Lot,
-      Expiration: Expiration,
+      Expiration: new moment(Expiration).format("YYYY-MM-DD HH:mm:ss"),
       OrderID: OrderID
   
     };
