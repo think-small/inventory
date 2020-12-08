@@ -1,6 +1,6 @@
 
 import React from "react";
-
+import SearchBarComponent from  "../../pages/dashboard/searchbar/searchbar.component"; 
 
 
 const NavbarComponent = () =>  {
@@ -26,6 +26,12 @@ return (
 <div style={{}}>
 
 <div style={{display: "inline-block", float: "right", position: "relative"}}>
+
+
+
+
+
+
  <button style={{  padding: "7px",display: "inline-block",marginRight: "10px",  color: "black"  }}
  
  onClick={logout}>Logout</button>

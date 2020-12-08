@@ -8,13 +8,13 @@
 
 .searchMenu {
   position: relative;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   
 
 }
 .searchBar {
-  position: relative;
+
   width: 45%;
   left: 5px;
   line-height: 10px;

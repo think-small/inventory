@@ -16,12 +16,16 @@ import Tabs from "react-bootstrap/Tabs";
 //add a simple chart
 //import Bar from "chart.js";
 import {Bar, Doughnut} from 'react-chartjs-2';
+import { useHistory } from "react-router-dom";
 
 import 'chartjs-plugin-datalabels'
 
+import SearchBarComponent from "./searchbar/searchbar.component"; 
+
+
 const DashboardComponent = () => {
 
-  
+     const history = useHistory(); 
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
@@ -145,6 +149,8 @@ const handleChange = event => {
 
 // run the KMP search
 function runKMP () {
+      
+
 
  // temporary arrays because you cannot push directly into a hook(array)....but can indirectly using spread operators   
  var tempCobas8100 = []; 
@@ -213,13 +219,23 @@ if (tempArchitect.length===0 && tempAbl.length===0 && tempCobas8100.length===0 )
 
   
 const [searchWarning, setsearchWarning] = useState(""); 
-    const handleKeyPress = (target)=> {
+   
+const handleKeyPress = (target)=> {
      //when you press 'ENTER' in the searchbar...
+
     if(target.charCode==13){
       
         
         if (Searchbar_value.length>0) {
-                
+            
+            
+
+            history.push({
+                pathname: `/Search/`,
+                search: `${Searchbar_value}`,
+             
+              });
+            
             runKMP(); 
            
             if(runKMP()===null) {
@@ -234,9 +250,19 @@ const [searchWarning, setsearchWarning] = useState("");
     }
 
     const handleSubmit = event=> {
-        
+
         if (Searchbar_value.length>0) {
            
+
+            history.push({
+                pathname: `/Search/`,
+                search: `${Searchbar_value}`,
+             
+              });
+
+
+
+
             runKMP(); 
             
             if(runKMP()===null) {
@@ -246,7 +272,7 @@ const [searchWarning, setsearchWarning] = useState("");
             }
 
 
-        event.preventdefault;
+       
     }
 
 // below variables are for the quantitiy and days left in dasbhoard page
@@ -283,21 +309,23 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
     return (
         <div>
 
-            <NavbarComponent/>
 
 
 
+{/** 
         <div className="searchMenu">
             <div className="fas">
               <i
                 className="fas fa-search"
                 style={{ position: "absolute", marginBottom: "30px" }}
                 onClick={handleSubmit}
+    
               
               ></i>
             </div>
             <input
               className="searchBar"
+              
               type="text"
               placeholder="Search by Lot, Name or Order Id"
               value={Searchbar_value} onChange={handleChange} 
@@ -305,76 +333,22 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
             />
         </div>
 
-<div style={{marginTop: "20px"}}>
-
-{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
-<h2 style={{marginLeft: "15px"}}> {displayResults.length+KMPresults.length+KMPresults1.length}  Matches </h2> :
-<div></div> }
+*/}
+<SearchBarComponent />
 
 
 
 
 
-{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
- <Table responsive  striped bordered hover size="lg">
-  <thead>
-    <tr>
-       <th>Lot#</th>
-      <th>Display Name</th>
-      <th>Order Id</th>
-      <th>Current Lot?</th>
-      <th>Quantity</th>
-      <th>Expiration Date</th>
-      <th>Instrument Id</th>
-    </tr>
-  </thead>
-  <tbody>
-  {displayResults.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}
-      </td>
-      <td>{item.expirationDate.split("T")[0]} </td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-  {KMPresults.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]} 
-  
-      
-        </td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-   {KMPresults1.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]}</td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-  </tbody>
-</Table>  : <h2 style={{margin: "55px"}}>{searchWarning}</h2> }
-</div>
 
 
 
 
 
-            <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
+
+
+
+<div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
                 <Row>  
       { /**                   
