@@ -1,5 +1,5 @@
 import React ,{useState, useEffect} from "react";
-
+import { Router} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import "../styles.css";
 import NavbarComponent from "../../../components/navbar/navbar.component"
@@ -18,11 +18,18 @@ import Tabs from "react-bootstrap/Tabs";
 import {Bar, Doughnut} from 'react-chartjs-2';
 import { useHistory } from "react-router-dom";
 
+
+
+
 import 'chartjs-plugin-datalabels'
 
-const SearchBarComponent = () => {
+const SearchBarComponent = (props) => {
+
+
+
 
      const history = useHistory(); 
+     
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
@@ -224,10 +231,14 @@ const [searchWarning, setsearchWarning] = useState("");
    
 const handleKeyPress = (target)=> {
      //when you press 'ENTER' in the searchbar...
-      
+    
+     
  if(target.charCode==13){
-       
-   history.push({
+
+            // make the graphs invisble by changing the parent state to false
+        props.parentCallback(false)
+     
+        history.push({
      pathname: `/search/`,
         search: `${Searchbar_value}`,
     });
@@ -260,8 +271,10 @@ setSearch(addressbar)
     const handleSubmit = event=> {
 
         if (Searchbar_value.length>0) {
-        
-            history.push({
+              // make the graphs invisble by changing the parent state to false
+              props.parentCallback(false)
+           
+              history.push({
                 pathname: `/search/`,
                 search: `${Searchbar_value}`,
                // gofoward() {runKMP()},
@@ -319,7 +332,9 @@ const low_quantity_size_Architect = low_quantity_Architect.length;
     }
 
     return (
-        <div>
+        
+        
+<div>
 <NavbarComponent />
         <div className="searchMenu">
             <div className="fas">
@@ -414,10 +429,10 @@ const low_quantity_size_Architect = low_quantity_Architect.length;
  
 
 
-
+</div>
  
 
-        </div>
+
 
 
     );

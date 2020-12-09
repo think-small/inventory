@@ -16,16 +16,40 @@ import Tabs from "react-bootstrap/Tabs";
 //add a simple chart
 //import Bar from "chart.js";
 import {Bar, Doughnut} from 'react-chartjs-2';
+import {Router, useLocation} from "react-router-dom";
 import { useHistory } from "react-router-dom";
+
+import { createBrowserHistory } from "history";
+//This doesn't render component
+
+
+
+
+
+
 
 import 'chartjs-plugin-datalabels'
 
 import SearchBarComponent from "./searchbar/searchbar.component"; 
 
 
+
 const DashboardComponent = () => {
 
-     const history = useHistory(); 
+
+    const [showGraph, setShowGraph] = useState(true);
+
+    function callbackfunction (childpropvalue) 
+     { setShowGraph(childpropvalue)
+     }; 
+
+
+
+
+
+    let location = useLocation(); 
+    console.log(location)
+    const history = createBrowserHistory();
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
@@ -307,7 +331,8 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
     }
 
     return (
-        <div>
+        <Router history={history}>
+
 
 
 
@@ -334,60 +359,17 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
         </div>
 
 */}
-<SearchBarComponent />
 
 
 
 
-
-
-
-
-
-
+{showGraph ? <div> <SearchBarComponent parentCallback={callbackfunction}/> 
 
 
 
 <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
                 <Row>  
-      { /**                   
-    <Col xs={6} md={4}>
-    <Card style={{ width: '20rem' }} bg="danger">
-    <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
-
-    <ListGroup variant="flush">
-    <ListGroup.Item>
-     
-    <Doughnut
-          data={graph_data1}
-          options={{
-            title:{
-              display:false,
-              text:'Total Warnings',
-              fontSize:20,
-              barThickness: 1,
-            },
-            
-            legend:{
-              display:false,
-              position:'right'
-            }
-          }}
-        />
-      
-    </ListGroup.Item>
-    <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
-    <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
-</ListGroup>
-</Card></Col>
-
-  */}
-
-
-
-
-
 
                     <Col xs={6} md={4}>
                         <Card style={{ width: '20rem', color:'white' }} bg="primary">
@@ -575,11 +557,29 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                </Row>
             </Container>
 
+</div>
+
+
+
+
+
+:  <div> <SearchBarComponent parentCallback={callbackfunction}/>  </div>
+
+
+}
+
+
+
+
+
+
+
+
 
 
  
 
-        </div>
+</Router>
 
 
     );
