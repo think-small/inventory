@@ -334,48 +334,18 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
         <Router history={history}>
 
 
-
-
-
-{/** 
-        <div className="searchMenu">
-            <div className="fas">
-              <i
-                className="fas fa-search"
-                style={{ position: "absolute", marginBottom: "30px" }}
-                onClick={handleSubmit}
-    
-              
-              ></i>
-            </div>
-            <input
-              className="searchBar"
-              
-              type="text"
-              placeholder="Search by Lot, Name or Order Id"
-              value={Searchbar_value} onChange={handleChange} 
-              onKeyPress={handleKeyPress}
-            />
-        </div>
-
-*/}
-
-
-
-
 {showGraph ? <div> <SearchBarComponent parentCallback={callbackfunction}/> 
 
 
 
-<div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
                 <Row>  
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:'white' }} bg="primary">
+                        <Card bg="light" border="dark">
                             <Card.Header>Total Warnings</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {total}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {total}</h1>
                                 <ListGroup.Item >Abl: {low_quantity_size_Abl} </ListGroup.Item>
                                 <ListGroup.Item >Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -385,10 +355,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                     </Col>
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:'white' }} bg="info">
+                        <Card  bg="light" border="dark">
                             <Card.Header>About to Expire Total</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {days_left.length}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {days_left.length}</h1>
                                 <ListGroup.Item>Abl: 0 </ListGroup.Item>
                                 <ListGroup.Item>Architect: 0 </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -398,10 +368,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                     </Col>
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:"white" }} bg="secondary">
+                        <Card bg="light" border="dark">
                             <Card.Header>Low Quantity Total</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+low_quantity_size_Architect}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+low_quantity_size_Architect}</h1>
                                 <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
                                 <ListGroup.Item>Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -412,148 +382,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
 
 
 
-                    <Col xs={6} md={4}>
-                        <Card style={{ width: '32rem', marginTop: "40px", color:"white" }} bg="dark">
-                            <Card.Header>About to Expire Lots</Card.Header>
-                            <ListGroup variant="flush">
-
-                                <ListGroup.Item>
-
-                                    <div >
-                                        <Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
-                                            <Tab eventKey="abl" title="Abl" >
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Expiration Date</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>Nothing yet</th>
-                                                        <th>Nothing yet</th>
-
-
-                                                    </tr>
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                            <Tab eventKey="Architect" title="Architect">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8000" title="Cobas 8000">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8100" title="Cobas 8100">
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Days to Expiration</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.timeLeft}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                        </Tabs>
-                                    </div>
-
-
-
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Col>
-
-
-                    <Col xs={6} md={4}>
-                        <Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px", color: "white"}} bg="dark">
-                            <Card.Header>Low Quantity Lots</Card.Header>
-                            <ListGroup variant="flush">
-
-                                <ListGroup.Item>
-
-                                    <div >
-                                        <Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
-                                            <Tab eventKey="abl" title="Abl" >
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Quantity</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.quantity}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                            <Tab eventKey="Architect" title="Architect">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8000" title="Cobas 8000">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8100" title="Cobas 8100">
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Quantity</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.quantity}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                        </Tabs>
-                                    </div>
-
-
-
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Col>
+                  
                </Row>
             </Container>
 

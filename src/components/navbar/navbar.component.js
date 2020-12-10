@@ -20,9 +20,9 @@ function logout () {
 
 return (
 
-<div>
+<div style={{zIndex:"10"}}>
 
-<Navbar collapseOnSelect expand="lg" bg="light" variant="light" >
+<Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{zIndex:"1000",}}>
   <Navbar.Brand href="/">Inventory Management</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
  
