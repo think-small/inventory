@@ -2,35 +2,23 @@ import React ,{useState, useEffect} from "react";
 
 import Card from "react-bootstrap/Card";
 import "./styles.css";
-import NavbarComponent from "../../components/navbar/navbar.component"
-import moment from "moment";
+
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import Table from "react-bootstrap/Table";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
-//add a simple chart
-//import Bar from "chart.js";
-import {Bar, Doughnut} from 'react-chartjs-2';
+//import {Bar, Doughnut} from 'react-chartjs-2';
 import {Router, useLocation} from "react-router-dom";
 import { useHistory } from "react-router-dom";
-
 import { createBrowserHistory } from "history";
 //This doesn't render component
-
-
-
-
-
-
-
 import 'chartjs-plugin-datalabels'
 
+
+
 import SearchBarComponent from "./searchbar/searchbar.component"; 
+import MakeLot from "./makelot.component";
 
 
 
@@ -335,7 +323,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
 
 
 {showGraph ? <div> <SearchBarComponent parentCallback={callbackfunction}/> 
-
+   
 
 
             <Container >
@@ -385,6 +373,7 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                   
                </Row>
             </Container>
+            <MakeLot />
 
 </div>
 
