@@ -37,6 +37,7 @@ return (
 <div style={{padding: "30px"}} > 
 
   <p>Historical Data (the cobas_8100 data joined with the Cobas_8100_Transactions table)</p>
+  <p>NEXT GOAL: TRY TO USE THIS TABLE TO SEE IF THE VALUES WILL RENDER IN THE GRAPHS?? </p>
   <Table striped bordered hover  >
   <thead>
     <tr>

@@ -15,12 +15,12 @@ const ItemSummaryInfoComponent = ({
   const sortedTransactions = transactions.sort((a, b) =>
     a.timestamp < b.timestamp ? 1 : -1
   );
-  const lastUsed = sortedTransactions.find(
-    transaction => transaction.transactionType === "used"
-  );
-  const formattedLastUsedDate = moment(lastUsed.timestamp).format(
-    dateTimeFormat
-  );
+//  const lastUsed = sortedTransactions.find(
+//    transaction => transaction.transactionType === "used"
+//  );
+//  const formattedLastUsedDate = moment(lastUsed.timestamp).format(
+//    dateTimeFormat
+//  );
 
   return (
     <ListGroup>
@@ -39,7 +39,8 @@ const ItemSummaryInfoComponent = ({
       </ListGroup.Item>
       <ListGroup.Item className="list-row">
         <span>Last Used</span>
-        <span className="summary-value">{formattedLastUsedDate}</span>
+      {/*  <span className="summary-value">{formattedLastUsedDate}</span> */ }
+      <span className="summary-value"> Doesn't work for me unless I disable-Tony</span> 
       </ListGroup.Item>
     </ListGroup>
   );
