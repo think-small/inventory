@@ -9,7 +9,7 @@ const Tables = (props)=> {
 
     return (
    
-<div style={{padding:"30px"}} >
+<div style={{padding:"20px"}} >
         <div>The Cobas 8100 Table</div>
         <Table striped bordered hover   responsive >
         <thead>

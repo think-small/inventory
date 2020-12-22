@@ -6,17 +6,30 @@ var connection = require('../db.js');
 
 
 
-var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY, displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity VARCHAR(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par VARCHAR(45) NOT NULL,  countPerBox VARCHAR (45) NOT NULL,    expirationDate DATE NOT NULL,   timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL, instrumentID VARCHAR(10) NOT NULL DEFAULT 'Cobas8100')ENGINE=MyISAM;"
+var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT AUTO_INCREMENT PRIMARY KEY,  reagentName VARCHAR(50),displayName VARCHAR(100) NOT NULL, lotNum VARCHAR(100) NOT NULL, quantity INT NOT NULL,isCurrentLot BOOLEAN NOT NULL,isNewLot BOOLEAN NOT NULL,  par INT NOT NULL,  countPerBox INT NOT NULL, expirationDate DATETIME NOT NULL,   timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL, instrumentID VARCHAR(10) NOT NULL DEFAULT 'Cobas8100')ENGINE=MyISAM;"
   connection.query(Cobas_8100, function (err, result) {
       if (err) throw err;
       console.log("Cobas_8100 table created");
     });  
 
-var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (id INT(6) AUTO_INCREMENT PRIMARY KEY, lotNum VARCHAR(45) NOT NULL, expirationDate DATE NOT NUll, amount VARCHAR(45) NOT NULL, Quantity_In_Stock VARCHAR(45) NOT NULL, Update_Time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+
+
+/** 
+var Cobas_8100 = "CREATE TABLE IF NOT EXISTS Cobas_8100(id INT(6) AUTO_INCREMENT PRIMARY KEY,  reagentName VARCHAR(45), displayName VARCHAR(45) NOT NULL, lotNum VARCHAR(45) NOT NULL, quantity INT(45) NOT NULL,isCurrentLot BOOLEAN, isNewLot BOOLEAN,  par INT(45) NOT NULL,  countPerBox INT (45) NOT NULL,      expirationDate DATETIME NOT NULL,   timeLeft INT(11) GENERATED ALWAYS AS (TIMESTAMPDIFF(DAY,`Date`, `expirationDate`)), warning VARCHAR(45) NOT NULL,  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, orderID VARCHAR(45) NOT NULL, instrumentID VARCHAR(10) NOT NULL DEFAULT 'Cobas8100')ENGINE=MyISAM;"
+  connection.query(Cobas_8100, function (err, result) {
+      if (err) throw err;
+      console.log("Cobas_8100 table created");
+    });  
+*/
+var Cobas_8100_Transactions = "CREATE TABLE IF NOT EXISTS Cobas_8100_Transactions (id INT(6) AUTO_INCREMENT PRIMARY KEY, lotNum VARCHAR(45) NOT NULL, transactionType VARCHAR(45), expirationDate DATE NOT NUll, amount VARCHAR(45) NOT NULL, quantityInStock VARCHAR(45) NOT NULL, timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 connection.query(Cobas_8100_Transactions, function (err, result) {
     if (err) throw err;
     console.log("Cobas_8100_Transactions created");
   });
+
+
+
+
 
 /** 
 var Daily_Records = "CREATE TABLE IF NOT EXISTS Cobas_8100_Daily_Records (ENTRIES INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY)SELECT id, lotNum, quantity, date,  expirationDate From Cobas_8100";

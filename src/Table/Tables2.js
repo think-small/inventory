@@ -62,9 +62,9 @@ return (
        <td>{items.expirationDate.substring(0,10)}</td>
    
       <td>{items.amount}</td>
-      <td>{items.Quantity_In_Stock}</td>   
+      <td>{items.quantityInStock}</td>   
     
-      <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>
+      <td>{items.timestamp.substring(0,10)}   {items.timestamp.substring(11,16)}</td>
     </tr> 
   
 ))
