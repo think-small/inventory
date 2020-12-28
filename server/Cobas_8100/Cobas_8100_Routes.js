@@ -5,28 +5,46 @@ var connection = require('../db.js');
 
 
 
-router.get('/api/8100',(req, res) => {
-  connection.query('SELECT id, displayName, lotNum, quantity, isCurrentLot, isNewLot, par, countPerBox, expirationDate, warning, timeLeft, date, orderID, instrumentID from Cobas_8100 ORDER BY lotNum ASC', (error, result)=> {
+router.get('/api/8100',(req, results) => {
+  connection.query('SELECT * from Cobas_8100 ', (error, Cobas8100)=> {
     if (error) {
-      res.send(error); 
+      results.send(error); 
     }
     else {
-      res.json(result)    
+      // change this part later 
+    //  connection.query("SELECT * FROM abl_transactions", (err, ablTransactions) => {
+       
+        var sqlquery = 'SELECT Cobas_8100_Transactions.id,  Cobas_8100.lotNum, Cobas_8100_Transactions.transactionType,Cobas_8100_Transactions.expirationDate,  Cobas_8100.quantity,  Cobas_8100.displayName, Cobas_8100_Transactions.amount, Cobas_8100_Transactions.quantityInStock, Cobas_8100_Transactions.timestamp FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.lotNum = Cobas_8100_Transactions.lotNum';
+    
+        connection.query(sqlquery, (err, ablTransactions) => {
+        if (err) {
+          console.log(err);
+        } else {
+          Cobas8100.forEach(item => {
+            const transactions = ablTransactions.filter(
+              transaction => transaction.lotNum === item.lotNum
+            );
+            item.transactions = transactions;
+          });
+          results.send(Cobas8100);
+        }
+      });  
     }
   })
 })
 
 //joinng the Cobas_8100 mysql table with the Cobas_8100_Transactions mysql table
 router.get('/api/8100_all',(req, res) => {
-     var sql = 'SELECT Cobas_8100_Transactions.id,  Cobas_8100.lotNum, Cobas_8100_Transactions.expirationDate,  Cobas_8100.quantity,  Cobas_8100.displayName, Cobas_8100_Transactions.amount, Cobas_8100_Transactions.Quantity_In_Stock, Cobas_8100_Transactions.Update_Time FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.lotNum = Cobas_8100_Transactions.lotNum';
+     var sql = 'SELECT Cobas_8100_Transactions.id,  Cobas_8100_Transactions.transactionType, Cobas_8100.lotNum, Cobas_8100_Transactions.expirationDate,  Cobas_8100.quantity,  Cobas_8100.displayName, Cobas_8100_Transactions.amount, Cobas_8100_Transactions.quantityInStock, Cobas_8100_Transactions.timestamp FROM Cobas_8100 INNER JOIN Cobas_8100_Transactions ON Cobas_8100.lotNum = Cobas_8100_Transactions.lotNum';
     
-     connection.query(sql, (error, result)=> {
+     connection.query(sql, (error, results)=> {
          if (error) {
            res.send(error); 
          }
-         else {
-           res.json(result)   
-         }
+         else
+         {
+     res.json(results);
+        }
        })
   })  
 
@@ -40,10 +58,10 @@ router.post('/api/post/8100', (req,res)=> {
        const Quantity = req.body.Quantity;
        const Expiration_Date = req.body.Expiration;
        const orderID = req.body.OrderID; 
-
+       const reagentname = req.body.ReagentName;
     
-   connection.query('INSERT INTO Cobas_8100 (id, displayName, lotNum,  quantity, isCurrentLot, isNewLot, par, countPerBox,   expirationDate, orderID ,warning ) VALUES (?,?,?,?,?,?,?,?,?,?,?)' , 
-     [id, Name, Lot, Quantity, req.body.isCurrentLot, req.body.isNewLot, req.body.par, req.body.countPerBox,  Expiration_Date, orderID,'Not Expired', ],(error, result)=> {
+   connection.query('INSERT INTO Cobas_8100 (id, reagentName, displayName, lotNum,  quantity, isCurrentLot, isNewLot, par, countPerBox,   expirationDate, orderID ,warning ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)' , 
+     [id, reagentname, Name, Lot, Quantity, req.body.isCurrentLot, req.body.isNewLot, req.body.par, req.body.countPerBox,  Expiration_Date, orderID,'Not Expired', ],(error, result)=> {
       if (error) {
         res.send(error);
         console.log(error); 
@@ -90,7 +108,7 @@ connection.query('UPDATE Cobas_8100 set warning = ?  WHERE timeLeft < 0' ,
 router.post(`/Cobas_8100_Transactions`, (req,res) => {
 
   //console.log('the expiration value is' + req.body.Expiration); 
-  connection.query(`INSERT Cobas_8100_Transactions (lotNum, expirationDate,  amount, Quantity_In_Stock) VALUES (?,?,?,?)`, [req.body.Lot,req.body.Expiration, req.body.Amount,'Default'],  (error, results)=> {
+  connection.query(`INSERT Cobas_8100_Transactions (lotNum, transactiontype, expirationDate,  amount, quantityInStock) VALUES (?,?,?,?,?)`, [req.body.Lot,'used',req.body.Expiration, req.body.Amount, req.body.Amount],  (error, results)=> {
     if (error)  {
     return console.error(error.message); }
     else {

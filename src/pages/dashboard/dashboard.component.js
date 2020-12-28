@@ -2,26 +2,42 @@ import React ,{useState, useEffect} from "react";
 
 import Card from "react-bootstrap/Card";
 import "./styles.css";
-import NavbarComponent from "../../components/navbar/navbar.component"
-import moment from "moment";
+
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import Table from "react-bootstrap/Table";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
-//add a simple chart
-//import Bar from "chart.js";
-import {Bar, Doughnut} from 'react-chartjs-2';
-
+//import {Bar, Doughnut} from 'react-chartjs-2';
+import {Router, useLocation} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { createBrowserHistory } from "history";
+//This doesn't render component
 import 'chartjs-plugin-datalabels'
+
+
+
+import SearchBarComponent from "./searchbar/searchbar.component"; 
+import MakeLot from "./makelot.component";
+
+
 
 const DashboardComponent = () => {
 
-  
+
+    const [showGraph, setShowGraph] = useState(true);
+
+    function callbackfunction (childpropvalue) 
+     { setShowGraph(childpropvalue)
+     }; 
+
+
+
+
+
+    let location = useLocation(); 
+    console.log(location)
+    const history = createBrowserHistory();
     //name of the our tables from the database, we will get values from the fetch requests
     const [Cobas8100, setCobas8100] = useState([]);
     const [Abl, setAbl] = useState([]);
@@ -145,6 +161,8 @@ const handleChange = event => {
 
 // run the KMP search
 function runKMP () {
+      
+
 
  // temporary arrays because you cannot push directly into a hook(array)....but can indirectly using spread operators   
  var tempCobas8100 = []; 
@@ -213,13 +231,23 @@ if (tempArchitect.length===0 && tempAbl.length===0 && tempCobas8100.length===0 )
 
   
 const [searchWarning, setsearchWarning] = useState(""); 
-    const handleKeyPress = (target)=> {
+   
+const handleKeyPress = (target)=> {
      //when you press 'ENTER' in the searchbar...
+
     if(target.charCode==13){
       
         
         if (Searchbar_value.length>0) {
-                
+            
+            
+
+            history.push({
+                pathname: `/Search/`,
+                search: `${Searchbar_value}`,
+             
+              });
+            
             runKMP(); 
            
             if(runKMP()===null) {
@@ -234,9 +262,19 @@ const [searchWarning, setsearchWarning] = useState("");
     }
 
     const handleSubmit = event=> {
-        
+
         if (Searchbar_value.length>0) {
            
+
+            history.push({
+                pathname: `/Search/`,
+                search: `${Searchbar_value}`,
+             
+              });
+
+
+
+
             runKMP(); 
             
             if(runKMP()===null) {
@@ -246,7 +284,7 @@ const [searchWarning, setsearchWarning] = useState("");
             }
 
 
-        event.preventdefault;
+       
     }
 
 // below variables are for the quantitiy and days left in dasbhoard page
@@ -281,145 +319,21 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
     }
 
     return (
-        <div>
-
-            <NavbarComponent/>
+        <Router history={history}>
 
 
-
-        <div className="searchMenu">
-            <div className="fas">
-              <i
-                className="fas fa-search"
-                style={{ position: "absolute", marginBottom: "30px" }}
-                onClick={handleSubmit}
-              
-              ></i>
-            </div>
-            <input
-              className="searchBar"
-              type="text"
-              placeholder="Search by Lot, Name or Order Id"
-              value={Searchbar_value} onChange={handleChange} 
-              onKeyPress={handleKeyPress}
-            />
-        </div>
-
-<div style={{marginTop: "20px"}}>
-
-{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
-<h2 style={{marginLeft: "15px"}}> {displayResults.length+KMPresults.length+KMPresults1.length}  Matches </h2> :
-<div></div> }
+{showGraph ? <div> <SearchBarComponent parentCallback={callbackfunction}/> 
+   
 
 
-
-
-
-{displayResults.length>=1 || KMPresults.length >=1 || KMPresults1.length>=1 ?
- <Table responsive  striped bordered hover size="lg">
-  <thead>
-    <tr>
-       <th>Lot#</th>
-      <th>Display Name</th>
-      <th>Order Id</th>
-      <th>Current Lot?</th>
-      <th>Quantity</th>
-      <th>Expiration Date</th>
-      <th>Instrument Id</th>
-    </tr>
-  </thead>
-  <tbody>
-  {displayResults.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}
-      </td>
-      <td>{item.expirationDate.split("T")[0]} </td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-  {KMPresults.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]} 
-  
-      
-        </td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-   {KMPresults1.map(item =>  
-    <tr>
-       <td>{item.lotNum}</td>
-      <td>{item.displayName}</td>
-      <td>{item.orderID}</td>
-      <td>{item.isCurrentLot===1? <div>Yes</div> : <div>No</div>}</td>
-      <td>{item.quantity}</td>
-      <td>{item.expirationDate.split("T")[0]}</td>
-      <td>{item.instrumentID}</td>
-    </tr>
-  )}
-  </tbody>
-</Table>  : <h2 style={{margin: "55px"}}>{searchWarning}</h2> }
-</div>
-
-
-
-
-
-            <div style={{padding: "25px" , marginLeft: "20px",  fontSize:"30px"}}> </div>
             <Container >
                 <Row>  
-      { /**                   
-    <Col xs={6} md={4}>
-    <Card style={{ width: '20rem' }} bg="danger">
-    <Card.Header>Total Warnings: {low_quantity_size+days_left_size+low_quantity_size_Abl}</Card.Header>
-
-    <ListGroup variant="flush">
-    <ListGroup.Item>
-     
-    <Doughnut
-          data={graph_data1}
-          options={{
-            title:{
-              display:false,
-              text:'Total Warnings',
-              fontSize:20,
-              barThickness: 1,
-            },
-            
-            legend:{
-              display:false,
-              position:'right'
-            }
-          }}
-        />
-      
-    </ListGroup.Item>
-    <ListGroup.Item style={{color:"blue"}}>Low Quantity Total: {low_quantity_size+low_quantity_size_Abl} </ListGroup.Item>
-    <ListGroup.Item style={{color:"pink"}}>Days Left Total: {days_left_size} </ListGroup.Item>
-</ListGroup>
-</Card></Col>
-
-  */}
-
-
-
-
-
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:'white' }} bg="primary">
+                        <Card bg="light" border="dark">
                             <Card.Header>Total Warnings</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {total}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {total}</h1>
                                 <ListGroup.Item >Abl: {low_quantity_size_Abl} </ListGroup.Item>
                                 <ListGroup.Item >Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -429,10 +343,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                     </Col>
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:'white' }} bg="info">
+                        <Card  bg="light" border="dark">
                             <Card.Header>About to Expire Total</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {days_left.length}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {days_left.length}</h1>
                                 <ListGroup.Item>Abl: 0 </ListGroup.Item>
                                 <ListGroup.Item>Architect: 0 </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -442,10 +356,10 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
                     </Col>
 
                     <Col xs={6} md={4}>
-                        <Card style={{ width: '20rem', color:"white" }} bg="secondary">
+                        <Card bg="light" border="dark">
                             <Card.Header>Low Quantity Total</Card.Header>
                             <ListGroup variant="flush">
-                                <h1 style={{padding: '30px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+low_quantity_size_Architect}</h1>
+                                <h1 style={{padding: '20px', textAlign:'center'}}>Total: {low_quantity.length+low_quantity_size_Abl+low_quantity_size_Architect}</h1>
                                 <ListGroup.Item>Abl: {low_quantity_size_Abl} </ListGroup.Item>
                                 <ListGroup.Item>Architect: {low_quantity_size_Architect} </ListGroup.Item>
                                 <ListGroup.Item>Cobas 8000: 0 </ListGroup.Item>
@@ -456,156 +370,34 @@ const total = low_quantity_size+low_quantity_size_Abl+low_quantity_size_Architec
 
 
 
-                    <Col xs={6} md={4}>
-                        <Card style={{ width: '32rem', marginTop: "40px", color:"white" }} bg="dark">
-                            <Card.Header>About to Expire Lots</Card.Header>
-                            <ListGroup variant="flush">
-
-                                <ListGroup.Item>
-
-                                    <div >
-                                        <Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
-                                            <Tab eventKey="abl" title="Abl" >
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Expiration Date</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th>Nothing yet</th>
-                                                        <th>Nothing yet</th>
-
-
-                                                    </tr>
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                            <Tab eventKey="Architect" title="Architect">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8000" title="Cobas 8000">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8100" title="Cobas 8100">
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Days to Expiration</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.timeLeft}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                        </Tabs>
-                                    </div>
-
-
-
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Col>
-
-
-                    <Col xs={6} md={4}>
-                        <Card style={{ width: '32rem',  marginTop: "40px", marginLeft:"190px", color: "white"}} bg="dark">
-                            <Card.Header>Low Quantity Lots</Card.Header>
-                            <ListGroup variant="flush">
-
-                                <ListGroup.Item>
-
-                                    <div >
-                                        <Tabs defaultActiveKey="abl" id="uncontrolled-tab-example">
-                                            <Tab eventKey="abl" title="Abl" >
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Quantity</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity_Abl.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.quantity}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                            <Tab eventKey="Architect" title="Architect">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8000" title="Cobas 8000">
-                                                <div>Nothin yet</div>
-                                            </Tab>
-                                            <Tab eventKey="Cobas 8100" title="Cobas 8100">
-
-                                                <Table striped bordered hover>
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Lot #</th>
-                                                        <th>Quantity</th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {low_quantity.map(item=>   <tr> <td>{item.lotNum}   </td>
-                                                            <td>{item.quantity}</td>
-
-                                                        </tr>
-
-                                                    )}
-                                                    </tbody>
-
-                                                </Table>
-
-                                            </Tab>
-                                        </Tabs>
-                                    </div>
-
-
-
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                    </Col>
+                  
                </Row>
             </Container>
+            <MakeLot />
+
+</div>
+
+
+
+
+
+:  <div> <SearchBarComponent parentCallback={callbackfunction}/>  </div>
+
+
+}
+
+
+
+
+
+
+
 
 
 
  
 
-        </div>
+</Router>
 
 
     );

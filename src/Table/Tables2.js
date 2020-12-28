@@ -37,6 +37,7 @@ return (
 <div style={{padding: "30px"}} > 
 
   <p>Historical Data (the cobas_8100 data joined with the Cobas_8100_Transactions table)</p>
+  <p>NEXT GOAL: TRY TO USE THIS TABLE TO SEE IF THE VALUES WILL RENDER IN THE GRAPHS?? </p>
   <Table striped bordered hover  >
   <thead>
     <tr>
@@ -62,9 +63,9 @@ return (
        <td>{items.expirationDate.substring(0,10)}</td>
    
       <td>{items.amount}</td>
-      <td>{items.Quantity_In_Stock}</td>   
+      <td>{items.quantityInStock}</td>   
     
-      <td>{items.Update_Time.substring(0,10)}   {items.Update_Time.substring(11,16)}</td>
+      <td>{items.timestamp.substring(0,10)}   {items.timestamp.substring(11,16)}</td>
     </tr> 
   
 ))

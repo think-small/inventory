@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import DashboardComponent from "../pages/dashboard/dashboard.component";
+
+import SearchBarComponent from "../pages/dashboard/searchbar/searchbar.component";
+
 import AblComponent from "../pages/abl/abl.component";
 import ArchitectComponent from "../pages/architect/architect.component";
 import Cobas8000Component from "../pages/cobas8000/cobas8000.component";
@@ -27,12 +30,14 @@ const Router = () => {
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/" component={DashboardComponent} />
+               <Route exact path="/search/:id?" component={SearchBarComponent} />
             <Route exact path="/ABL/" component={AblComponent} />
             <Route exact path="/ABL/:id" component={ItemDetails} />
             <Route exact path="/Architect/" component={ArchitectComponent} />
             <Route exact path="/Architect/:id" component={ItemDetails} />
             <Route exact path="/Cobas8000/" component={Cobas8000Component} />
             <Route exact path="/Cobas8100/" component={Cobas8100Component} />
+         
             <Route
               exact
               path="/ManualUsedTransaction"

@@ -1,6 +1,9 @@
 
 import React from "react";
 
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+
 
 
 const NavbarComponent = () =>  {
@@ -17,59 +20,26 @@ function logout () {
 
 return (
 
-<div>
+<div style={{zIndex:"10"}}>
 
-<nav className="navbar navbar-light"style={{ marginLeft: "-13em", backgroundColor: "#e6e6e6", padding: "5px", height: "60px",  display: "flex" ,zIndex: "10", boxShadow: "0 2px 2px -2px rgba(0,0,0,.6)" }} >
-      <div style={{padding: "5px", marginLeft: "10px", fontSize: "20px"}}>Inventory  </div>
-      
-
-<div style={{}}>
-
-<div style={{display: "inline-block", float: "right", position: "relative"}}>
- <button style={{  padding: "7px",display: "inline-block",marginRight: "10px",  color: "black"  }}
+<Navbar collapseOnSelect expand="lg" bg="light" variant="light" style={{zIndex:"1000",}}>
+  <Navbar.Brand href="/">Inventory Management</Navbar.Brand>
+  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
  
- onClick={logout}>Logout</button>
- </div> 
-
-
-
-<div style={{float: "right", display: "inline-block", position: "relative"}}>
-     <a
-      className="my-lg-0 border border-dark"
-      href="/signup"
-      style={{
-        padding: "7px",
-        display: "inline-block", 
-        marginRight: "20px", 
-        color: "black"      
-      }}
-
-    >
-      Sign Up
-    </a>
-</div>
-
-<div style={{display: "inline-block", float: "right", position: "relative"}}>
-    <a className="my-lg-0 border border-dark"
-      href="/login"
-      style={{
-        padding: "7px",
-        display: "inline-block",
-        marginRight: "10px",
-        color: "black"}}
-     >
-      Sign In
-    </a>
- </div>
-
-
-
+  <Navbar.Collapse id="responsive-navbar-nav">
+    <Nav className="ml-auto">
+      <Nav.Link href="/SignUp">Sign Up</Nav.Link>
+      <Nav.Link href="/Login">Login  </Nav.Link>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
 
 
 </div>
 
-  </nav>
- </div>
+
+
+
 
         )
 }
