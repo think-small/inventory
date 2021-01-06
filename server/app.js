@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const db = require('./db.js');
 const passport = require('passport');
 require("./SignUp/Passport")(passport);
+const ablRoutes = require("./ABL/ABL_Routes");
 
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -54,7 +55,7 @@ app.use(require("./Utility/Utility"));
 app.use(require("./Cobas_8100/Cobas_8100_Routes"));
 app.use(require("./Cobas_8100/Cobas_8100_Tables"));
 app.use(require("./Architect/Architect_Routes"));
-app.use(require("./ABL/ABL_Routes"));
+app.use("/api/ABL", ablRoutes);
 app.use(require("./SignUp/signup.routes"));
 
 // Handles any requests that don't match the ones above
