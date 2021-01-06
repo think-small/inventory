@@ -27,7 +27,7 @@ const Cobas8100Component = ()=> {
     useEffect(() => {
       const fetchData = async () => {
         try {
-        //const res = await fetch("/api/ABL/all-items");
+        //const res = await fetch("/api/Item/all-items");
      //const res = await fetch("/api/Architect/all-items");
       const res = await fetch("/api/8100");
   
