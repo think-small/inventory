@@ -1,7 +1,7 @@
 import moment from "moment";
 /**
  *
- * @param {Object[]} aggregatedTransactions - array of transaction objects
+ * @param {Object} aggregatedTransactions - object with timestamp/transactionAmount key/value pairs
  * @param {number} precision - number of decimal places to report for the average
  * @return {number} average as a float with given precision
  */
@@ -24,26 +24,24 @@ export const calcAverage = (aggregatedTransactions, precision) => {
 export const stockOut = (transactionsArr, precision) => {
   //  ONLY CONSIDER TRANSACTIONS FROM PREVIOUS MONTH
   //  TO AVOID A PARTIAL MONTH'S WORTH OF TRANSACTIONS
-  const upperLimit = moment()
-    .startOf("month")
-    .valueOf();
+  const upperLimit = moment().startOf("month")
 
   //  AGGREGATE TRANSACTIONS BASED ON MONTH IF QUANTITYINSTOCK < 1
   const aggregatedTransactions = transactionsArr
-    .filter(transaction => transaction.timestamp < upperLimit)
-    .reduce((acc, curr) => {
-      const property = moment(curr.timestamp)
-        .startOf("month")
-        .valueOf();
-      if (acc[property] && curr.quantityInStock < 1) {
-        acc[property] += 1;
-      } else if (!acc[property] && curr.quantityInStock < 1) {
-        acc[property] = 1;
-      } else if (!acc[property] && curr.quantityInStock >= 1) {
-        acc[property] = 0;
-      }
-      return acc;
-    }, {});
+      .filter(transaction => moment(transaction.createdAt).isBefore(upperLimit))
+      .reduce((acc, curr) => {
+          const property = moment(curr.timestamp)
+            .startOf("month")
+            .valueOf();
+          if (acc[property] && curr.quantityInStock < 1) {
+            acc[property] += 1;
+          } else if (!acc[property] && curr.quantityInStock < 1) {
+            acc[property] = 1;
+          } else if (!acc[property] && curr.quantityInStock >= 1) {
+            acc[property] = 0;
+          }
+          return acc;
+      }, {});
 
   //  PERFORM STOCK OUT CALCULATION
   const sum = Object.values(aggregatedTransactions).reduce((acc, curr) => {
@@ -55,15 +53,13 @@ export const stockOut = (transactionsArr, precision) => {
 };
 
 export const turnover = (transactionsArr, precision) => {
-  const upperLimit = moment()
-    .startOf("month")
-    .valueOf();
+  const upperLimit = moment().startOf("month")
+
   const aggregatedTransactions = transactionsArr
-    .filter(transaction => transaction.timestamp < upperLimit)
+    .filter(transaction => moment(transaction.createdAt).isBefore(upperLimit))
     .reduce((acc, curr) => {
-      const property = moment(curr.timestamp)
-        .startOf("month")
-        .valueOf();
+      const property = moment(curr.createdAt).startOf("month")
+
       if (acc[property]) {
         acc[property].push(curr);
       } else {
@@ -73,7 +69,7 @@ export const turnover = (transactionsArr, precision) => {
     }, {});
 
   Object.values(aggregatedTransactions).forEach(month => {
-    month.sort((a, b) => (a.timestamp < b.timestamp ? -1 : 1));
+    month.sort((a, b) => (moment(a.createdAt).isBefore(b.createdAt) ? -1 : 1));
   });
 
   const monthlyTurnover = Object.entries(aggregatedTransactions).reduce(

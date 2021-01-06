@@ -17,7 +17,7 @@ const AblComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/api/ABL/all-items");
+        const res = await fetch("/api/ABL/");
         const data = await res.json();
         const findCurrentLotItems = data.filter((item) => item.isCurrentLot);
         setAblItems(data);

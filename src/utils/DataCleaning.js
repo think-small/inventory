@@ -30,7 +30,7 @@ export const getRawData = (
           .filter(item => item.transactionType === "used")
           .reduce((acc, curr) => {
             acc.push({
-              timestamp: curr.timestamp,
+              timestamp: curr.createdAt,
               amount: curr.amount
             });
             return acc;
@@ -44,7 +44,7 @@ export const getRawData = (
           .filter(item => item.transactionType === "received")
           .reduce((acc, curr) => {
             acc.push({
-              timestamp: curr.timestamp,
+              timestamp: curr.createdAt,
               amount: curr.numBoxesReceived * countPerBox
             });
             return acc;
@@ -125,7 +125,7 @@ export const getData = (
 export const filterByNumberOfDays = (numOfDays, arr) => {
   return arr.filter(
     transaction =>
-      transaction.timestamp >= moment().subtract({ days: numOfDays })
+      moment(transaction.timestamp).isAfter(moment().subtract({ days: numOfDays }))
   );
 };
 
@@ -142,7 +142,7 @@ export const filterByType = (transactions, transactionType) => {
  * with common x-axis labels is required for proper rendering.
  * @param {number} numOfDays - number of days to go back to filter transactions.
  * @param {Object[]} data - array of transaction objects.
- * @return {Object[]} array of transaction objects.
+ * @return {Object} array of transaction objects.
  */
 export const aggregateData = (numOfDays, data) => {
   let timeFrame = "";
@@ -195,26 +195,29 @@ export const aggregateQuantityData = (numOfDays, data) => {
     default:
       timeFrame = "day";
   }
+
   const quantityRawData = filterByNumberOfDays(numOfDays, data).reduce(
     (acc, curr) => {
-      const property = moment(curr.timestamp)
+      const property = moment(curr.createdAt)
         .startOf(timeFrame)
         .format();
       if (
         acc.hasOwnProperty(property) &&
-        acc[property].timestamp < curr.timestamp
+        moment(acc[property].timestamp).isBefore(moment(curr.createdAt))
       ) {
         acc[property].amount = curr.amount;
       } else if (!acc.hasOwnProperty(property)) {
         acc[property] = {
           amount: curr.amount,
-          timestamp: curr.timestamp
+          timestamp: curr.createdAt
         };
       }
       return acc;
     },
     {}
   );
+  console.log(quantityRawData);
+
   return Object.entries(quantityRawData).reduce((acc, curr) => {
     const property = moment(curr[1].timestamp)
       .startOf(timeFrame)
