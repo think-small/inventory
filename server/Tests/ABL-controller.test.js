@@ -57,12 +57,12 @@ beforeEach(async () => {
     })
 });
 
-describe("GET /api/Item/all-items...", () => {
+describe("GET /api/ABL/...", () => {
     test("returns HTTP 200 for success", async () => {
-        await api.get("/api/Item/all-items").expect(200);
+        await api.get("/api/ABL").expect(200);
     });
     test("returns all items as JSON", async () => {
-        const response = await api.get("/api/Item/all-items").expect("Content-Type", /application\/json/);
+        const response = await api.get("/api/ABL").expect("Content-Type", /application\/json/);
         const returnedItems = response.body;
 
         expect(returnedItems).toHaveLength(initialABLItems.length);
